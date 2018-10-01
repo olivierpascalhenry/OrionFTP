@@ -1,0 +1,52 @@
+### main window ###
+main_profile_lb=FTP profile:
+main_profile_cb=No stored profile...
+main_connect_bt=Connect
+main_local_lb=Local:
+main_remote_lb=Remote:
+main_tabwidget=FTP Connection|Transfert
+transfert_tree=Status|File|Size|Progress
+main_local_tr_2=File|Size|Type
+main_remote_tr_2=File|Size|Type
+
+### toolbar tooltips ###
+actionClose=Close the opened connection
+actionOptions=Open the option window
+actionExit=Exit
+actionAbout=About OrionFTP
+actionManager=Open the FTP manager
+actionHome=Go back to the home directory
+actionRefresh=Refresh the FTP view
+actionUpdate=No update !
+
+### about window ###
+aboutlogWindow=About OrionFTP
+aw_label_1=About OrionFTP
+aw_label_2=Changelog
+aw_browser_1=<p align="justify">OrionFTP is a simple FTP client for Windows and Linux. It is a pure Python software and makes use of its library to handle FTP and SFTP connections.</p><p align="justify">OrionFTP is developed by Olivier Henry with Python 3.5, PyQt 5.10 and Eclipse 4.7. For any issues or questions, please go on xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx.</p>
+
+### manager window ###
+managerWindow=FTP Manager
+mw_label_1=Protocol:
+mw_label_2=Host:
+mw_label_3=Port:
+mw_label_4=Username:
+mw_label_5=Password:
+mw_cancel_button=Cancel
+mw_ok_button=Ok
+
+### option window ###
+optionWindow=Options
+ow_label_1=Logging level:
+ow_label_2=Logging file folder:
+ow_label_3=Language:
+ow_label_4=Default folder:
+ow_label_5=Default profile:
+ow_combobox_3=No default profile...
+ow_checkbox_1=Check OrionFTP updates on GitHub
+ow_check_button=Check now
+ow_cancel_button=Cancel
+
+### basic elements ###
+makeachoice=Make a choice...
+qtreeview_firstcolumn=Folder

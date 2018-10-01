@@ -1,0 +1,33 @@
+=========
+CHANGELOG
+=========
+
+To do list:
+-----------
+  - add a section for graphic options in the option window (put all tree in one QTreeView, remove the path widget, load or not icons).
+  - propose options to save and load ftp_profiles xml file.
+  
+
+To fix list:
+------------
+  - the QTreeWidget doesn't recognize size in the 2nd column, and thus it can't sort items based on size.
+
+
+October 1 2018, Release version 0.2.0
+=====================================
+First version of the GUI. Until version 1.0.0, the config file is expected to evolve and can be deleted without further notice to introduce new options.
+
+  ADDED:
+    - a function to handle local file system has been added.
+    - a function to read/write xml file containing ftp profiles.
+    - all functions have been written for the option window.
+    - all functions have been written for the ftp manager window.
+  
+  MODIFIED:
+    - the function to list all files in a directory has been moved to a dedicated thread to improve performances.
+    - all icons displayed in the local tree has been changed from high res SVG files to low res PNG files to improve (dramatically) performances. No impact on visual appearance has been noticed.
+
+    
+September 28 2018, Release version 0.1.0
+========================================
+First version of the GUI. Basic windows (options, about, ftp manager) have been included.  Until version 1.0.0, the config file is expected to evolve and can be deleted without further notice to introduce new options.
