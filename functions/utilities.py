@@ -23,8 +23,9 @@ def translate_elements(widget, language, translations_dict):
                 else:
                     child_widget.setText(translation[language])
             elif isinstance(child_widget, QtWidgets.QComboBox):
-                child_widget.clear()
-                child_widget.addItem(translation[language])
+                if child_widget.count() == 1:
+                    child_widget.clear()
+                    child_widget.addItem(translation[language])
             elif isinstance(child_widget, QtWidgets.QTextBrowser):
                 child_widget.setHtml(translation[language])
             elif isinstance(child_widget, QtWidgets.QCheckBox):
@@ -42,3 +43,13 @@ def set_size(bytes):
             i += 1
         f = ('%.2f' % bytes).rstrip('0').rstrip('.')
         return '%s %s' % (f, suffixes[i])
+
+
+def clear_layout(layout):
+    for i in reversed(range(layout.count())):   
+        item = layout.itemAt(i)
+        if isinstance(item, QtWidgets.QWidgetItem):
+            item.widget().deleteLater()
+        elif isinstance(item, QtWidgets.QLayout):
+            clear_layout(item.layout())
+        layout.removeItem(item)

@@ -2,6 +2,7 @@
 main_profile_lb=FTP profile:
 main_profile_cb=No stored profile...
 main_connect_bt=Connect
+main_download_bt=Download
 main_local_lb=Local:
 main_remote_lb=Remote:
 main_tabwidget=FTP Connection|Transfert
@@ -36,17 +37,54 @@ mw_cancel_button=Cancel
 mw_ok_button=Ok
 
 ### option window ###
+ow_section_list=General|Interface|Connection|Transfer
 optionWindow=Options
 ow_label_1=Logging level:
 ow_label_2=Logging file folder:
 ow_label_3=Language:
 ow_label_4=Default folder:
 ow_label_5=Default profile:
+ow_label_6=Local:
+ow_label_7=Remote:
 ow_combobox_3=No default profile...
 ow_checkbox_1=Check OrionFTP updates on GitHub
 ow_check_button=Check now
 ow_cancel_button=Cancel
+ow_checkbox_2=Organise local folders and files in one tree view
+ow_checkbox_3=Organise remote folders and files in one tree view
+ow_checkbox_4=Display folder and file icons in the local tree view
+ow_checkbox_5=Display folder and file icons in the remote tree view
+ow_checkbox_6=Display path in the local tree view
+ow_checkbox_7=Display path in the remote tree view
+ow_label_8=Default transfer mode:
+ow_label_9=Default transfer type:
+ow_combobox_4=Passive|Active
+ow_combobox_5=Automatic|ASCII|Binary
+ow_checkbox_8=Allow fall back to other transfer mode on failure ?
+ow_label_11=What to do if the file/folder already exists localy ?
+ow_combobox_6=Ask what to do|Overwrite|Download and rename|Ignore
+
+### update window ###
+uw_label_1_frozen=<p align="justify">Click on <b>Update</b> to download and install automatically the last update from <b>GitHub</b> repository.</p><p align="justify">On <b>Windows</b>, the installation of the update requires actions from the user and can be canceled. On <b>Linux</b>, the process is fully automatic and can't be interrupted until it is over.</p>
+uw_label_1_sources=<p>Click on <b>Download</b> to download the latest update from GitHub repository.</p><p>Once the download is over, the software will close automatically. The package is downloaded in the <b>Download</b> folder of your operating system. You will have to uncompress it and move all files in the directory of <b>OrionFTP</b>. Do not delete <i>orion_ftp.ini</i> if you want to keep all your options.</p>
+uw_cancel_button=Cancel
+uw_update_button_update=Update
+uw_update_button_download=Download
+updateWindow=Ready to update
+
+### download window ###
+sw_label=Downloading...
+sw_button=Cancel
+storeWindow=Download
 
 ### basic elements ###
 makeachoice=Make a choice...
-qtreeview_firstcolumn=Folder
+qtreeview=Folder|Size|Type
+nonewupdate=No update available !
+newupdatefrozen=A new update is available for OrionFTP ! Click here to install it automatically.
+newupdatesources=A new update is available for OrionFTP ! Click here to download it.
+downloadingat=Downloading %s at %s
+downloading=Downloading %s
+downloadfailed=Download failed
+nonewupdateoption=There is no new update for OrionFTP on GitHub.
+newupdateoption=A new update for OrionFTP is available on GitHub. Please exit the option window and click on the Update button to launch the update process.

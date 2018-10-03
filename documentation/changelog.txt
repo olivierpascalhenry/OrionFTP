@@ -4,14 +4,27 @@ CHANGELOG
 
 To do list:
 -----------
-  - add a section for graphic options in the option window (put all tree in one QTreeView, remove the path widget, load or not icons).
   - propose options to save and load ftp_profiles xml file.
   
 
 To fix list:
 ------------
-  - the QTreeWidget doesn't recognize size in the 2nd column, and thus it can't sort items based on size.
 
+  
+October 3 2018, Release version 0.3.0
+=====================================
+First version of the GUI. Until version 1.0.0, the config file is expected to evolve and can be deleted without further notice to introduce new options.
+
+  ADDED:
+    - QTreeWidgetItem has been subclassed to introduced sorted value based on file size.
+    - a new option window with sections has been added and introduce new options.
+    - an update system, based on the operating system, has been introduced.
+    - all interface options are now supported by the GUI.
+    
+  MODIFIED:
+    - the way how the option .ini file is created has been modified to handle new options.
+    - now when a new language is applied to the GUI, it is not necessary to restart the GUI.
+  
 
 October 1 2018, Release version 0.2.0
 =====================================

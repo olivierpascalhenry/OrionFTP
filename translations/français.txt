@@ -1,9 +1,10 @@
 ### main window ###
-main_profile_lb=Profil FTP:
+main_profile_lb=Profil FTP :
 main_profile_cb=Pas de profil sauvegardé...
 main_connect_bt=Connexion
-main_local_lb=PC Local:
-main_remote_lb=Serveur distant:
+main_download_bt=Télécharger
+main_local_lb=PC local :
+main_remote_lb=Serveur distant :
 main_tabwidget=Connexion FTP|Transferts
 transfert_tree=Status|Fichier|Taille|Progression
 main_local_tr_2=Fichier|Taille|Type
@@ -17,7 +18,7 @@ actionAbout=A propos d'OrionFTP
 actionManager=Ouvrir le gestionnaire FTP
 actionHome=Retourner aux répertoire d'origine
 actionRefresh=Rafraichir la vue FTP
-actionUpdate=NPas de mise à jour !
+actionUpdate=Pas de mise à jour !
 
 ### about window ###
 aboutlogWindow=A propos d'OrionFTP
@@ -27,26 +28,63 @@ aw_browser_1=<p align="justify">OrionFTP est simple client FTP pour Windows et L
 
 ### manager window ###
 managerWindow=Gestionnaire FTP
-mw_label_1=Protocole:
-mw_label_2=Hôte:
-mw_label_3=Port:
-mw_label_4=Nom d'utilisateur:
-mw_label_5=Mot de passe:
+mw_label_1=Protocole :
+mw_label_2=Hôte :
+mw_label_3=Port :
+mw_label_4=Nom d'utilisateur :
+mw_label_5=Mot de passe :
 mw_cancel_button=Annuler
 mw_ok_button=Ok
 
 ### option window ###
+ow_section_list=Général|Interface|Connexion|Transfert
 optionWindow=Options
-ow_label_1=Niveau de log:
-ow_label_2=Dossier de log:
-ow_label_3=Langue:
-ow_label_4=Dossier par défaut:
-ow_label_5=Profil par défaut:
+ow_label_1=Niveau de log :
+ow_label_2=Dossier de log :
+ow_label_3=Langue :
+ow_label_4=Dossier par défaut :
+ow_label_5=Profil par défaut :
+ow_label_6=PC local :
+ow_label_7=Serveur distant :
 ow_combobox_3=Pas de profil...
 ow_checkbox_1=Vérifier les mises à jour d'OrionFTP sur Github
 ow_check_button=Vérifier maintenant
 ow_cancel_button=Annuler
+ow_checkbox_2=Lister les dossiers et fichiers locaux dans une seule arborescence
+ow_checkbox_3=Lister les dossiers et fichiers à distance dans une seule arborescence
+ow_checkbox_4=Afficher les icones des fichiers et des dossiers dans l’arborescence locale
+ow_checkbox_5=Afficher les icones des fichiers et des dossiers dans l’arborescence distante
+ow_checkbox_6=Afficher les chemins dans l’arborescence locale
+ow_checkbox_7=Afficher les chemins dans l’arborescence distante
+ow_label_8=Mode de transfert par défaut :
+ow_label_9=Type de transfert par défaut :
+ow_combobox_4=Passif|Actif
+ow_combobox_5=Automatique|ASCII|Binaire
+ow_checkbox_8=Autoriser un changement du mode de transfert en cas d’échec ?
+ow_label_11=Que faire si le fichier existe déjà en local ?
+ow_combobox_6=Demander que faire|Ecraser|Télécharger et renomer|Ignorer
+
+### update window ###
+uw_label_1_frozen=<p align="justify">Cliquez sur <b>Mettre à jour</b> pour télécharger la dernière mise à jour sur <b>Github</b> et l'installer automatiquement.</p><p align="justify">Sous <b>Windows</b>, l'installation de la mise à jour est controlée par l'utilisateur et peut être annulée. Sous <b>Linux</b>, le processus est totallement automatique et ne peut pas être annulé avant son terme.</p>
+uw_label_1_sources=<p align="justify">Cliquez sur <b>Télécharger</b> pour télécharger la dernière mise à jour sur <b>GitHub</b>, dans le dossier <b>Téléchargement</b> de votre système d'exploitation.</p><p align="justify">Une fois le téléchargement terminé, le logiciel va se fermer automatiquement et vous devrez alors décompresser la mise à jour et transférer les fichiers dans le répertoire d'<b>OrionFTP</b>. Prenez garde au fichier <i>orion_ftp.ini</i> si vous voulez conserver vos options.
+uw_cancel_button=Annuler
+uw_update_button_update=Mettre à jour
+uw_update_button_download=Télécharger
+updateWindow=Prêt à mettre à jour
+
+### download window ###
+sw_label=Téléchargement ...
+sw_button=Annuler
+storeWindow=Téléchargement
 
 ### basic elements ###
 makeachoice=Choisissez une entrée...
-qtreeview_firstcolumn=Dossier
+qtreeview=Dossier|Taille|Type
+nonewupdate=Pas de mise à jour !
+newupdatefrozen=Une nouvelle mise à jour est disponible pour OrionFTP ! Cliquez ici pour l'installer automatiquement.
+newupdatesources=Une nouvelle mise à jour est disponible pour OrionFTP ! Cliquez ici pour la télécharger.
+downloadingat=Téléchargement : %s à %s
+downloading=Téléchargement : %s
+downloadfailed=Téléchargement échoué
+nonewupdateoption=Il n'y a pas de nouvelle mise à jour pour OrionFTP sur GitHub.
+newupdateoption=Une nouvelle mise à jour est disponible sur GitHub pour OrionFTP. Veuillez quitter la fenêtre des options et cliquer sur le boutton de mise à jour pour lancer le processus de mise à jour.

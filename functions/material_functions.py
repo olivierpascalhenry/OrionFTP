@@ -5,7 +5,7 @@ import collections
 def objects_initialization(self):
     logging.debug('gui - objects_initialization.py - objects_initialization')
     self.ftp_profiles = collections.OrderedDict()
-    
+    self.hidden_items = {}
     
     self.old_local_path = ''
     

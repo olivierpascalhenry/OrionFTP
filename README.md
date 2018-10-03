@@ -1,7 +1,7 @@
 Version:
 -------
 
-OrionFTP 0.2.0.
+OrionFTP 0.3.0.
 
 
 Project Overview:
@@ -19,7 +19,7 @@ Until version 1.0.0, the config file is expected to evolve and can be deleted wi
 Features:
 ---------
 
-For now, it can download only files from a FTP or SFTP server. In the future, folder(s) download and basic upload will be added. Drag and drop is not available at this time, but it will be in a future release.
+For now, it can download files from a FTP or SFTP server. In the future, folder(s) download and basic upload will be added. Drag and drop is not available at this time, but it will be in a future release.
 
 
 Compatibility:
@@ -37,7 +37,8 @@ Install instructions for sources:
 ---------------------------------
 Download sources and uncompress them somewhere on your hard drive. Open a terminal in the new directory and launch CMEMS Data Downloader by typing: python cmems_data_downloader.py. Do not forget to install dependencies :
 
-* no dependencies for v2.0
+* PyQt5 v5.10+
+* requests v2.18+
 
 
 Documentation:

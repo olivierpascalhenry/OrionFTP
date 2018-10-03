@@ -7,6 +7,33 @@ from ui._version import _gui_version
 import configparser
 
 
+def create_option_file(path, config_dict):
+    ini_file = open(os.path.join(path, 'orion_ftp.ini'), 'w')
+    config_dict.add_section('LOG')
+    config_dict.add_section('OPTIONS')
+    config_dict.add_section('INTERFACE')
+    config_dict.add_section('CONNECTION')
+    config_dict.add_section('TRANSFER')
+    config_dict.set('LOG','level','DEBUG')
+    config_dict.set('LOG','path', '')
+    config_dict.set('OPTIONS','check_update','False')
+    config_dict.set('OPTIONS','language','english')
+    config_dict.set('OPTIONS','default_profile','')
+    config_dict.set('OPTIONS','local_home','')
+    config_dict.set('INTERFACE','local_tree_one_widget','False')
+    config_dict.set('INTERFACE','remote_tree_one_widget','False')
+    config_dict.set('INTERFACE','display_icons_local_tree','True')
+    config_dict.set('INTERFACE','display_icons_remote_tree','True')
+    config_dict.set('INTERFACE','display_path_local_tree','True')
+    config_dict.set('INTERFACE','display_path_remote_tree','True')
+    config_dict.set('CONNECTION','default_transfer_mode','0')
+    config_dict.set('CONNECTION','transfer_mode_fall_back','False')
+    config_dict.set('CONNECTION','default_transfer_type','0')
+    config_dict.set('TRANSFER','file_exist_download','0')
+    config_dict.write(ini_file)
+    ini_file.close()   
+    
+
 def launch_egads_gui(path):
     app = QtWidgets.QApplication(sys.argv)
     splash_pix = QtGui.QPixmap('icons/orionftp_splashscreen.png')
@@ -15,20 +42,14 @@ def launch_egads_gui(path):
     splash.show()
     config_dict = configparser.ConfigParser()
     if not os.path.exists(os.path.join(path, 'orion_ftp.ini')):
-        ini_file = open(os.path.join(path, 'orion_ftp.ini'), 'w')
-        config_dict.add_section('LOG')
-        config_dict.add_section('OPTIONS')
-        config_dict.set('LOG','level','DEBUG')
-        config_dict.set('LOG','path', '')
-        config_dict.set('OPTIONS','check_update','False')
-        config_dict.set('OPTIONS','language','english')
-        config_dict.set('OPTIONS','default_profile','')
-        config_dict.set('OPTIONS','local_home','')
-        config_dict.write(ini_file)
-        ini_file.close()   
+        create_option_file(path, config_dict)
     config_dict.read(os.path.join(path, 'orion_ftp.ini'))
-    
-    
+    try:
+        config_dict['INTERFACE']
+    except KeyError:
+        config_dict = configparser.ConfigParser()
+        create_option_file(path, config_dict)
+        config_dict.read(os.path.join(path, 'orion_ftp.ini'))
     log_filename = os.path.join(config_dict.get('LOG', 'path'),'orion_ftp.log')
     logging.getLogger('').handlers = []
     logging.basicConfig(filename = log_filename,

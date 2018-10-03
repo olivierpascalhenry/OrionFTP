@@ -19,7 +19,7 @@ class Ui_MainWindow(object):
         font.setStyleStrategy(QtGui.QFont.PreferAntialias)
         MainWindow.setFont(font)
         icon = QtGui.QIcon()
-        icon.addPixmap(QtGui.QPixmap("icons/orionftp_window_icon.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon.addPixmap(QtGui.QPixmap("icons/orionftp_icon.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         MainWindow.setWindowIcon(icon)
         MainWindow.setStyleSheet("")
         self.centralwidget = QtWidgets.QWidget(MainWindow)
@@ -177,10 +177,10 @@ class Ui_MainWindow(object):
         self.horizontalLayout.addItem(spacerItem5)
         spacerItem6 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
         self.horizontalLayout.addItem(spacerItem6)
-        self.toolButton = QtWidgets.QToolButton(self.centralwidget)
-        self.toolButton.setEnabled(False)
-        self.toolButton.setMinimumSize(QtCore.QSize(110, 27))
-        self.toolButton.setMaximumSize(QtCore.QSize(110, 27))
+        self.main_download_bt = QtWidgets.QToolButton(self.centralwidget)
+        self.main_download_bt.setEnabled(False)
+        self.main_download_bt.setMinimumSize(QtCore.QSize(110, 27))
+        self.main_download_bt.setMaximumSize(QtCore.QSize(110, 27))
         font = QtGui.QFont()
         font.setFamily("fonts/SourceSansPro-Regular.ttf")
         font.setPointSize(10)
@@ -188,8 +188,8 @@ class Ui_MainWindow(object):
         font.setWeight(50)
         font.setKerning(True)
         font.setStyleStrategy(QtGui.QFont.PreferAntialias)
-        self.toolButton.setFont(font)
-        self.toolButton.setStyleSheet("QToolButton {\n"
+        self.main_download_bt.setFont(font)
+        self.main_download_bt.setStyleSheet("QToolButton {\n"
 "    border: 1px solid #acacac;\n"
 "    border-radius: 1px;\n"
 "    background-color: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1, \n"
@@ -216,8 +216,8 @@ class Ui_MainWindow(object):
 "    background-color: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1,\n"
 "                                      stop: 0 #daecfc, stop: 1 #c4e0fc);\n"
 "}")
-        self.toolButton.setObjectName("toolButton")
-        self.horizontalLayout.addWidget(self.toolButton)
+        self.main_download_bt.setObjectName("main_download_bt")
+        self.horizontalLayout.addWidget(self.main_download_bt)
         spacerItem7 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Minimum)
         self.horizontalLayout.addItem(spacerItem7)
         self.verticalLayout.addLayout(self.horizontalLayout)
@@ -1883,7 +1883,7 @@ class Ui_MainWindow(object):
         self.transfert_tree.setSelectionMode(QtWidgets.QAbstractItemView.NoSelection)
         self.transfert_tree.setIndentation(0)
         self.transfert_tree.setWordWrap(True)
-        self.transfert_tree.setHeaderHidden(False)
+        self.transfert_tree.setHeaderHidden(True)
         self.transfert_tree.setObjectName("transfert_tree")
         self.transfert_tree.header().setVisible(False)
         self.gridLayout_6.addWidget(self.transfert_tree, 0, 0, 1, 1)
@@ -2003,7 +2003,7 @@ class Ui_MainWindow(object):
         self.main_profile_lb.setText(_translate("MainWindow", "FTP profile:"))
         self.main_profile_cb.setItemText(0, _translate("MainWindow", "No stored profile..."))
         self.main_connect_bt.setText(_translate("MainWindow", "Connect"))
-        self.toolButton.setText(_translate("MainWindow", "Download"))
+        self.main_download_bt.setText(_translate("MainWindow", "Download"))
         self.main_local_lb.setText(_translate("MainWindow", "Local:"))
         self.main_local_tr_2.setSortingEnabled(True)
         self.main_local_tr_2.headerItem().setText(0, _translate("MainWindow", "File"))
