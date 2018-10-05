@@ -17,10 +17,12 @@ class FindFilesAndPopulate(Qt.QThread):
     
     def __init__(self, path):
         Qt.QThread.__init__(self)
+        logging.info('thread_functions.py - FindFilesAndPopulate - __init__')
         self.path = path
         tree_objects_init(self)
         
     def run(self):
+        logging.debug('thread_functions.py - FindFilesAndPopulate - run')
         file_list = []
         for filename in next(os.walk(self.path))[2]: 
             filepath = self.path + '/' + filename
@@ -42,6 +44,7 @@ class FindFilesAndPopulate(Qt.QThread):
         self.finished.emit(file_list)
     
     def stop(self):
+        logging.debug('thread_functions.py - FindFilesAndPopulate - stop')
         self.terminate()
 
 
@@ -65,13 +68,6 @@ class CheckOrionFTPOnline(Qt.QThread):
                     format = '.tar.gz'
             else:
                 format = 'sources.zip'
-                
-                
-                
-                format = '.msi'
-                
-                
-                
             if LooseVersion(_gui_version) < LooseVersion(json_object['tag_name']):
                 assets = json_object['assets']
                 download_url = 'no new version'
@@ -106,7 +102,7 @@ class DownloadFile(Qt.QThread):
         self.translations_dict = translations_dict
         
     def run(self):
-        logging.debug('thread_functions.py - DownloadFile - run - download started')
+        logging.debug('thread_functions.py - DownloadFile - run')
         download_text = self.translations_dict['downloadingat'][self.config_dict['OPTIONS'].get('language')]
         pre_download_text = self.translations_dict['downloading'][self.config_dict['OPTIONS'].get('language')]
         self.download_update.emit([0, pre_download_text % self.filename])

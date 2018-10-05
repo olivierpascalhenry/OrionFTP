@@ -234,12 +234,15 @@ class Ui_managerWindow(object):
 "}")
         self.splitter.setOrientation(QtCore.Qt.Horizontal)
         self.splitter.setObjectName("splitter")
-        self.layoutWidget = QtWidgets.QWidget(self.splitter)
-        self.layoutWidget.setObjectName("layoutWidget")
-        self.horizontalLayout_3 = QtWidgets.QHBoxLayout(self.layoutWidget)
+        self.widget = QtWidgets.QWidget(self.splitter)
+        self.widget.setObjectName("widget")
+        self.horizontalLayout_3 = QtWidgets.QHBoxLayout(self.widget)
         self.horizontalLayout_3.setContentsMargins(0, 0, 0, 0)
         self.horizontalLayout_3.setObjectName("horizontalLayout_3")
-        self.mw_profile_list = QtWidgets.QListWidget(self.layoutWidget)
+        self.verticalLayout = QtWidgets.QVBoxLayout()
+        self.verticalLayout.setSpacing(4)
+        self.verticalLayout.setObjectName("verticalLayout")
+        self.mw_profile_list = QtWidgets.QListWidget(self.widget)
         self.mw_profile_list.setEnabled(True)
         self.mw_profile_list.setMinimumSize(QtCore.QSize(0, 0))
         self.mw_profile_list.setMaximumSize(QtCore.QSize(16777215, 16777215))
@@ -456,13 +459,103 @@ class Ui_managerWindow(object):
         self.mw_profile_list.setEditTriggers(QtWidgets.QAbstractItemView.DoubleClicked)
         self.mw_profile_list.setSelectionMode(QtWidgets.QAbstractItemView.SingleSelection)
         self.mw_profile_list.setObjectName("mw_profile_list")
-        self.horizontalLayout_3.addWidget(self.mw_profile_list)
-        self.layoutWidget1 = QtWidgets.QWidget(self.splitter)
-        self.layoutWidget1.setObjectName("layoutWidget1")
-        self.horizontalLayout_2 = QtWidgets.QHBoxLayout(self.layoutWidget1)
+        self.verticalLayout.addWidget(self.mw_profile_list)
+        self.horizontalLayout = QtWidgets.QHBoxLayout()
+        self.horizontalLayout.setObjectName("horizontalLayout")
+        self.mw_add_button = QtWidgets.QToolButton(self.widget)
+        self.mw_add_button.setMinimumSize(QtCore.QSize(27, 27))
+        self.mw_add_button.setMaximumSize(QtCore.QSize(27, 27))
+        self.mw_add_button.setStyleSheet("QToolButton {\n"
+"    border: 1px solid transparent;\n"
+"    background-color: transparent;\n"
+"    width: 27px;\n"
+"    height: 27px;\n"
+"}\n"
+"\n"
+"QToolButton:flat {\n"
+"    border: none;\n"
+"}")
+        icon1 = QtGui.QIcon()
+        icon1.addPixmap(QtGui.QPixmap("icons/plus_icon.svg"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        self.mw_add_button.setIcon(icon1)
+        self.mw_add_button.setIconSize(QtCore.QSize(23, 23))
+        self.mw_add_button.setObjectName("mw_add_button")
+        self.horizontalLayout.addWidget(self.mw_add_button)
+        spacerItem = QtWidgets.QSpacerItem(10, 20, QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Minimum)
+        self.horizontalLayout.addItem(spacerItem)
+        self.mw_del_button = QtWidgets.QToolButton(self.widget)
+        self.mw_del_button.setEnabled(False)
+        self.mw_del_button.setMinimumSize(QtCore.QSize(27, 27))
+        self.mw_del_button.setMaximumSize(QtCore.QSize(27, 27))
+        self.mw_del_button.setStyleSheet("QToolButton {\n"
+"    border: 1px solid transparent;\n"
+"    background-color: transparent;\n"
+"    width: 27px;\n"
+"    height: 27px;\n"
+"}\n"
+"\n"
+"QToolButton:flat {\n"
+"    border: none;\n"
+"}")
+        icon2 = QtGui.QIcon()
+        icon2.addPixmap(QtGui.QPixmap("icons/del_tick_icon.svg"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        self.mw_del_button.setIcon(icon2)
+        self.mw_del_button.setIconSize(QtCore.QSize(23, 23))
+        self.mw_del_button.setObjectName("mw_del_button")
+        self.horizontalLayout.addWidget(self.mw_del_button)
+        spacerItem1 = QtWidgets.QSpacerItem(198, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
+        self.horizontalLayout.addItem(spacerItem1)
+        self.mw_save_button = QtWidgets.QToolButton(self.widget)
+        self.mw_save_button.setEnabled(False)
+        self.mw_save_button.setMinimumSize(QtCore.QSize(27, 27))
+        self.mw_save_button.setMaximumSize(QtCore.QSize(27, 27))
+        self.mw_save_button.setStyleSheet("QToolButton {\n"
+"    border: 1px solid transparent;\n"
+"    background-color: transparent;\n"
+"    width: 27px;\n"
+"    height: 27px;\n"
+"}\n"
+"\n"
+"QToolButton:flat {\n"
+"    border: none;\n"
+"}")
+        icon3 = QtGui.QIcon()
+        icon3.addPixmap(QtGui.QPixmap("icons/save_icon.svg"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        self.mw_save_button.setIcon(icon3)
+        self.mw_save_button.setIconSize(QtCore.QSize(23, 23))
+        self.mw_save_button.setObjectName("mw_save_button")
+        self.horizontalLayout.addWidget(self.mw_save_button)
+        spacerItem2 = QtWidgets.QSpacerItem(10, 20, QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Minimum)
+        self.horizontalLayout.addItem(spacerItem2)
+        self.mw_open_button = QtWidgets.QToolButton(self.widget)
+        self.mw_open_button.setMinimumSize(QtCore.QSize(27, 27))
+        self.mw_open_button.setMaximumSize(QtCore.QSize(27, 27))
+        self.mw_open_button.setStyleSheet("QToolButton {\n"
+"    border: 1px solid transparent;\n"
+"    background-color: transparent;\n"
+"    width: 27px;\n"
+"    height: 27px;\n"
+"}\n"
+"\n"
+"QToolButton:flat {\n"
+"    border: none;\n"
+"}")
+        icon4 = QtGui.QIcon()
+        icon4.addPixmap(QtGui.QPixmap("icons/open_popup_icon.svg"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        self.mw_open_button.setIcon(icon4)
+        self.mw_open_button.setIconSize(QtCore.QSize(23, 23))
+        self.mw_open_button.setObjectName("mw_open_button")
+        self.horizontalLayout.addWidget(self.mw_open_button)
+        self.verticalLayout.addLayout(self.horizontalLayout)
+        self.horizontalLayout_3.addLayout(self.verticalLayout)
+        spacerItem3 = QtWidgets.QSpacerItem(10, 20, QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Minimum)
+        self.horizontalLayout_3.addItem(spacerItem3)
+        self.layoutWidget = QtWidgets.QWidget(self.splitter)
+        self.layoutWidget.setObjectName("layoutWidget")
+        self.horizontalLayout_2 = QtWidgets.QHBoxLayout(self.layoutWidget)
         self.horizontalLayout_2.setContentsMargins(0, 0, 0, 0)
         self.horizontalLayout_2.setObjectName("horizontalLayout_2")
-        self.scroll_area = QtWidgets.QScrollArea(self.layoutWidget1)
+        self.scroll_area = QtWidgets.QScrollArea(self.layoutWidget)
         self.scroll_area.setStyleSheet("QScrollArea { background: transparent; }\n"
 "\n"
 "QScrollArea > QWidget > QWidget { background: transparent; }\n"
@@ -634,13 +727,11 @@ class Ui_managerWindow(object):
         self.scroll_area.setWidgetResizable(True)
         self.scroll_area.setObjectName("scroll_area")
         self.scrollAreaWidgetContents_2 = QtWidgets.QWidget()
-        self.scrollAreaWidgetContents_2.setGeometry(QtCore.QRect(0, 0, 460, 234))
+        self.scrollAreaWidgetContents_2.setGeometry(QtCore.QRect(0, 0, 456, 238))
         self.scrollAreaWidgetContents_2.setObjectName("scrollAreaWidgetContents_2")
         self.gridLayout_2 = QtWidgets.QGridLayout(self.scrollAreaWidgetContents_2)
         self.gridLayout_2.setContentsMargins(0, 0, 0, 0)
         self.gridLayout_2.setObjectName("gridLayout_2")
-        spacerItem = QtWidgets.QSpacerItem(20, 74, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
-        self.gridLayout_2.addItem(spacerItem, 1, 1, 1, 1)
         self.gridLayout = QtWidgets.QGridLayout()
         self.gridLayout.setVerticalSpacing(15)
         self.gridLayout.setObjectName("gridLayout")
@@ -1118,64 +1209,20 @@ class Ui_managerWindow(object):
         self.mw_line_4.setObjectName("mw_line_4")
         self.gridLayout.addWidget(self.mw_line_4, 3, 1, 1, 3)
         self.gridLayout_2.addLayout(self.gridLayout, 0, 1, 1, 1)
-        spacerItem1 = QtWidgets.QSpacerItem(10, 20, QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Minimum)
-        self.gridLayout_2.addItem(spacerItem1, 0, 0, 1, 1)
+        spacerItem4 = QtWidgets.QSpacerItem(20, 74, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
+        self.gridLayout_2.addItem(spacerItem4, 1, 1, 1, 1)
+        spacerItem5 = QtWidgets.QSpacerItem(10, 20, QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Minimum)
+        self.gridLayout_2.addItem(spacerItem5, 0, 0, 1, 1)
         self.scroll_area.setWidget(self.scrollAreaWidgetContents_2)
         self.horizontalLayout_2.addWidget(self.scroll_area)
         self.gridLayout_3.addWidget(self.splitter, 0, 0, 1, 1)
-        self.horizontalLayout = QtWidgets.QHBoxLayout()
-        self.horizontalLayout.setObjectName("horizontalLayout")
-        self.mw_add_button = QtWidgets.QToolButton(managerWindow)
-        self.mw_add_button.setMinimumSize(QtCore.QSize(27, 27))
-        self.mw_add_button.setMaximumSize(QtCore.QSize(27, 27))
-        self.mw_add_button.setStyleSheet("QToolButton {\n"
-"    border: 1px solid transparent;\n"
-"    background-color: transparent;\n"
-"    width: 27px;\n"
-"    height: 27px;\n"
-"}\n"
-"\n"
-"QToolButton:flat {\n"
-"    border: none;\n"
-"}")
-        icon1 = QtGui.QIcon()
-        icon1.addPixmap(QtGui.QPixmap("icons/plus_icon.svg"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
-        self.mw_add_button.setIcon(icon1)
-        self.mw_add_button.setIconSize(QtCore.QSize(23, 23))
-        self.mw_add_button.setObjectName("mw_add_button")
-        self.horizontalLayout.addWidget(self.mw_add_button)
-        spacerItem2 = QtWidgets.QSpacerItem(20, 20, QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Minimum)
-        self.horizontalLayout.addItem(spacerItem2)
-        self.mw_del_button = QtWidgets.QToolButton(managerWindow)
-        self.mw_del_button.setEnabled(False)
-        self.mw_del_button.setMinimumSize(QtCore.QSize(27, 27))
-        self.mw_del_button.setMaximumSize(QtCore.QSize(27, 27))
-        self.mw_del_button.setStyleSheet("QToolButton {\n"
-"    border: 1px solid transparent;\n"
-"    background-color: transparent;\n"
-"    width: 27px;\n"
-"    height: 27px;\n"
-"}\n"
-"\n"
-"QToolButton:flat {\n"
-"    border: none;\n"
-"}")
-        icon2 = QtGui.QIcon()
-        icon2.addPixmap(QtGui.QPixmap("icons/del_tick_icon.svg"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
-        self.mw_del_button.setIcon(icon2)
-        self.mw_del_button.setIconSize(QtCore.QSize(23, 23))
-        self.mw_del_button.setObjectName("mw_del_button")
-        self.horizontalLayout.addWidget(self.mw_del_button)
-        spacerItem3 = QtWidgets.QSpacerItem(198, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
-        self.horizontalLayout.addItem(spacerItem3)
-        self.gridLayout_3.addLayout(self.horizontalLayout, 1, 0, 1, 1)
-        spacerItem4 = QtWidgets.QSpacerItem(20, 20, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Fixed)
-        self.gridLayout_3.addItem(spacerItem4, 2, 0, 1, 1)
+        spacerItem6 = QtWidgets.QSpacerItem(20, 20, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Fixed)
+        self.gridLayout_3.addItem(spacerItem6, 1, 0, 1, 1)
         self.horizontalLayout_7 = QtWidgets.QHBoxLayout()
         self.horizontalLayout_7.setSizeConstraint(QtWidgets.QLayout.SetDefaultConstraint)
         self.horizontalLayout_7.setObjectName("horizontalLayout_7")
-        spacerItem5 = QtWidgets.QSpacerItem(20, 20, QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Minimum)
-        self.horizontalLayout_7.addItem(spacerItem5)
+        spacerItem7 = QtWidgets.QSpacerItem(20, 20, QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Minimum)
+        self.horizontalLayout_7.addItem(spacerItem7)
         self.mw_ok_button = QtWidgets.QToolButton(managerWindow)
         self.mw_ok_button.setEnabled(False)
         self.mw_ok_button.setMinimumSize(QtCore.QSize(100, 27))
@@ -1217,8 +1264,8 @@ class Ui_managerWindow(object):
 "}")
         self.mw_ok_button.setObjectName("mw_ok_button")
         self.horizontalLayout_7.addWidget(self.mw_ok_button)
-        spacerItem6 = QtWidgets.QSpacerItem(20, 20, QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Minimum)
-        self.horizontalLayout_7.addItem(spacerItem6)
+        spacerItem8 = QtWidgets.QSpacerItem(20, 20, QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Minimum)
+        self.horizontalLayout_7.addItem(spacerItem8)
         self.mw_cancel_button = QtWidgets.QToolButton(managerWindow)
         self.mw_cancel_button.setMinimumSize(QtCore.QSize(100, 27))
         self.mw_cancel_button.setMaximumSize(QtCore.QSize(100, 27))
@@ -1259,9 +1306,31 @@ class Ui_managerWindow(object):
 "}")
         self.mw_cancel_button.setObjectName("mw_cancel_button")
         self.horizontalLayout_7.addWidget(self.mw_cancel_button)
-        spacerItem7 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
-        self.horizontalLayout_7.addItem(spacerItem7)
-        self.gridLayout_3.addLayout(self.horizontalLayout_7, 3, 0, 1, 1)
+        spacerItem9 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
+        self.horizontalLayout_7.addItem(spacerItem9)
+        self.mw_info_button = QtWidgets.QToolButton(managerWindow)
+        self.mw_info_button.setMaximumSize(QtCore.QSize(27, 27))
+        self.mw_info_button.setStyleSheet("QToolButton {\n"
+"    border: 1px solid transparent;\n"
+"    background-color: transparent;\n"
+"    width: 27px;\n"
+"    height: 27px;\n"
+"}\n"
+"\n"
+"QToolButton:flat {\n"
+"    border: none;\n"
+"}")
+        self.mw_info_button.setText("")
+        icon5 = QtGui.QIcon()
+        icon5.addPixmap(QtGui.QPixmap("icons/info_icon.svg"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        self.mw_info_button.setIcon(icon5)
+        self.mw_info_button.setIconSize(QtCore.QSize(23, 23))
+        self.mw_info_button.setAutoRaise(False)
+        self.mw_info_button.setObjectName("mw_info_button")
+        self.horizontalLayout_7.addWidget(self.mw_info_button)
+        spacerItem10 = QtWidgets.QSpacerItem(20, 20, QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Minimum)
+        self.horizontalLayout_7.addItem(spacerItem10)
+        self.gridLayout_3.addLayout(self.horizontalLayout_7, 2, 0, 1, 1)
 
         self.retranslateUi(managerWindow)
         self.mw_combobox.setCurrentIndex(0)

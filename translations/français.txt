@@ -77,6 +77,63 @@ sw_label=Téléchargement ...
 sw_button=Annuler
 storeWindow=Téléchargement
 
+### manager info ###
+miw_label_1=Le gestionnaire de profil FTP permet de créer, éditer, supprimer des profils FTP, et de charger ou sauvegarder des fichiers xml contenant la liste des profils FTP. Voici un bref descriptif des fonctions disponibles.
+miw_label_2=Cliquez sur ce bouton pour créer un nouveau profil FTP.
+miw_label_3=Cliquez sur ce bouton pour supprimer un profil FTP existant. Le bouton n'est activé que si un ou plusieurs profils existent et si l'un d'entre eux a été sélectionné.
+miw_label_4=Cliquez sur ce bouton pour charger un fichier xml contenant une liste de profils FTP gérés par le gestionnaire d'OrionFTP.
+miw_label_5=Cliquez sur ce bouton pour sauvegarder la liste des profils FTP dans un autre fichier que celui par défaut.
+miw_label_6=Le bouton Ok permet de confirmer les modifications apportées à la liste des profils. Par la suite un fichier xml par défaut contenant les profils est créé et remplace l'ancien.
+miw_label_7=Le bouton Annuler permet d'annuler les modifications apportées à la liste des profils. Rien n'est sauvegardé dans ce cas.
+miw_label_8_manual=<p>Lorsqu'un profil FTP est créé, chaque champ doit être impérativement remplir pour permettre un bon fonctionnement de la librairie FTP. A champ vide, ou un mauvais usage des champs Hôte/Port/Nom d'utilisateur/Mot de passe peut entrainer un échec lors de la tentative de connexion.</p><p>Même s'il est possible de modifier un profil FTP lorsqu'OrionFTP est connecté à un serveur, les modifications apportés à ce profil ne seront prises en compte que lors de l'ouverture d'une nouvelle connexion.</p>|<b><i>Protocole</i></b> : FTP ou SFTP, il s'agit du protocol utilisé par le serveur auquel vous souhaitez vous connecter.<br><b><i>Hôte</i></b> et <b><i>Port</i></b> : l'adresse IP ou le nom de domaine (ex: 161.162.163.164 ou ftp.mydomain.com) ainsi que le numéro de port du serveur auquel vous souhaitez vous connecter.<br><b><i>Nom d'utilisateur</i></b> et <b><i>Mot de passe</i></b> : les identifiants d'un compte utilisateur valide sur le serveur (S)FTP, authorisé à utiliser ce protocol.
+miw_label_9=Important:
+miw_label_11=Fonctions:
+miw_cancel_button=Annuler
+
+### option info ###
+oiw_label_1=Dans la fenêtre d'option, l'utilisateurs trouvera différentes options pour controler les différents aspects d'OrionFTP. Les options sont distribuées parmis quatre section : Général, Interface, Connexion et Transfert. La quasi-totalité des options ne nécessitent pas de redémarrage du logiciel.
+oiw_label_2=Dans cette section, les options controlent le système de log (OrionFTP doit être redémarré si l'une d'entre elles est modifiée), la langue et le système de mise à jour.
+oiw_label_3=Ici, les options controlant l'interface d'OrionFTP.
+oiw_label_4=Dans la section Connexion, il est possible de modifier les paramètres controlant les protocoles FTP/SFTP.
+oiw_label_5=Dans la section Transfert, des options sont disponibles afin de controler le transfert de fichier.
+oiw_label_6=Le bouton Ok permet de confirmer les modifications apportées aux options. Par la suite ces options sont sauvegardées dans un fichier <i>orion_ftp.ini</i>.
+oiw_label_7=le bouton Annuler permet d'annuler les modifications apportées aux options. Dans ce cas, aucune option n'est prise en compte par OrionFTP.
+oiw_label_8=Fonctions :
+oiw_label_9=Général
+oiw_label_10=Interface
+oiw_label_11=Connexion
+oiw_label_12=Transfert
+oiw_label_13_manual=Général :|Interface :|Interface :|Connexion :|Transfert :
+oiw_label_15_manual=<b><i>Niveau de log</i></b> : l'utilisateur peut changer le niveau de log. Si un problème apparait, cela peut-être une bonne idée de passer le niveau de log sur DEBUG et d'envoyer le fichier de log au dévelopeur.<br><b><i>Dossier de log</i></b> : le chemin et le dossier où le fichier de log sera écrit, modifier cette option demande un redémarrage du logiciel afin d'être prise en compte.<br><b><i>Langue</i></b> : OrionFTP est livré avec plusieurs fichiers de langue, et la langue la plus adaptée peut-être sélectionnée ici.<br><b><i>Dossier par défaut</i></b> : le dossier affiché dans l'arborescence locale par défaut.<br><b><i>Profil par défaut</i></b> : le profil affiché par défaut dans le ComboBox de la fenêtre principale.<br><b><i>Vérifier les mises à jour d'OrionFTP sur Github</i></b> : cette option permet à OrionFTP de vérifier les mises à jour au démarrage.|<b>PC local</b> :<br>&nbsp;&nbsp;&nbsp;<b><i>Lister les dossiers et fichiers locaux dans une seule arborescence</i></b> : supprime le TreeView local du bas et liste l'ensemble des fichiers et dossiers dans celui du haut.<br>&nbsp;&nbsp;&nbsp;<b><i>Afficher les icones des fichiers et des dossiers dans l’arborescence locale</i></b> : affiche (ou pas) les icones des dossiers et fichiers dans l'arborescence locale.<br>&nbsp;&nbsp;&nbsp;<b><i>Afficher les chemins dans l’arborescence locale</i></b> : affiche (ou pas) le chemin local au dessus des arborescences locales.|<b>Serveur distant</b> :<br>&nbsp;&nbsp;&nbsp;<b><i>Lister les dossiers et fichiers à distance dans une seule arborescence</i></b> : supprime le TreeView distant du bas et liste l'ensemble des fichiers et dossiers dans celui du haut.<br>&nbsp;&nbsp;&nbsp;<b><i>Afficher les icones des fichiers et des dossiers dans l’arborescence distante</i></b> : affiche (ou pas) les icones des dossiers et fichiers dans l'arborescence distante.<br>&nbsp;&nbsp;&nbsp;<b><i>Afficher les chemins dans l’arborescence distante</i></b> : affiche (ou pas) le chemin distant au dessus des arborescences distantes.|<b><i>Type de transfert par défaut</i></b> : Passif par défaut, modifiez cette option si vous remarquez un problème avec la connexion, ou si l'administrateur du server (S)FTP conseille de le faire.<br><b><i>Autoriser un changement du mode de transfert en cas d’échec ?</i></b> : cochez cette option pour autoriser OrionFTP à sélectionner automatiquement le mode de connexion si un échec est enregistré lors de la connexion.<br><b><i>Type de transfert par défaut</i></b> : laissez OrionFTP s'occuper de ce paramètre ou sélectionnez celui qui vous semble le plus approprié, selon les paramètres du serveur (S)FTP.|<b><i>Que faire si le fichier existe déjà en local ?</i></b>: sélectionnez l'action approprié si un fichier ou un dossier du même nom existe déjà dans le dossier où vous essayez de le copier.
+oiw_cancel_button=Annuler
+
+### main info ###
+aiw_label_1=La fenêtre principale d'OrionFTP. A partir d'ici, l'utilisateur peut intéragir avec son propre ordinateur et le serveur (S)FTP.
+aiw_label_2=Profil FTP
+aiw_label_3=PC local
+aiw_label_4=Server distant
+aiw_label_5=Connexion FTP
+aiw_label_6=Transferts
+aiw_label_7=Cette ComboBox liste les profils FTP disponibles. Si un profil a été sélectionné comme profil par défaut dans la fenêtre des options, il sera sélectionné ici par défaut.
+aiw_label_8=La section locale, affichant le chemin et les dossiers/fichiers sur l'ordinateur.
+aiw_label_9=La section distance, affichant le chemin et les dossiers/fichiers sur le serveur distant.
+aiw_label_10=Cette section affiche des informations sur la connexion au serveur distant sélectionné.
+aiw_label_11=Quand un fichier et/ou un dossier sont en train d'être téléchargés, ils apparaissent dans cet onglet.
+aiw_label_12=Cliquez sur ce bouton, après avoir sélectionné un profil FTP, pour lancer la connexion au server (S)FTP.
+aiw_label_13=Une fois un ou plusieurs fichiers/dossiers sélectionnés sur le server distant, cliquez sur Télécharger pour commencer le téléchargement.
+aiw_label_14=Icônes :
+aiw_label_15=Cliquez sur cette icône pour quitter OrionFTP.
+aiw_label_16=Le manager de site d'OrionFTP est accessible en cliquant sur cette icône.
+aiw_label_17=Une fois qu'OrionFTP est connecté à un serveur (S)FTP, cliquez ici pour vous déconnecter.
+aiw_label_18=Une fois qu'OrionFTP est connecté à un serveur (S)FTP, cliquez ici pour revenir au dossier par défaut du serveur.
+aiw_label_19=Une fois qu'OrionFTP est connecté à un serveur (S)FTP, cliquez ici pour rafraichir l'arborescence du serveur.
+aiw_label_20=Les options sont disponibles en cliquant sur cette icône.
+aiw_label_21=Ici vous trouverez des informations à propos d'OrionFTP.
+aiw_label_22=Si un ! rouge est affiché, cela veut dire qu'une mise à jour pour OrionFTP est disponible. Dans ce cas, cliquez sur l'icône pour lancer la procédure de mise à jour.
+aiw_label_23=Fonctions :
+aiw_connect_button=Connexion
+aiw_download_button=Télécharger
+
 ### basic elements ###
 makeachoice=Choisissez une entrée...
 qtreeview=Dossier|Taille|Type

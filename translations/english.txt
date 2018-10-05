@@ -77,6 +77,63 @@ sw_label=Downloading...
 sw_button=Cancel
 storeWindow=Download
 
+### manager info ###
+miw_label_1=The FTP profile manager allows the user to create, edit and delete FTP profiles, and to save and load an FTP profile list. Here is a brief description of all available functions.
+miw_label_2=Click on this button to create a new FTP profile.
+miw_label_3=Click on this button to delete an existing FTP profile. The button is enabled when at least one profile exists in the profile list and when a profile has been selected.
+miw_label_4=Click on this button to load an xml file containing a list of FTP profiles created in the OrionFTP FTP manager.
+miw_label_5=Click on this button to save the list of FTP profiles in an xml file.
+miw_label_6=The Ok button is here to confirm modifications brought to the FTP profile list by the user, it will then create an xml file containing all FTP profiles, replacing the old one.
+miw_label_7=The Cancel button is here to cancel modifications brought to the FTP profile list.
+miw_label_8_manual=<p>When creating a new FTP profile, all fields must be filled to allow a proper operation of the FTP library. An empty field, or a wrong host/port/username/password can lead to a failure during the connection.</p><p>It is possible to modify an FTP profile when OrionFTP is connected to the related host. In that case, modifications will be taken into account at the next connection.</p>|<b><i>Protocol</i></b>: FTP or SFTP, it is the protocol used by the server to which you want to connect.<br><b><i>Host</i></b> and <b><i>Port</i></b>: the IP adress (ex: 161.162.163.164) or domain name (ex: ftp.mydomain.com) and the related port (ex: 21) of the server to which you want to connect.<br><b><i>Username</i></b> and <b><i>Password</i></b>: the credentials of a valid account on the (S)FTP server, allowed to use the (S)FTP connection.
+miw_label_9=Important:
+miw_label_11=Functions:
+miw_cancel_button=Cancel
+
+### option info ###
+oiw_label_1=In the Option window, the user will find options to control different aspects of OrionFTP. Options are divided in four sections: General, Interface, Connection and Transfer. For almost all options, it is not necessary to restart OrionFTP.
+oiw_label_2=In this section, general options can be found to control the logging function (OrionFTP needs to be restarted if one of them is modified), the language, the update checking.
+oiw_label_3=All options controling the Graphical User Interface can be found here.
+oiw_label_4=It is possible, in the Connection section, to modify options controling the FTP/SFTP protocols.
+oiw_label_5=In the Transfer section, options are available to control transfer operations.
+oiw_label_6=The Ok button is here to confirm modifications brought to OrionFTP by the user, those options are then saved into the <i>orion_ftp.ini</i> file.
+oiw_label_7=The Cancel button is here to cancel all selected options. No option is applied to OrionFTP in that case.
+oiw_label_8=Functions:
+oiw_label_9=General
+oiw_label_10=Interface
+oiw_label_11=Connection
+oiw_label_12=Transfer
+oiw_label_13_manual=General:|Interface:|Interface:|Connexion:|Transfer:
+oiw_label_15_manual=<b><i>Logging level</i></b>: the user can change the verbose level of the logging system. If an issue is noticed, it is a good idea to change the level to DEBUG and send the log file to the developer.<br><b><i>Logging file folder</i></b>: the path and folder where to save the log file, modifying this option assumes to restart OrionFTP.<br><b><i>Language</i></b>: OrionFTP comes with different language and the most suited language can be selected here.<br><b><i>Default folder</i></b>: the folder displayed in the local tree by default.<br><b><i>Default profile</i></b>: the profile displayed by default in the ComboBox of the main window.<br><b><i>Check OrionFTP updates on GitHub</i></b>: this option allows OrionFTP to check for an update online at startup.|<b>Local</b>:<br><b><i>Organise local folders and files in one tree view</i></b>: remove the lower local TreeView and organise the folder/file tree in the upper one.<br><b><i>Display folder and file icons in the local tree view</i></b>: display (or not) the icons associated to the folders and files in the local tree view.<br><b><i>Display path in the local tree view</i></b>: display (or not) the main path widget displayed above the local tree views.|<b>Remote</b>:<br><b><i>Organise remote folders and files in one tree view</i></b>: remove the lower remote TreeView and organise the folder/file tree in the upper one.<br><b><i>Display folder and file icons in the remote tree view</i></b>: display (or not) the icons associated to the folders and files in the remote tree view.<br><b><i>Display path in the remote tree view</i></b>: display (or not) the main path widget displayed above the remote tree views.|<b><i>Default transfer mode</i></b>: usually set on Passive, change this option if you notice issues with the connexion, or if the administrator of the (S)FTP server asks you to do it.<br><b><i>Allow fall back to other transfer mode on failure ?</i></b>: check this option if you want to allow OrionFTP to change automatically the default transfer mode is a failure is noticed.<br><b><i>Default transfer type</i></b>: let OrionFTP handle it or select the most appropriate option based on the (S)FTP server parameters.<br>|<b><i>What to do if the file/folder already exists localy ?</i></b>: select the appropriate action if a file or a folder with the same name already exists in the folder you try to copy it.
+oiw_cancel_button=Cancel
+
+### main info ###
+aiw_label_1=The main window of OrionFTP. From here, the user interacts with its own computer and the (S)FTP server.
+aiw_label_2=FTP profile
+aiw_label_3=Local
+aiw_label_4=Remote
+aiw_label_5=FTP Connection
+aiw_label_6=Transfers
+aiw_label_7=This ComboBox lists all available FTP profiles. If a profile is set by default in the Option window, it will selected by default here.
+aiw_label_8=The local section, displaying path and folders/files on the local computer.
+aiw_label_9=The remote section, displaying path and folders/files on the remote (S)FTP server.
+aiw_label_10=This section displays information about the connection to the selected (S)FTP server.
+aiw_label_11=When a file/folder is downloaded, it will displayed here with the downloading progress.
+aiw_label_12=Click on this button, when an FTP profile is selected, to start the connexion to the (S)FTP server.
+aiw_label_13=First select one or more files and/or one or more folders, then click on Download to start downloading.
+aiw_label_14=Icons:
+aiw_label_15=Click on this icon to exit OrionFTP.
+aiw_label_16=The OrionFTP FTP manager is accessible by clicking on this icon.
+aiw_label_17=When OrionFTP is connected to a (S)FTP server, click on this icon to close the connection.
+aiw_label_18=When OrionFTP is connected to a (S)FTP server, click on this icon to go back to the default remote path.
+aiw_label_19=When OrionFTP is connected to a (S)FTP server, click on this icon to refresh the remote folder displayed in the remote section.
+aiw_label_20=Options are accessible by clicking on this icon.
+aiw_label_21=Here you will find information about OrionFTP.
+aiw_label_22=When a red ! is visible, an update is available for OrionFTP. In that case, click on this icon to start the update procedure.
+aiw_label_23=Functions:
+aiw_connect_button=Connect
+aiw_download_button=Download
+
 ### basic elements ###
 makeachoice=Make a choice...
 qtreeview=Folder|Size|Type

@@ -4,13 +4,36 @@ CHANGELOG
 
 To do list:
 -----------
-  - propose options to save and load ftp_profiles xml file.
+  - propose a window for those who doesn't want to keep their credentials in the xml file.
+  - set the size of the local tree view with one column to have the same than the bottom one.
   
 
 To fix list:
 ------------
 
+
+October 5 2018, Release version 0.4.0
+======================================
+First version of the GUI. Until version 1.0.0, the config file is expected to evolve and can be deleted without further notice to introduce new options.
+
+  ADDED:
+    - the version has been added to the about window.
+    - new logging messages have been added.
+    - it is now possible to make a backup of the ftp_profiles xml file directly from the FTP profile manager.
+    - it is now possible to load a backup of the ftp_profiles xml file directly from the FTP profile manager.
+    - information window has been added in the available sections.
+    
+  MODIFIED:
+    - OrionFTP code has been cleaned.
+    - all info buttons in the different windows have been replaced by only one info button per window.
   
+  FIXED:
+    - once the option to display icons was set, icons weren't displayed in the GUI. It has been fixed.
+    - the ftp profiles dictionary was modified in the manager window even if the Cancel button was clicked.
+    - fixed an issue with encoding when saving ftp profiles xml file.
+    - when changing the language, the new language wasn't successfully applied to the local qtreeview object.
+
+
 October 3 2018, Release version 0.3.0
 =====================================
 First version of the GUI. Until version 1.0.0, the config file is expected to evolve and can be deleted without further notice to introduce new options.

@@ -744,6 +744,28 @@ class Ui_optionWindow(object):
         self.horizontalLayout_2.addWidget(self.ow_cancel_button)
         spacerItem3 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
         self.horizontalLayout_2.addItem(spacerItem3)
+        self.ow_info_button = QtWidgets.QToolButton(optionWindow)
+        self.ow_info_button.setMaximumSize(QtCore.QSize(27, 27))
+        self.ow_info_button.setStyleSheet("QToolButton {\n"
+"    border: 1px solid transparent;\n"
+"    background-color: transparent;\n"
+"    width: 27px;\n"
+"    height: 27px;\n"
+"}\n"
+"\n"
+"QToolButton:flat {\n"
+"    border: none;\n"
+"}")
+        self.ow_info_button.setText("")
+        icon1 = QtGui.QIcon()
+        icon1.addPixmap(QtGui.QPixmap("icons/info_icon.svg"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        self.ow_info_button.setIcon(icon1)
+        self.ow_info_button.setIconSize(QtCore.QSize(23, 23))
+        self.ow_info_button.setAutoRaise(False)
+        self.ow_info_button.setObjectName("ow_info_button")
+        self.horizontalLayout_2.addWidget(self.ow_info_button)
+        spacerItem4 = QtWidgets.QSpacerItem(20, 20, QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Minimum)
+        self.horizontalLayout_2.addItem(spacerItem4)
         self.gridLayout_2.addLayout(self.horizontalLayout_2, 2, 0, 1, 1)
 
         self.retranslateUi(optionWindow)

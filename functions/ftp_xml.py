@@ -6,7 +6,7 @@ import collections
 NAMESPACE_URI = 'OrionFTP'
 
 def create_profile_xml(self, out_file_name, ftp_profiles):
-    logging.info('ftp_xml.py - create_profile_xml - starting ...')
+    logging.debug('ftp_xml.py - create_profile_xml - starting ...')
     doc = xml.dom.minidom.Document()
     doc_root = add_element(doc, "OrionFTP", doc)
     add_element(doc, "CreationDate", doc_root, datetime.date.isoformat(datetime.date.today()))
@@ -22,7 +22,7 @@ def create_profile_xml(self, out_file_name, ftp_profiles):
         add_element(doc, "Host", server, profile['host'])
         add_element(doc, "Port", server, profile['port'])
         add_element(doc, "Username", server, profile['username'])
-        add_element(doc, "Password", server, profile['password'].decode('utf-8'))
+        add_element(doc, "Password", server, profile['password'])
     
     ############################
     # File Creation
@@ -35,7 +35,7 @@ def create_profile_xml(self, out_file_name, ftp_profiles):
     
 
 def read_profile_xml(self, xml_file):
-    logging.info('ftp_xml.py - read_profile_xml - xml file reading in progress (' + str(xml_file) + ') ...')
+    logging.debug('ftp_xml.py - read_profile_xml - xml file reading in progress (' + str(xml_file) + ') ...')
     f = open(xml_file, 'r')
     doc = xml.dom.minidom.parse(f)
     ftp_profiles = collections.OrderedDict()

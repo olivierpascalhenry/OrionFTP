@@ -1,7 +1,7 @@
 Version:
 -------
 
-OrionFTP 0.3.0.
+OrionFTP 0.4.0.
 
 
 Project Overview:
@@ -44,4 +44,4 @@ Download sources and uncompress them somewhere on your hard drive. Open a termin
 Documentation:
 --------------
 
-Not yet.
+Actually there are 3 different info window to give details on how the option window, the FTP manager and the main window work. A formal documentation will be released later.

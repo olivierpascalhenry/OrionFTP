@@ -5,48 +5,40 @@ import configparser
 import sys
 import platform
 import time
+import copy
 from ui._version import _gui_version, _python_version, _qt_version
 from PyQt5 import QtWidgets, QtCore, QtGui
 from ui.Ui_mainwindow import Ui_MainWindow
 from functions.utilities import translate_elements, set_size
 from functions.material_functions import objects_initialization
-from functions.window_functions import MyManager, MyAbout, MyOptions, MyWarningUpdate, MyUpdate
+from functions.window_functions import MyManager, MyAbout, MyOptions, MyWarningUpdate, MyUpdate, MyMainInfo
 from functions.ftp_xml import read_profile_xml, create_profile_xml
-from functions.gui_elements import MyQFileIconProvider, MyQFileSystemModel, MyQTreeWidgetItem
 from functions.thread_functions import FindFilesAndPopulate, CheckOrionFTPOnline
+from functions.gui_functions import display_one_two_tree, prepare_tree_widgets, display_local_path, activate_connexion_button, set_profile_list
+from functions.other_functions import set_ftp_profiles
 
 
 class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
     def __init__(self, path, config_dict, translations, parent=None):
-        logging.debug('OrionFTP - mainwindow.py - MainWindow - __init__')
+        logging.debug('mainwindow.py - MainWindow - __init__')
         QtWidgets.QMainWindow.__init__(self, parent)
         self.gui_path = path
         self.config_dict = config_dict
         self.translations_dict = translations
         self.setupUi(self)
-        itemDelegate = QtWidgets.QStyledItemDelegate()
-        self.main_profile_cb.setItemDelegate(itemDelegate)
         objects_initialization(self)
         translate_elements(self, self.config_dict['OPTIONS'].get('language'), self.translations_dict)
-        self.transfert_tree.setHeaderHidden(False)
-        self.set_ftp_profiles()
-        
-        self.set_profile_list()
-        
-        self.main_local_tr_2.setColumnWidth(0, 320)
-        self.main_local_tr_2.setColumnWidth(1, 130)
-        self.main_remote_tr_2.setColumnWidth(0, 319)
-        self.main_remote_tr_2.setColumnWidth(1, 130)
-        self.main_local_tr_2.sortItems(0, QtCore.Qt.AscendingOrder)
-        self.main_remote_tr_2.sortItems(0, QtCore.Qt.AscendingOrder)
-        self.main_profile_cb.currentIndexChanged.connect(self.activate_connexion_button)
-        
-        
-        self.display_local_path()
-        self.display_one_two_tree(startup=True)
+        set_ftp_profiles(self)
+        set_profile_list(self)
+        prepare_tree_widgets(self)
+        display_local_path(self)
+        display_one_two_tree(self, startup=True)
         self.check_orionftp_update()
-        
-        logging.info('OrionFTP - mainwindow.py - MainWindow ready')
+        self.info_button_1.clicked.connect(self.display_information)
+        self.main_profile_cb.currentIndexChanged.connect(lambda index: activate_connexion_button(self, index))
+        self.main_profile_cb.setItemDelegate(QtWidgets.QStyledItemDelegate())
+        self.transfert_tree.setHeaderHidden(False)
+        logging.info('mainwindow.py - MainWindow ready')
         
     @QtCore.pyqtSlot()
     def on_actionExit_triggered(self):
@@ -80,20 +72,22 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
     def on_actionUpdate_triggered(self):
         self.download_and_install_update()
     
-    
     def open_manager(self):
-        self.managerWindow = MyManager(self.config_dict, self.translations_dict, self.ftp_profiles)
+        logging.debug('mainwindow.py - open_manager')
+        self.managerWindow = MyManager(self.config_dict, self.translations_dict, copy.deepcopy(self.ftp_profiles))
         self.managerWindow.exec_()
         if self.managerWindow.ftp_profiles is not None:
+            self.ftp_profiles = self.managerWindow.ftp_profiles
             create_profile_xml(self,'ftp_profiles.xml', self.managerWindow.ftp_profiles)
-        
-        
+            set_profile_list(self)
     
     def open_about(self):
+        logging.debug('mainwindow.py - open_about')
         self.aboutWindow = MyAbout(self.config_dict, self.translations_dict)
         self.aboutWindow.exec_()
     
     def open_options(self):
+        logging.debug('mainwindow.py - open_options')
         ftp_profile_list = [key for key in self.ftp_profiles]
         old_language = self.config_dict['OPTIONS'].get('language')
         config_string = io.StringIO()
@@ -104,6 +98,7 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
         self.optionsWindow = MyOptions(config_dict_copy, self.translations_dict, ftp_profile_list)
         self.optionsWindow.exec_()
         if self.optionsWindow.ow_config_dict is not None:
+            logging.debug('mainwindow.py - open_options - saving config dict')
             self.config_dict = self.optionsWindow.ow_config_dict
             ini_file = open(os.path.join(self.gui_path, 'orion_ftp.ini'), 'w')
             self.config_dict.write(ini_file)
@@ -111,142 +106,13 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
             logging.getLogger().setLevel(self.config_dict.get('LOG', 'level'))
             if self.config_dict['OPTIONS'].get('language') != old_language:
                 translate_elements(self, self.config_dict['OPTIONS'].get('language'), self.translations_dict)
-                self.model.setText(self.translations_dict['qtreeview_firstcolumn'][self.config_dict['OPTIONS'].get('language')])
+                self.model.setText(self.translations_dict['qtreeview'][self.config_dict['OPTIONS'].get('language')])
             if self.config_dict['OPTIONS'].getboolean('check_update'):
                 self.check_orionftp_update()
-            self.display_local_path()
-            self.display_one_two_tree()
+            display_local_path(self)
+            display_one_two_tree(self)
         if self.optionsWindow.link_latest_version is not None:
             self.parse_orionftp_update(self.optionsWindow.link_latest_version)   
-    
-    def display_one_two_tree(self, startup=False):
-        if self.config_dict['INTERFACE'].getboolean('local_tree_one_widget'):
-            if self.main_local_tr_2.isEnabled():
-                self.main_local_tr_2.setEnabled(False)
-                self.main_local_tr_2.hide()
-                self.set_local_tree()
-        else:
-            if not self.main_local_tr_2.isEnabled():
-                self.main_local_tr_2.show()
-                self.main_local_tr_2.setEnabled(True)
-                self.main_local_tr_2.clear()
-                self.set_local_tree()
-            if startup:
-                self.set_local_tree()
-        if self.config_dict['INTERFACE'].getboolean('remote_tree_one_widget'):
-            if self.main_remote_tr_2.isEnabled():
-                self.main_remote_tr_2.hide()
-                self.main_remote_tr_2.setEnabled(False)
-        else:
-            if not self.main_remote_tr_2.isEnabled():
-                self.main_remote_tr_2.show()
-                self.main_remote_tr_2.setEnabled(True)
-                self.main_remote_tr_2.clear()
-    
-    def set_local_tree(self):
-        first_column = self.translations_dict['qtreeview'][self.config_dict['OPTIONS'].get('language')][0]
-        second_column = self.translations_dict['qtreeview'][self.config_dict['OPTIONS'].get('language')][1]
-        third_column = self.translations_dict['qtreeview'][self.config_dict['OPTIONS'].get('language')][2]
-        self.model = MyQFileSystemModel(first_column, second_column, third_column)
-        self.model.setRootPath('')
-        if self.config_dict['INTERFACE'].getboolean('local_tree_one_widget'):
-            self.model.setFilter(QtCore.QDir.AllDirs|QtCore.QDir.Files|QtCore.QDir.NoDotAndDotDot)
-            
-        else:
-            self.model.setFilter(QtCore.QDir.AllDirs|QtCore.QDir.NoDotAndDotDot)
-        
-        self.model.setIconProvider(MyQFileIconProvider(self.config_dict['INTERFACE'].getboolean('display_icons_local_tree')))
-        self.main_local_tr_1.setModel(self.model)
-        
-        if not self.config_dict['INTERFACE'].getboolean('display_icons_local_tree'):
-            self.main_local_tr_1.setIconSize(QtCore.QSize(0,0))
-        
-        #self.main_local_tr_1.setIconSize(QtCore.QSize(-1,-1))
-        
-        self.main_local_tr_1.sortByColumn(0, QtCore.Qt.AscendingOrder)
-        
-        self.main_local_tr_1.setColumnWidth(0, 540)
-        self.main_local_tr_1.hideColumn(1)
-        self.main_local_tr_1.hideColumn(2)
-        self.main_local_tr_1.hideColumn(3)
-        if not self.config_dict['INTERFACE'].getboolean('local_tree_one_widget'):
-            self.main_local_tr_1.clicked.connect(self.set_local_files)
-        font = QtGui.QFont()
-        font.setFamily("fonts/SourceSansPro-Regular.ttf")
-        font.setPointSize(12)
-        font.setBold(False)
-        font.setWeight(50)
-        font.setKerning(True)
-        font.setStyleStrategy(QtGui.QFont.PreferAntialias)
-        self.main_local_tr_1.header().setFont(font)
-    
-    def set_local_files(self, index):
-        path = self.sender().model().filePath(index)
-        if path != self.old_local_path:
-            self.old_local_path = path
-            self.main_local_ln.setText(path)
-            self.main_local_tr_2.clear()
-            self.files_tree_thread = FindFilesAndPopulate(path)
-            self.files_tree_thread.finished.connect(self.populate_local_files)
-            self.files_tree_thread.start()
-        
-    def populate_local_files(self, file_list):
-        for file_set in file_list:
-            icon = QtGui.QIcon()
-            icon.addPixmap(QtGui.QPixmap(file_set[4]), QtGui.QIcon.Normal, QtGui.QIcon.Off)
-            item = MyQTreeWidgetItem()
-            item.setText(0, file_set[0])
-            item.setSortData(1, file_set[1])
-            item.setText(1, file_set[2])
-            item.setText(2, file_set[3])
-            item.setIcon(0, icon)
-            self.main_local_tr_2.addTopLevelItem(item)
-    
-    def set_ftp_profiles(self):
-        if os.path.isfile('ftp_profiles.xml'):
-            self.ftp_profiles = read_profile_xml(self, 'ftp_profiles.xml')
-    
-    def set_profile_list(self):
-        ftp_profile_list = [key for key in self.ftp_profiles]
-        if ftp_profile_list:
-            self.main_profile_cb.clear()
-            self.main_profile_cb.addItem(self.translations_dict['makeachoice'][self.config_dict['OPTIONS'].get('language')])
-            self.main_profile_cb.addItems(ftp_profile_list)
-            if self.config_dict['OPTIONS'].get('default_profile'):
-                self.main_profile_cb.setCurrentIndex(self.main_profile_cb.findText(self.config_dict['OPTIONS'].get('default_profile')))
-                self.main_connect_bt.setEnabled(True)
-            
-    def activate_connexion_button(self, index):
-        if index != 0:
-            self.main_connect_bt.setEnabled(True)
-        else:
-            self.main_connect_bt.setEnabled(False)
-    
-    def display_local_path(self):
-        if not self.config_dict['INTERFACE'].getboolean('display_path_local_tree'):
-            try:
-                self.hidden_items['local_path']
-            except KeyError:
-                self.hidden_items['local_path'] = {'object': self.verticalLayout_2.takeAt(0), 'parent': self.verticalLayout_2,
-                                                   'index': 0, 'hidden': True}
-        else:
-            try:
-                self.verticalLayout_2.insertItem(0, self.hidden_items['local_path']['object'])
-                self.hidden_items.pop('local_path')
-            except KeyError:
-                pass
-        if not self.config_dict['INTERFACE'].getboolean('display_path_remote_tree'):
-            try:
-                self.hidden_items['remote_path']
-            except KeyError:
-                self.hidden_items['remote_path'] = {'object': self.verticalLayout_3.takeAt(0), 'parent': self.verticalLayout_3,
-                                                    'index': 0, 'hidden': True}
-        else:
-            try:
-                self.verticalLayout_3.insertItem(0, self.hidden_items['remote_path']['object'])
-                self.hidden_items.pop('remote_path')
-            except KeyError:
-                pass
         
     def check_orionftp_update(self):
         logging.debug('mainwindow.py - check_orionftp_update')
@@ -319,8 +185,13 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
                     time.sleep(0.1)
                     self.close()
     
+    def display_information(self):
+        logging.debug('mainwindow.py - Mainwindow - display_information')
+        self.infoWindow = MyMainInfo(self.config_dict, self.translations_dict)
+        self.infoWindow.exec_()
+    
     def closeEvent(self, event):
-        logging.debug('OrionFTP - mainwindow.py - MainWindow - closeEvent')
+        logging.debug('mainwindow.py - MainWindow - closeEvent')
         logging.info('**********************************')
         logging.info('OrionFTP is closing ...')
         logging.info('**********************************')

@@ -3,14 +3,13 @@ import collections
 
 
 def objects_initialization(self):
-    logging.debug('gui - objects_initialization.py - objects_initialization')
+    logging.debug('material_functions.py - objects_initialization')
     self.ftp_profiles = collections.OrderedDict()
     self.hidden_items = {}
-    
     self.old_local_path = ''
     
 def tree_objects_init(self):
-
+    logging.debug('material_functions.py - tree_objects_init')
     self.type_icons = {'Image File':'file_image_icon.png',
                        'Video File':'file_video_icon.png',
                        'PDF File':'file_pdf_icon.png',
@@ -130,17 +129,11 @@ def tree_objects_init(self):
                       'ai':'Illustrator File',
                       'indd':'InDesign File',
                       'bin':'BIN File',
-                      '':'',
-                      '':'',
-                      '':'',
-                      '':'',
-                      '':'',
-                      '':'',
                       }
     
 
 def profile_window_objects_initialization(self):
-    logging.debug('gui - objects_initialization.py - objects_initialization')
+    logging.debug('material_functions.py - profile_window_objects_initialization')
     self.ftp_protocols_dict = {'File Transfer Protocol (FTP)':'ftp',
                                'SSH File Transfer Protocol (SFTP)':'sftp'}
     self.inv_ftp_protocols_dict = {'ftp':'File Transfer Protocol (FTP)',

@@ -12,28 +12,33 @@ from ui.Ui_optionwindow import Ui_optionWindow
 from ui.Ui_infowindow import Ui_infoWindow
 from ui.Ui_updatewindow import Ui_updateWindow
 from ui.Ui_storewindow import Ui_storeWindow
-from functions.utilities import translate_elements, clear_layout
+from ui.Ui_managerinfowindow import Ui_managerInfoWindow
+from ui.Ui_optioninfowindow import Ui_optionInfoWindow
+from ui.Ui_maininfowindow import Ui_mainInfoWindow
+from ui._version import _gui_version
+from functions.utilities import translate_elements, clear_layout, get_file_name
 from functions.material_functions import profile_window_objects_initialization
 from functions.thread_functions import DownloadFile, CheckOrionFTPOnline
+from functions.ftp_xml import read_profile_xml, create_profile_xml
 
 
 class MyInfo(QtWidgets.QDialog, Ui_infoWindow):
     def __init__(self, infoText):
-        logging.debug('gui - other_window_functions.py - MyInfo - __init__ : infoText ' + str(infoText))
+        logging.debug('window_functions.py - MyInfo - __init__ : infoText ' + str(infoText))
         QtWidgets.QWidget.__init__(self)
         self.setupUi(self)
         self.iw_label_1.setText(infoText)
         self.iw_okButton.clicked.connect(self.closeWindow)
-        logging.info('gui - other_window_functions.py - MyInfo ready')
+        logging.info('window_functions.py - MyInfo ready')
 
     def closeWindow(self):
-        logging.debug('gui - other_window_functions.py - MyInfo - closeWindow')
+        logging.debug('window_functions.py - MyInfo - closeWindow')
         self.close()
 
 
 class MyManager(QtWidgets.QDialog, Ui_managerWindow):
     def __init__(self, config_dict, translations_dict, ftp_profiles):
-        logging.info('window_functions.py - MyManager - __init__')
+        logging.debug('window_functions.py - MyManager - __init__')
         QtWidgets.QWidget.__init__(self)
         self.setupUi(self)
         self.config_dict = config_dict
@@ -44,17 +49,23 @@ class MyManager(QtWidgets.QDialog, Ui_managerWindow):
         itemDelegate = QtWidgets.QStyledItemDelegate()
         self.mw_combobox.setItemDelegate(itemDelegate)
         profile_window_objects_initialization(self)
-        self.resize(900, 360)
+        self.resize(750, 360)
+        self.splitter.setSizes([200,550])
         translate_elements(self, config_dict['OPTIONS'].get('language'), translations_dict)
         self.parse_ftp_profiles()
+        self.mw_info_button.clicked.connect(self.display_info)
+        self.mw_open_button.clicked.connect(self.load_backup)
+        self.mw_save_button.clicked.connect(self.save_backup)
         self.mw_cancel_button.clicked.connect(self.close_window)
         self.mw_ok_button.clicked.connect(self.save_profiles)
         self.mw_add_button.clicked.connect(self.add_profile_item)
         self.mw_del_button.clicked.connect(self.del_profile_item)
         self.mw_profile_list.currentTextChanged.connect(self.display_profile_data)
         self.mw_profile_list.itemChanged.connect(self.change_profile_name)
+        logging.info('window_functions.py - MyManager ready')
         
     def change_profile_name(self, val):
+        logging.debug('window_functions.py - MyManager - change_profile_name')
         try:
             self.ftp_profiles[str(val.text())] = self.ftp_profiles.pop(self.current_name)
             self.current_name = str(val.text())
@@ -62,6 +73,7 @@ class MyManager(QtWidgets.QDialog, Ui_managerWindow):
             self.current_name = str(val.text())
         
     def set_data_in_dict(self, val):
+        logging.debug('window_functions.py - MyManager - set_data_in_dict')
         try:
             self.ftp_profiles[str(self.mw_profile_list.currentItem().text())]
         except KeyError:
@@ -77,9 +89,11 @@ class MyManager(QtWidgets.QDialog, Ui_managerWindow):
             elif '3' in self.sender().objectName():
                 self.ftp_profiles[str(self.mw_profile_list.currentItem().text())]['username'] = str(self.sender().text())
             elif '4' in self.sender().objectName():
-                self.ftp_profiles[str(self.mw_profile_list.currentItem().text())]['password'] = base64.b64encode(str.encode(self.sender().text()))
+                self.ftp_profiles[str(self.mw_profile_list.currentItem().text())]['password'] = base64.b64encode(str.encode(self.sender().text())).decode('utf-8')
     
     def parse_ftp_profiles(self):
+        logging.debug('window_functions.py - MyManager - parse_ftp_profiles')
+        self.mw_profile_list.clear()
         for key in self.ftp_profiles:
             item = QtWidgets.QListWidgetItem()
             item.setText(key)
@@ -87,8 +101,10 @@ class MyManager(QtWidgets.QDialog, Ui_managerWindow):
             self.mw_profile_list.addItem(item)
         if self.mw_profile_list.count() > 0:
             self.mw_ok_button.setEnabled(True)
+            self.mw_save_button.setEnabled(True)
     
     def add_profile_item(self):
+        logging.debug('window_functions.py - MyManager - add_profile_item')
         i = self.mw_profile_list.count() + 1
         item = QtWidgets.QListWidgetItem()
         item.setText('new_server_' + str(i))
@@ -97,8 +113,10 @@ class MyManager(QtWidgets.QDialog, Ui_managerWindow):
         self.mw_profile_list.setCurrentItem(item)
         self.mw_profile_list.editItem(item)
         self.mw_ok_button.setEnabled(True)
+        self.mw_save_button.setEnabled(True)
     
     def del_profile_item(self):
+        logging.debug('window_functions.py - MyManager - del_profile_item')
         profile = str(self.mw_profile_list.currentItem().text())
         try:
             self.ftp_profiles.pop(profile)
@@ -107,8 +125,12 @@ class MyManager(QtWidgets.QDialog, Ui_managerWindow):
         item = self.mw_profile_list.takeItem(self.mw_profile_list.currentRow())
         item = None
         self.deactivate_profile_fields()
+        if self.mw_profile_list.count() == 0:
+            self.mw_ok_button.setEnabled(False)
+            self.mw_save_button.setEnabled(False)
             
     def display_profile_data(self, val):
+        logging.debug('window_functions.py - MyManager - display_profile_data')
         self.current_name = str(val)
         try:
             self.mw_combobox.currentIndexChanged.disconnect(self.set_data_in_dict)
@@ -151,6 +173,7 @@ class MyManager(QtWidgets.QDialog, Ui_managerWindow):
         self.mw_line_4.textChanged.connect(self.set_data_in_dict)
         
     def activate_profile_fields(self):
+        logging.debug('window_functions.py - MyManager - activate_profile_fields')
         self.mw_combobox.setEnabled(True)
         self.mw_line_1.setEnabled(True)
         self.mw_line_2.setEnabled(True)
@@ -164,6 +187,7 @@ class MyManager(QtWidgets.QDialog, Ui_managerWindow):
         self.mw_line_4.setText('')
     
     def deactivate_profile_fields(self):
+        logging.debug('window_functions.py - MyManager - deactivate_profile_fields')
         if self.mw_profile_list.count() == 0:
             self.mw_combobox.setEnabled(False)
             self.mw_line_1.setEnabled(False)
@@ -177,27 +201,42 @@ class MyManager(QtWidgets.QDialog, Ui_managerWindow):
             self.mw_line_3.setText('')
             self.mw_line_4.setText('')
     
+    def load_backup(self):
+        filename = get_file_name(self, 'open')
+        self.ftp_profiles = read_profile_xml(self, filename)
+        self.parse_ftp_profiles()
+    
+    def save_backup(self):
+        filename = get_file_name(self, 'save')
+        create_profile_xml(self, filename, self.ftp_profiles)
+    
     def save_profiles(self):
+        logging.debug('window_functions.py - MyManager - save_profiles')
         self.save = True
         self.close_window()
     
+    def display_info(self):
+        logging.debug('window_functions.py - MyManager - display_info')
+        self.infoWindow = MyManagerInfo(self.config_dict, self.translations_dict)
+        self.infoWindow.exec_()
+    
     def close_window(self):
         logging.debug('window_functions.py - MyManager - close_window')
-        self.close()
-    
-    def closeEvent(self, event):
         if not self.save:
             self.ftp_profiles = None
+        self.close()
 
         
 class MyAbout(QtWidgets.QDialog, Ui_aboutlogWindow):
     def __init__(self, config_dict, translations_dict):
-        logging.info('window_functions.py - MyAbout - __init__')
+        logging.debug('window_functions.py - MyAbout - __init__')
         QtWidgets.QWidget.__init__(self)
         self.setupUi(self)
         translate_elements(self, config_dict['OPTIONS'].get('language'), translations_dict)
+        self.aw_label_1.setText(self.aw_label_1.text() + ' v' + _gui_version)
         self.aw_browser_2.setPlainText(open("documentation/changelog.txt").read())
         self.aw_button.clicked.connect(self.close_window)
+        logging.info('window_functions.py - MyAbout ready')
 
     def close_window(self):
         logging.debug('window_functions.py - MyAbout - close_window')
@@ -206,7 +245,7 @@ class MyAbout(QtWidgets.QDialog, Ui_aboutlogWindow):
 
 class MyOptions(QtWidgets.QDialog, Ui_optionWindow):
     def __init__(self, ow_config_dict, translations_dict, ftp_profile_list):
-        logging.info('window_functions.py - MyOptions - __init__')
+        logging.debug('window_functions.py - MyOptions - __init__')
         QtWidgets.QWidget.__init__(self)
         self.setupUi(self)
         self.ow_config_dict = ow_config_dict
@@ -218,11 +257,14 @@ class MyOptions(QtWidgets.QDialog, Ui_optionWindow):
         self.ow_cancel_button.setText(self.translations_dict['ow_cancel_button'][self.ow_config_dict['OPTIONS'].get('language')])
         self.ow_ok_button.clicked.connect(self.close_window)
         self.ow_cancel_button.clicked.connect(self.cancel_and_close)
+        self.ow_info_button.clicked.connect(self.display_info)
         self.ow_section_list.itemSelectionChanged.connect(self.populate_options)
         self.ow_section_list.setCurrentRow(0)
         self.link_latest_version = None
+        logging.info('window_functions.py - MyOptions ready')
     
     def populate_options(self):
+        logging.debug('window_functions.py - MyOptions - populate_options')
         clear_layout(self.ow_vertical_layout)
         if self.ow_section_list.currentItem().text() == self.translations_dict['ow_section_list'][self.ow_config_dict['OPTIONS'].get('language')][0]:
             self.populate_general_options()
@@ -234,6 +276,7 @@ class MyOptions(QtWidgets.QDialog, Ui_optionWindow):
             self.populate_transfer_options()
     
     def populate_general_options(self):
+        logging.debug('window_functions.py - MyOptions - populate_general_options')
         font = QtGui.QFont()
         font.setFamily("FreeSans")
         font.setPointSize(9)
@@ -310,24 +353,7 @@ class MyOptions(QtWidgets.QDialog, Ui_optionWindow):
         self.ow_combobox_2.addItem("")
         self.horizontalLayout_11.addWidget(self.ow_combobox_2)
         self.horizontalLayout_11.addItem(QtWidgets.QSpacerItem(13, 20, QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Minimum))
-        self.ow_infoButton_1 = QtWidgets.QToolButton(self.scrollAreaWidgetContents_2)
-        self.ow_infoButton_1.setMaximumSize(QtCore.QSize(27, 27))
-        self.ow_infoButton_1.setStyleSheet("QToolButton {\n"
-        "    border: 1px solid transparent;\n"
-        "    background-color: transparent;\n"
-        "    width: 27px;\n"
-        "    height: 27px;\n"
-        "}\n"
-        "\n"
-        "QToolButton:flat {\n"
-        "    border: none;\n"
-        "}")
-        self.ow_infoButton_1.setText("")
-        self.ow_infoButton_1.setIcon(icon1)
-        self.ow_infoButton_1.setIconSize(QtCore.QSize(23, 23))
-        self.ow_infoButton_1.setAutoRaise(False)
-        self.ow_infoButton_1.setObjectName("ow_infoButton_1")
-        self.horizontalLayout_11.addWidget(self.ow_infoButton_1)
+        
         self.horizontalLayout_11.addItem(QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum))
         self.gridLayout_3.addLayout(self.horizontalLayout_11, 3, 1, 1, 1)
         self.verticalLayout_2 = QtWidgets.QVBoxLayout()
@@ -456,24 +482,7 @@ class MyOptions(QtWidgets.QDialog, Ui_optionWindow):
         self.ow_combobox_1.addItem("")
         self.horizontalLayout_7.addWidget(self.ow_combobox_1)
         self.horizontalLayout_7.addItem(QtWidgets.QSpacerItem(13, 20, QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Minimum))
-        self.ow_infoButton_2 = QtWidgets.QToolButton(self.scrollAreaWidgetContents_2)
-        self.ow_infoButton_2.setMaximumSize(QtCore.QSize(27, 27))
-        self.ow_infoButton_2.setStyleSheet("QToolButton {\n"
-        "    border: 1px solid transparent;\n"
-        "    background-color: transparent;\n"
-        "    width: 27px;\n"
-        "    height: 27px;\n"
-        "}\n"
-        "\n"
-        "QToolButton:flat {\n"
-        "    border: none;\n"
-        "}")
-        self.ow_infoButton_2.setText("")
-        self.ow_infoButton_2.setIcon(icon1)
-        self.ow_infoButton_2.setIconSize(QtCore.QSize(23, 23))
-        self.ow_infoButton_2.setAutoRaise(False)
-        self.ow_infoButton_2.setObjectName("ow_infoButton_2")
-        self.horizontalLayout_7.addWidget(self.ow_infoButton_2)
+        
         self.horizontalLayout_7.addItem(QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum))
         self.gridLayout_3.addLayout(self.horizontalLayout_7, 0, 1, 1, 1)
         self.ow_label_2 = QtWidgets.QLabel(self.scrollAreaWidgetContents_2)
@@ -520,24 +529,7 @@ class MyOptions(QtWidgets.QDialog, Ui_optionWindow):
         self.ow_openButton_1.setObjectName("ow_openButton_1")
         self.horizontalLayout.addWidget(self.ow_openButton_1)
         self.horizontalLayout.addItem(QtWidgets.QSpacerItem(13, 20, QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Minimum))
-        self.ow_infoButton_3 = QtWidgets.QToolButton(self.scrollAreaWidgetContents_2)
-        self.ow_infoButton_3.setMaximumSize(QtCore.QSize(27, 27))
-        self.ow_infoButton_3.setStyleSheet("QToolButton {\n"
-        "    border: 1px solid transparent;\n"
-        "    background-color: transparent;\n"
-        "    width: 27px;\n"
-        "    height: 27px;\n"
-        "}\n"
-        "\n"
-        "QToolButton:flat {\n"
-        "    border: none;\n"
-        "}")
-        self.ow_infoButton_3.setText("")
-        self.ow_infoButton_3.setIcon(icon1)
-        self.ow_infoButton_3.setIconSize(QtCore.QSize(23, 23))
-        self.ow_infoButton_3.setAutoRaise(False)
-        self.ow_infoButton_3.setObjectName("ow_infoButton_3")
-        self.horizontalLayout.addWidget(self.ow_infoButton_3)
+        
         self.horizontalLayout.addItem(QtWidgets.QSpacerItem(13, 24, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum))
         self.gridLayout_3.addLayout(self.horizontalLayout, 1, 1, 1, 1)
         self.horizontalLayout_9 = QtWidgets.QHBoxLayout()
@@ -573,24 +565,7 @@ class MyOptions(QtWidgets.QDialog, Ui_optionWindow):
         self.ow_openButton_2.setObjectName("ow_openButton_2")
         self.horizontalLayout_9.addWidget(self.ow_openButton_2)
         self.horizontalLayout_9.addItem(QtWidgets.QSpacerItem(13, 20, QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Minimum))
-        self.ow_infoButton_4 = QtWidgets.QToolButton(self.scrollAreaWidgetContents_2)
-        self.ow_infoButton_4.setMaximumSize(QtCore.QSize(27, 27))
-        self.ow_infoButton_4.setStyleSheet("QToolButton {\n"
-        "    border: 1px solid transparent;\n"
-        "    background-color: transparent;\n"
-        "    width: 27px;\n"
-        "    height: 27px;\n"
-        "}\n"
-        "\n"
-        "QToolButton:flat {\n"
-        "    border: none;\n"
-        "}")
-        self.ow_infoButton_4.setText("")
-        self.ow_infoButton_4.setIcon(icon1)
-        self.ow_infoButton_4.setIconSize(QtCore.QSize(23, 23))
-        self.ow_infoButton_4.setAutoRaise(False)
-        self.ow_infoButton_4.setObjectName("ow_infoButton_4")
-        self.horizontalLayout_9.addWidget(self.ow_infoButton_4)
+        
         self.horizontalLayout_9.addItem(QtWidgets.QSpacerItem(13, 24, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum))
         self.gridLayout_3.addLayout(self.horizontalLayout_9, 4, 1, 1, 1)
         self.horizontalLayout_6 = QtWidgets.QHBoxLayout()
@@ -634,24 +609,7 @@ class MyOptions(QtWidgets.QDialog, Ui_optionWindow):
         self.ow_check_button.setObjectName("ow_check_button")
         self.horizontalLayout_6.addWidget(self.ow_check_button)
         self.horizontalLayout_6.addItem(QtWidgets.QSpacerItem(13, 20, QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Minimum))
-        self.ow_infoButton_5 = QtWidgets.QToolButton(self.scrollAreaWidgetContents_2)
-        self.ow_infoButton_5.setMaximumSize(QtCore.QSize(27, 27))
-        self.ow_infoButton_5.setStyleSheet("QToolButton {\n"
-        "    border: 1px solid transparent;\n"
-        "    background-color: transparent;\n"
-        "    width: 27px;\n"
-        "    height: 27px;\n"
-        "}\n"
-        "\n"
-        "QToolButton:flat {\n"
-        "    border: none;\n"
-        "}")
-        self.ow_infoButton_5.setText("")
-        self.ow_infoButton_5.setIcon(icon1)
-        self.ow_infoButton_5.setIconSize(QtCore.QSize(23, 23))
-        self.ow_infoButton_5.setAutoRaise(False)
-        self.ow_infoButton_5.setObjectName("ow_infoButton_5")
-        self.horizontalLayout_6.addWidget(self.ow_infoButton_5)
+        
         self.horizontalLayout_6.addItem(QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum))
         self.gridLayout_3.addLayout(self.horizontalLayout_6, 7, 0, 1, 2)
         self.ow_label_5 = QtWidgets.QLabel(self.scrollAreaWidgetContents_2)
@@ -722,24 +680,7 @@ class MyOptions(QtWidgets.QDialog, Ui_optionWindow):
         self.ow_combobox_3.addItem("")
         self.horizontalLayout_3.addWidget(self.ow_combobox_3)
         self.horizontalLayout_3.addItem(QtWidgets.QSpacerItem(13, 20, QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Minimum))
-        self.ow_infoButton_6 = QtWidgets.QToolButton(self.scrollAreaWidgetContents_2)
-        self.ow_infoButton_6.setMaximumSize(QtCore.QSize(27, 27))
-        self.ow_infoButton_6.setStyleSheet("QToolButton {\n"
-        "    border: 1px solid transparent;\n"
-        "    background-color: transparent;\n"
-        "    width: 27px;\n"
-        "    height: 27px;\n"
-        "}\n"
-        "\n"
-        "QToolButton:flat {\n"
-        "    border: none;\n"
-        "}")
-        self.ow_infoButton_6.setText("")
-        self.ow_infoButton_6.setIcon(icon1)
-        self.ow_infoButton_6.setIconSize(QtCore.QSize(23, 23))
-        self.ow_infoButton_6.setAutoRaise(False)
-        self.ow_infoButton_6.setObjectName("ow_infoButton_6")
-        self.horizontalLayout_3.addWidget(self.ow_infoButton_6)
+        
         self.horizontalLayout_3.addItem(QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum))
         self.gridLayout_3.addLayout(self.horizontalLayout_3, 5, 1, 1, 1)
         self.ow_vertical_layout.addLayout(self.gridLayout_3)
@@ -782,6 +723,7 @@ class MyOptions(QtWidgets.QDialog, Ui_optionWindow):
         self.ow_check_button.clicked.connect(self.check_orionftp_update)
     
     def populate_interface_options(self):
+        logging.debug('window_functions.py - MyOptions - populate_interface_options')
         font2 = QtGui.QFont()
         font2.setFamily("fonts/SourceSansPro-Regular.ttf")
         font2.setPointSize(10)
@@ -827,24 +769,6 @@ class MyOptions(QtWidgets.QDialog, Ui_optionWindow):
         "}")
         self.ow_checkbox_2.setObjectName("ow_checkbox_2")
         self.gridLayout_3.addWidget(self.ow_checkbox_2, 0, 0, 1, 1)
-        self.ow_infoButton_7 = QtWidgets.QToolButton(self.scrollAreaWidgetContents_2)
-        self.ow_infoButton_7.setMaximumSize(QtCore.QSize(27, 27))
-        self.ow_infoButton_7.setStyleSheet("QToolButton {\n"
-        "    border: 1px solid transparent;\n"
-        "    background-color: transparent;\n"
-        "    width: 27px;\n"
-        "    height: 27px;\n"
-        "}\n"
-        "\n"
-        "QToolButton:flat {\n"
-        "    border: none;\n"
-        "}")
-        self.ow_infoButton_7.setText("")
-        self.ow_infoButton_7.setIcon(icon1)
-        self.ow_infoButton_7.setIconSize(QtCore.QSize(23, 23))
-        self.ow_infoButton_7.setAutoRaise(False)
-        self.ow_infoButton_7.setObjectName("ow_infoButton_7")
-        self.gridLayout_3.addWidget(self.ow_infoButton_7, 0, 1, 1, 1)
         self.ow_checkbox_4 = QtWidgets.QCheckBox(self.scrollAreaWidgetContents_2)
         self.ow_checkbox_4.setMinimumSize(QtCore.QSize(0, 27))
         self.ow_checkbox_4.setMaximumSize(QtCore.QSize(16777215, 27))
@@ -854,24 +778,6 @@ class MyOptions(QtWidgets.QDialog, Ui_optionWindow):
         "}")
         self.ow_checkbox_4.setObjectName("ow_checkbox_4")
         self.gridLayout_3.addWidget(self.ow_checkbox_4, 1, 0, 1, 1)
-        self.ow_infoButton_8 = QtWidgets.QToolButton(self.scrollAreaWidgetContents_2)
-        self.ow_infoButton_8.setMaximumSize(QtCore.QSize(27, 27))
-        self.ow_infoButton_8.setStyleSheet("QToolButton {\n"
-        "    border: 1px solid transparent;\n"
-        "    background-color: transparent;\n"
-        "    width: 27px;\n"
-        "    height: 27px;\n"
-        "}\n"
-        "\n"
-        "QToolButton:flat {\n"
-        "    border: none;\n"
-        "}")
-        self.ow_infoButton_8.setText("")
-        self.ow_infoButton_8.setIcon(icon1)
-        self.ow_infoButton_8.setIconSize(QtCore.QSize(23, 23))
-        self.ow_infoButton_8.setAutoRaise(False)
-        self.ow_infoButton_8.setObjectName("ow_infoButton_8")
-        self.gridLayout_3.addWidget(self.ow_infoButton_8, 1, 1, 1, 1)
         self.ow_checkbox_6 = QtWidgets.QCheckBox(self.scrollAreaWidgetContents_2)
         self.ow_checkbox_6.setMinimumSize(QtCore.QSize(0, 27))
         self.ow_checkbox_6.setMaximumSize(QtCore.QSize(16777215, 27))
@@ -881,24 +787,6 @@ class MyOptions(QtWidgets.QDialog, Ui_optionWindow):
         "}")
         self.ow_checkbox_6.setObjectName("ow_checkbox_6")
         self.gridLayout_3.addWidget(self.ow_checkbox_6, 2, 0, 1, 1)
-        self.ow_infoButton_9 = QtWidgets.QToolButton(self.scrollAreaWidgetContents_2)
-        self.ow_infoButton_9.setMaximumSize(QtCore.QSize(27, 27))
-        self.ow_infoButton_9.setStyleSheet("QToolButton {\n"
-        "    border: 1px solid transparent;\n"
-        "    background-color: transparent;\n"
-        "    width: 27px;\n"
-        "    height: 27px;\n"
-        "}\n"
-        "\n"
-        "QToolButton:flat {\n"
-        "    border: none;\n"
-        "}")
-        self.ow_infoButton_9.setText("")
-        self.ow_infoButton_9.setIcon(icon1)
-        self.ow_infoButton_9.setIconSize(QtCore.QSize(23, 23))
-        self.ow_infoButton_9.setAutoRaise(False)
-        self.ow_infoButton_9.setObjectName("ow_infoButton_9")
-        self.gridLayout_3.addWidget(self.ow_infoButton_9, 2, 1, 1, 1)
         self.horizontalLayout_8.addLayout(self.gridLayout_3)
         self.horizontalLayout_8.addItem(QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum))
         self.ow_vertical_layout.addLayout(self.horizontalLayout_8)
@@ -947,24 +835,6 @@ class MyOptions(QtWidgets.QDialog, Ui_optionWindow):
         "}")
         self.ow_checkbox_3.setObjectName("ow_checkbox_3")
         self.gridLayout_4.addWidget(self.ow_checkbox_3, 0, 0, 1, 1)
-        self.ow_infoButton_10 = QtWidgets.QToolButton(self.scrollAreaWidgetContents_2)
-        self.ow_infoButton_10.setMaximumSize(QtCore.QSize(27, 27))
-        self.ow_infoButton_10.setStyleSheet("QToolButton {\n"
-        "    border: 1px solid transparent;\n"
-        "    background-color: transparent;\n"
-        "    width: 27px;\n"
-        "    height: 27px;\n"
-        "}\n"
-        "\n"
-        "QToolButton:flat {\n"
-        "    border: none;\n"
-        "}")
-        self.ow_infoButton_10.setText("")
-        self.ow_infoButton_10.setIcon(icon1)
-        self.ow_infoButton_10.setIconSize(QtCore.QSize(23, 23))
-        self.ow_infoButton_10.setAutoRaise(False)
-        self.ow_infoButton_10.setObjectName("ow_infoButton_10")
-        self.gridLayout_4.addWidget(self.ow_infoButton_10, 0, 1, 1, 1)
         self.ow_checkbox_5 = QtWidgets.QCheckBox(self.scrollAreaWidgetContents_2)
         self.ow_checkbox_5.setMinimumSize(QtCore.QSize(0, 27))
         self.ow_checkbox_5.setMaximumSize(QtCore.QSize(16777215, 27))
@@ -974,24 +844,6 @@ class MyOptions(QtWidgets.QDialog, Ui_optionWindow):
         "}")
         self.ow_checkbox_5.setObjectName("ow_checkbox_5")
         self.gridLayout_4.addWidget(self.ow_checkbox_5, 1, 0, 1, 1)
-        self.ow_infoButton_11 = QtWidgets.QToolButton(self.scrollAreaWidgetContents_2)
-        self.ow_infoButton_11.setMaximumSize(QtCore.QSize(27, 27))
-        self.ow_infoButton_11.setStyleSheet("QToolButton {\n"
-        "    border: 1px solid transparent;\n"
-        "    background-color: transparent;\n"
-        "    width: 27px;\n"
-        "    height: 27px;\n"
-        "}\n"
-        "\n"
-        "QToolButton:flat {\n"
-        "    border: none;\n"
-        "}")
-        self.ow_infoButton_11.setText("")
-        self.ow_infoButton_11.setIcon(icon1)
-        self.ow_infoButton_11.setIconSize(QtCore.QSize(23, 23))
-        self.ow_infoButton_11.setAutoRaise(False)
-        self.ow_infoButton_11.setObjectName("ow_infoButton_11")
-        self.gridLayout_4.addWidget(self.ow_infoButton_11, 1, 1, 1, 1)
         self.ow_checkbox_7 = QtWidgets.QCheckBox(self.scrollAreaWidgetContents_2)
         self.ow_checkbox_7.setMinimumSize(QtCore.QSize(0, 27))
         self.ow_checkbox_7.setMaximumSize(QtCore.QSize(16777215, 27))
@@ -1001,24 +853,6 @@ class MyOptions(QtWidgets.QDialog, Ui_optionWindow):
         "}")
         self.ow_checkbox_7.setObjectName("ow_checkbox_7")
         self.gridLayout_4.addWidget(self.ow_checkbox_7, 2, 0, 1, 1)
-        self.ow_infoButton_12 = QtWidgets.QToolButton(self.scrollAreaWidgetContents_2)
-        self.ow_infoButton_12.setMaximumSize(QtCore.QSize(27, 27))
-        self.ow_infoButton_12.setStyleSheet("QToolButton {\n"
-        "    border: 1px solid transparent;\n"
-        "    background-color: transparent;\n"
-        "    width: 27px;\n"
-        "    height: 27px;\n"
-        "}\n"
-        "\n"
-        "QToolButton:flat {\n"
-        "    border: none;\n"
-        "}")
-        self.ow_infoButton_12.setText("")
-        self.ow_infoButton_12.setIcon(icon1)
-        self.ow_infoButton_12.setIconSize(QtCore.QSize(23, 23))
-        self.ow_infoButton_12.setAutoRaise(False)
-        self.ow_infoButton_12.setObjectName("ow_infoButton_12")
-        self.gridLayout_4.addWidget(self.ow_infoButton_12, 2, 1, 1, 1)
         self.horizontalLayout_10.addLayout(self.gridLayout_4)
         self.horizontalLayout_10.addItem(QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum))
         self.ow_vertical_layout.addLayout(self.horizontalLayout_10)
@@ -1039,6 +873,7 @@ class MyOptions(QtWidgets.QDialog, Ui_optionWindow):
         self.ow_checkbox_7.stateChanged.connect(self.set_checkbox_options)
     
     def populate_connection_options(self):
+        logging.debug('window_functions.py - MyOptions - populate_connection_options')
         font = QtGui.QFont()
         font.setFamily("fonts/SourceSansPro-Regular.ttf")
         font.setPointSize(10)
@@ -1128,24 +963,6 @@ class MyOptions(QtWidgets.QDialog, Ui_optionWindow):
         self.ow_combobox_4.addItem("")
         self.gridLayout_3.addWidget(self.ow_combobox_4, 0, 2, 1, 1)
         self.gridLayout_3.addItem(QtWidgets.QSpacerItem(68, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum), 0, 3, 1, 2)
-        self.ow_infoButton_13 = QtWidgets.QToolButton(self.scrollAreaWidgetContents_2)
-        self.ow_infoButton_13.setMaximumSize(QtCore.QSize(27, 27))
-        self.ow_infoButton_13.setStyleSheet("QToolButton {\n"
-        "    border: 1px solid transparent;\n"
-        "    background-color: transparent;\n"
-        "    width: 27px;\n"
-        "    height: 27px;\n"
-        "}\n"
-        "\n"
-        "QToolButton:flat {\n"
-        "    border: none;\n"
-        "}")
-        self.ow_infoButton_13.setText("")
-        self.ow_infoButton_13.setIcon(icon1)
-        self.ow_infoButton_13.setIconSize(QtCore.QSize(23, 23))
-        self.ow_infoButton_13.setAutoRaise(False)
-        self.ow_infoButton_13.setObjectName("ow_infoButton_13")
-        self.gridLayout_3.addWidget(self.ow_infoButton_13, 0, 5, 1, 1)
         self.ow_checkbox_8 = QtWidgets.QCheckBox(self.scrollAreaWidgetContents_2)
         self.ow_checkbox_8.setMinimumSize(QtCore.QSize(0, 27))
         self.ow_checkbox_8.setMaximumSize(QtCore.QSize(16777215, 27))
@@ -1156,24 +973,6 @@ class MyOptions(QtWidgets.QDialog, Ui_optionWindow):
         "}")
         self.ow_checkbox_8.setObjectName("ow_checkbox_8")
         self.gridLayout_3.addWidget(self.ow_checkbox_8, 1, 0, 1, 5)
-        self.ow_infoButton_14 = QtWidgets.QToolButton(self.scrollAreaWidgetContents_2)
-        self.ow_infoButton_14.setMaximumSize(QtCore.QSize(27, 27))
-        self.ow_infoButton_14.setStyleSheet("QToolButton {\n"
-        "    border: 1px solid transparent;\n"
-        "    background-color: transparent;\n"
-        "    width: 27px;\n"
-        "    height: 27px;\n"
-        "}\n"
-        "\n"
-        "QToolButton:flat {\n"
-        "    border: none;\n"
-        "}")
-        self.ow_infoButton_14.setText("")
-        self.ow_infoButton_14.setIcon(icon1)
-        self.ow_infoButton_14.setIconSize(QtCore.QSize(23, 23))
-        self.ow_infoButton_14.setAutoRaise(False)
-        self.ow_infoButton_14.setObjectName("ow_infoButton_14")
-        self.gridLayout_3.addWidget(self.ow_infoButton_14, 1, 5, 1, 1)
         self.ow_label_9 = QtWidgets.QLabel(self.scrollAreaWidgetContents_2)
         self.ow_label_9.setMinimumSize(QtCore.QSize(0, 27))
         self.ow_label_9.setMaximumSize(QtCore.QSize(16777215, 27))
@@ -1242,24 +1041,6 @@ class MyOptions(QtWidgets.QDialog, Ui_optionWindow):
         self.ow_combobox_5.addItem("")
         self.gridLayout_3.addWidget(self.ow_combobox_5, 2, 2, 1, 2)
         self.gridLayout_3.addItem(QtWidgets.QSpacerItem(38, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum), 2, 4, 1, 1)
-        self.ow_infoButton_15 = QtWidgets.QToolButton(self.scrollAreaWidgetContents_2)
-        self.ow_infoButton_15.setMaximumSize(QtCore.QSize(27, 27))
-        self.ow_infoButton_15.setStyleSheet("QToolButton {\n"
-        "    border: 1px solid transparent;\n"
-        "    background-color: transparent;\n"
-        "    width: 27px;\n"
-        "    height: 27px;\n"
-        "}\n"
-        "\n"
-        "QToolButton:flat {\n"
-        "    border: none;\n"
-        "}")
-        self.ow_infoButton_15.setText("")
-        self.ow_infoButton_15.setIcon(icon1)
-        self.ow_infoButton_15.setIconSize(QtCore.QSize(23, 23))
-        self.ow_infoButton_15.setAutoRaise(False)
-        self.ow_infoButton_15.setObjectName("ow_infoButton_15")
-        self.gridLayout_3.addWidget(self.ow_infoButton_15, 2, 5, 1, 1)
         self.horizontalLayout.addLayout(self.gridLayout_3)
         self.horizontalLayout.addItem(QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum))
         self.ow_vertical_layout.addLayout(self.horizontalLayout)
@@ -1279,6 +1060,7 @@ class MyOptions(QtWidgets.QDialog, Ui_optionWindow):
         self.ow_checkbox_8.stateChanged.connect(self.set_checkbox_options)
         
     def populate_transfer_options(self):
+        logging.debug('window_functions.py - MyOptions - populate_transfer_options')
         font = QtGui.QFont()
         font.setFamily("fonts/SourceSansPro-Regular.ttf")
         font.setPointSize(10)
@@ -1367,24 +1149,6 @@ class MyOptions(QtWidgets.QDialog, Ui_optionWindow):
         self.ow_combobox_6.addItem("")
         self.horizontalLayout.addWidget(self.ow_combobox_6)
         self.horizontalLayout.addItem(QtWidgets.QSpacerItem(20, 20, QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Minimum))
-        self.ow_infoButton_16 = QtWidgets.QToolButton(self.scrollAreaWidgetContents_2)
-        self.ow_infoButton_16.setMaximumSize(QtCore.QSize(27, 27))
-        self.ow_infoButton_16.setStyleSheet("QToolButton {\n"
-        "    border: 1px solid transparent;\n"
-        "    background-color: transparent;\n"
-        "    width: 27px;\n"
-        "    height: 27px;\n"
-        "}\n"
-        "\n"
-        "QToolButton:flat {\n"
-        "    border: none;\n"
-        "}")
-        self.ow_infoButton_16.setText("")
-        self.ow_infoButton_16.setIcon(icon1)
-        self.ow_infoButton_16.setIconSize(QtCore.QSize(23, 23))
-        self.ow_infoButton_16.setAutoRaise(False)
-        self.ow_infoButton_16.setObjectName("ow_infoButton_16")
-        self.horizontalLayout.addWidget(self.ow_infoButton_16)
         self.horizontalLayout.addItem(QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum))
         self.ow_vertical_layout.addLayout(self.horizontalLayout) 
         self.ow_label_11.setText(self.translations_dict['ow_label_11'][self.ow_config_dict['OPTIONS'].get('language')])
@@ -1396,6 +1160,7 @@ class MyOptions(QtWidgets.QDialog, Ui_optionWindow):
         self.ow_combobox_6.currentIndexChanged.connect(self.set_combobox_options)
 
     def change_language(self):
+        logging.debug('window_functions.py - MyOptions - change_language')
         for i in range(4):
             self.ow_section_list.item(i).setText(self.translations_dict['ow_section_list'][self.ow_config_dict['OPTIONS'].get('language')][i])
         self.ow_cancel_button.setText(self.translations_dict['ow_cancel_button'][self.ow_config_dict['OPTIONS'].get('language')])
@@ -1483,11 +1248,13 @@ class MyOptions(QtWidgets.QDialog, Ui_optionWindow):
         self.ow_combobox_6.setCurrentIndex(int(self.ow_config_dict['TRANSFER'].get('file_exist_download')))
     
     def check_orionftp_update(self):
+        logging.debug('window_functions.py - MyOptions - check_orionftp_update')
         self.check_downloader = CheckOrionFTPOnline()
         self.check_downloader.start()
         self.check_downloader.finished.connect(self.parse_orionftp_update)
     
     def parse_orionftp_update(self, val):
+        logging.debug('window_functions.py - MyOptions - parse_orionftp_update')
         if val == 'no new version':
             self.infoWindow = MyInfo(self.translations_dict['nonewupdateoption'][self.ow_config_dict['OPTIONS'].get('language')])
             self.infoWindow.resize(450, 150)
@@ -1512,12 +1279,10 @@ class MyOptions(QtWidgets.QDialog, Ui_optionWindow):
         self.ow_config_dict = None
         self.close_window()
     
-    '''def info_button(self):
-        logging.debug('window_functions.py - MyOptions - info_button - self.sender().objectName() ' + self.sender().objectName())
-        if 'infoButton' in self.sender().objectName():
-            self.infoWindow = MyInfo(self.info_text[self.sender().objectName()])
-            self.infoWindow.move(QtGui.QCursor.pos().x() - 275, QtGui.QCursor.pos().y() + 20)
-            self.infoWindow.exec_()'''
+    def display_info(self):
+        logging.debug('window_functions.py - MyOptions - display_info')
+        self.infoWindow = MyOptionInfo(self.ow_config_dict, self.translations_dict)
+        self.infoWindow.exec_()
     
     def close_window(self):
         logging.info('window_functions.py - MyOptions - close_window')
@@ -1526,7 +1291,7 @@ class MyOptions(QtWidgets.QDialog, Ui_optionWindow):
 
 class MyWarningUpdate(QtWidgets.QDialog, Ui_updateWindow):
     def __init__(self, frozen, config_dict, translations_dict):
-        logging.info('window_functions.py - MyWarningUpdate - __init__')
+        logging.debug('window_functions.py - MyWarningUpdate - __init__')
         QtWidgets.QWidget.__init__(self)
         self.setupUi(self)
         translate_elements(self, config_dict['OPTIONS'].get('language'), translations_dict)
@@ -1539,6 +1304,7 @@ class MyWarningUpdate(QtWidgets.QDialog, Ui_updateWindow):
         self.uw_update_button.clicked.connect(self.agree_update)
         self.uw_cancel_button.clicked.connect(self.close_window)
         self.update = False
+        logging.info('window_functions.py - MyWarningUpdate ready')
     
     def agree_update(self):
         logging.info('window_functions.py - MyWarningUpdate - agree_update')
@@ -1552,7 +1318,7 @@ class MyWarningUpdate(QtWidgets.QDialog, Ui_updateWindow):
 
 class MyUpdate(QtWidgets.QDialog, Ui_storeWindow):
     def __init__(self, url, folder, config_dict, translations_dict):
-        logging.info('window_functions.py - MyUpdate - __init__')
+        logging.debug('window_functions.py - MyUpdate - __init__')
         QtWidgets.QWidget.__init__(self)
         self.setupUi(self)
         self.config_dict = config_dict
@@ -1567,6 +1333,7 @@ class MyUpdate(QtWidgets.QDialog, Ui_storeWindow):
         self.sw_button.clicked.connect(self.cancel_download)
         self.cancel = False
         self.download_update()
+        logging.info('window_functions.py - MyUpdate ready')
     
     def update_progress_bar(self, val):
         if isinstance(val, list):
@@ -1606,9 +1373,105 @@ class MyUpdate(QtWidgets.QDialog, Ui_storeWindow):
                 pass
 
 
+class MyManagerInfo(QtWidgets.QDialog, Ui_managerInfoWindow):
+    def __init__(self, config_dict, translations_dict):
+        logging.debug('window_functions.py - MyManagerInfo - __init__')
+        QtWidgets.QWidget.__init__(self)
+        self.setupUi(self)
+        self.config_dict = config_dict
+        self.translations_dict = translations_dict
+        translate_elements(self, self.config_dict['OPTIONS'].get('language'), self.translations_dict)
+        self.important_text = self.translations_dict['miw_label_8_manual'][self.config_dict['OPTIONS'].get('language')]
+        self.set_important_text()
+        self.miw_previous_button.clicked.connect(self.previous_page)
+        self.miw_next_button.clicked.connect(self.next_page)
+        self.miw_ok_button_2.clicked.connect(self.close_window)
+    
+    def set_important_text(self):
+        logging.debug('window_functions.py - MyManagerInfo - set_important_text')
+        self.max_important_text = len(self.important_text)
+        self.current_important_text = 1
+        self.miw_label_8.setText(self.important_text[0])
+        self.miw_label_10.setText('1/' + str(self.max_important_text))
+    
+    def next_page(self):
+        logging.debug('window_functions.py - MyManagerInfo - next_page')
+        self.current_important_text +=1
+        if self.current_important_text > self.max_important_text:
+            self.current_important_text = 1
+        self.miw_label_8.setText(self.important_text[self.current_important_text - 1])
+        self.miw_label_10.setText(str(self.current_important_text) + '/' + str(self.max_important_text))
+    
+    def previous_page(self):
+        logging.debug('window_functions.py - MyManagerInfo - previous_page')
+        self.current_important_text -=1
+        if self.current_important_text == 0:
+            self.current_important_text = self.max_important_text
+        self.miw_label_8.setText(self.important_text[self.current_important_text - 1])
+        self.miw_label_10.setText(str(self.current_important_text) + '/' + str(self.max_important_text))
+    
+    def close_window(self):
+        logging.debug('window_functions.py - MyManagerInfo - close_window')
+        self.close()
 
-        
-        
+
+class MyOptionInfo(QtWidgets.QDialog, Ui_optionInfoWindow):
+    def __init__(self, config_dict, translations_dict):
+        logging.debug('window_functions.py - MyOptionInfo - __init__')
+        QtWidgets.QWidget.__init__(self)
+        self.setupUi(self)
+        self.config_dict = config_dict
+        self.translations_dict = translations_dict
+        translate_elements(self, self.config_dict['OPTIONS'].get('language'), self.translations_dict)
+        self.important_title = self.translations_dict['oiw_label_13_manual'][self.config_dict['OPTIONS'].get('language')]
+        self.important_text = self.translations_dict['oiw_label_15_manual'][self.config_dict['OPTIONS'].get('language')]
+        self.miw_previous_button.clicked.connect(self.previous_page)
+        self.miw_next_button.clicked.connect(self.next_page)
+        self.oiw_ok_button_2.clicked.connect(self.close_window)
+        self.max_important_text = len(self.important_text)
+        self.current_important_text = 1
+        self.set_important_text()
+    
+    def set_important_text(self):
+        logging.debug('window_functions.py - MyOptionInfo - set_important_text')
+        self.oiw_label_13.setText(self.important_title[self.current_important_text - 1]) 
+        self.oiw_label_15.setText(self.important_text[self.current_important_text - 1])
+        self.oiw_label_14.setText(str(self.current_important_text) + '/' + str(self.max_important_text))
+    
+    def next_page(self):
+        logging.debug('window_functions.py - MyOptionInfo - next_page')
+        self.current_important_text +=1
+        if self.current_important_text > self.max_important_text:
+            self.current_important_text = 1
+        self.set_important_text()
+    
+    def previous_page(self):
+        logging.debug('window_functions.py - MyOptionInfo - previous_page')
+        self.current_important_text -=1
+        if self.current_important_text == 0:
+            self.current_important_text = self.max_important_text
+        self.set_important_text()
+    
+    def close_window(self):
+        logging.debug('window_functions.py - MyOptionInfo - close_window')
+        self.close()
+
+
+class MyMainInfo(QtWidgets.QDialog, Ui_mainInfoWindow):
+    def __init__(self, config_dict, translations_dict):
+        logging.debug('window_functions.py - MyMainInfo - __init__')
+        QtWidgets.QWidget.__init__(self)
+        self.setupUi(self)
+        self.config_dict = config_dict
+        self.translations_dict = translations_dict
+        translate_elements(self, self.config_dict['OPTIONS'].get('language'), self.translations_dict)
+        self.aiw_ok_button.clicked.connect(self.close_window)
+
+    def close_window(self):
+        logging.debug('window_functions.py - MyMainInfo - close_window')
+        self.close()
+
+    
 '''class MyCredentials(QtWidgets.QDialog, Ui_credentialsWindow):
     def __init__(self, user, password):
         QtWidgets.QWidget.__init__(self)

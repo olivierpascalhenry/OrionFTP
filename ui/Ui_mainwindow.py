@@ -11,7 +11,7 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
         MainWindow.setObjectName("MainWindow")
-        MainWindow.resize(1200, 800)
+        MainWindow.resize(1240, 782)
         font = QtGui.QFont()
         font.setFamily("fonts/SourceSansPro-Regular.ttf")
         font.setPointSize(10)
@@ -35,6 +35,27 @@ class Ui_MainWindow(object):
         self.horizontalLayout.setObjectName("horizontalLayout")
         spacerItem1 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Minimum)
         self.horizontalLayout.addItem(spacerItem1)
+        self.info_button_1 = QtWidgets.QToolButton(self.centralwidget)
+        self.info_button_1.setMinimumSize(QtCore.QSize(27, 27))
+        self.info_button_1.setMaximumSize(QtCore.QSize(27, 27))
+        self.info_button_1.setStyleSheet("QToolButton {\n"
+"    border: 1px solid transparent;\n"
+"    background-color: transparent;\n"
+"    width: 27px;\n"
+"    height: 27px;\n"
+"}\n"
+"\n"
+"QToolButton:flat {\n"
+"    border: none;\n"
+"}")
+        icon1 = QtGui.QIcon()
+        icon1.addPixmap(QtGui.QPixmap("icons/info_icon.svg"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        self.info_button_1.setIcon(icon1)
+        self.info_button_1.setIconSize(QtCore.QSize(23, 23))
+        self.info_button_1.setObjectName("info_button_1")
+        self.horizontalLayout.addWidget(self.info_button_1)
+        spacerItem2 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Minimum)
+        self.horizontalLayout.addItem(spacerItem2)
         self.main_profile_lb = QtWidgets.QLabel(self.centralwidget)
         self.main_profile_lb.setMinimumSize(QtCore.QSize(0, 27))
         self.main_profile_lb.setMaximumSize(QtCore.QSize(16777215, 27))
@@ -48,8 +69,8 @@ class Ui_MainWindow(object):
         self.main_profile_lb.setAlignment(QtCore.Qt.AlignLeading|QtCore.Qt.AlignLeft|QtCore.Qt.AlignVCenter)
         self.main_profile_lb.setObjectName("main_profile_lb")
         self.horizontalLayout.addWidget(self.main_profile_lb)
-        spacerItem2 = QtWidgets.QSpacerItem(20, 20, QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Minimum)
-        self.horizontalLayout.addItem(spacerItem2)
+        spacerItem3 = QtWidgets.QSpacerItem(20, 20, QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Minimum)
+        self.horizontalLayout.addItem(spacerItem3)
         self.main_profile_cb = QtWidgets.QComboBox(self.centralwidget)
         self.main_profile_cb.setMinimumSize(QtCore.QSize(300, 27))
         self.main_profile_cb.setMaximumSize(QtCore.QSize(300, 27))
@@ -109,8 +130,8 @@ class Ui_MainWindow(object):
         self.main_profile_cb.setObjectName("main_profile_cb")
         self.main_profile_cb.addItem("")
         self.horizontalLayout.addWidget(self.main_profile_cb)
-        spacerItem3 = QtWidgets.QSpacerItem(20, 20, QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Minimum)
-        self.horizontalLayout.addItem(spacerItem3)
+        spacerItem4 = QtWidgets.QSpacerItem(20, 20, QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Minimum)
+        self.horizontalLayout.addItem(spacerItem4)
         self.main_connect_bt = QtWidgets.QToolButton(self.centralwidget)
         self.main_connect_bt.setEnabled(False)
         self.main_connect_bt.setMinimumSize(QtCore.QSize(100, 27))
@@ -152,27 +173,6 @@ class Ui_MainWindow(object):
 "}")
         self.main_connect_bt.setObjectName("main_connect_bt")
         self.horizontalLayout.addWidget(self.main_connect_bt)
-        spacerItem4 = QtWidgets.QSpacerItem(20, 20, QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Minimum)
-        self.horizontalLayout.addItem(spacerItem4)
-        self.info_button_1 = QtWidgets.QToolButton(self.centralwidget)
-        self.info_button_1.setMinimumSize(QtCore.QSize(27, 27))
-        self.info_button_1.setMaximumSize(QtCore.QSize(27, 27))
-        self.info_button_1.setStyleSheet("QToolButton {\n"
-"    border: 1px solid transparent;\n"
-"    background-color: transparent;\n"
-"    width: 27px;\n"
-"    height: 27px;\n"
-"}\n"
-"\n"
-"QToolButton:flat {\n"
-"    border: none;\n"
-"}")
-        icon1 = QtGui.QIcon()
-        icon1.addPixmap(QtGui.QPixmap("icons/info_icon.svg"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
-        self.info_button_1.setIcon(icon1)
-        self.info_button_1.setIconSize(QtCore.QSize(23, 23))
-        self.info_button_1.setObjectName("info_button_1")
-        self.horizontalLayout.addWidget(self.info_button_1)
         spacerItem5 = QtWidgets.QSpacerItem(20, 20, QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Minimum)
         self.horizontalLayout.addItem(spacerItem5)
         spacerItem6 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)

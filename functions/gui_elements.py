@@ -1,10 +1,12 @@
 import os
+import logging
 from PyQt5 import QtCore, QtWidgets, QtGui
 from functions.material_functions import tree_objects_init
 
 
 class MyQFileIconProvider(QtWidgets.QFileIconProvider):
     def __init__(self, display_icons):
+        logging.info('gui_elements.py - MyQFileIconProvider - __init__')
         super(QtWidgets.QFileIconProvider, self).__init__()
         self.display_icons = display_icons
         tree_objects_init(self)
@@ -40,6 +42,7 @@ class MyQFileIconProvider(QtWidgets.QFileIconProvider):
 
 class MyQFileSystemModel(QtWidgets.QFileSystemModel):
     def __init__(self, first_column, second_column, third_column):
+        logging.info('gui_elements.py - MyQFileSystemModel - __init__')
         super(QtWidgets.QFileSystemModel, self).__init__()
         self.first_column = first_column
         self.second_column = second_column
@@ -55,8 +58,8 @@ class MyQFileSystemModel(QtWidgets.QFileSystemModel):
         else:
             return super(QtWidgets.QFileSystemModel, self).headerData(section, orientation, role)
     
-    def setText(self, text):
-        self.text = text
+    def setText(self, text_list):
+        self.text = text_list[0]
         self.headerData(0, QtCore.Qt.Horizontal, QtCore.Qt.DisplayRole)
 
 
@@ -72,6 +75,7 @@ class MyQTreeWidgetItem(QtWidgets.QTreeWidgetItem):
         return self.sortData(column) < other.sortData(column)
 
     def __init__(self, *args):
+        logging.info('gui_elements.py - MyQTreeWidgetItem - __init__')
         super(MyQTreeWidgetItem, self).__init__(*args)
         self._sortData = {}
 
@@ -80,3 +84,4 @@ class MyQTreeWidgetItem(QtWidgets.QTreeWidgetItem):
 
     def setSortData(self, column, data):
         self._sortData[column] = data
+
