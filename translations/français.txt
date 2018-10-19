@@ -6,7 +6,7 @@ main_download_bt=Télécharger
 main_local_lb=PC local :
 main_remote_lb=Serveur distant :
 main_tabwidget=Connexion FTP|Transferts
-transfert_tree=Status|Fichier|Taille|Progression
+transfert_tree=Status|Fichier|Taille|Vitesse|Progression
 main_local_tr_2=Fichier|Taille|Type
 main_remote_tr_2=Fichier|Taille|Type
 
@@ -22,9 +22,9 @@ actionUpdate=Pas de mise à jour !
 
 ### about window ###
 aboutlogWindow=A propos d'OrionFTP
-aw_label_1=A propos d'OrionFTP
-aw_label_2=Changelog
-aw_browser_1=<p align="justify">OrionFTP est simple client FTP pour Windows et Linux. C'est un logiciel dans la plus pure tradition Python et il en utilise les librairies d'origine pour gérer les protocoles FTP et SFTP.</p><p align="justify">OrionFTP est développé par Olivier Henry à partir de Python 3.5, PyQt 5.10 et Eclipse 4.7. Pour rapporter un problème ou pour poser une question, veuillez vous rendre à l'adresse xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx.</p>
+alw_label_1=A propos d'OrionFTP
+alw_label_2=Changelog
+alw_browser_1=<p align="justify">OrionFTP est un simple client FTP pour Windows et Linux. C'est un logiciel dans la plus pure tradition Python et il en utilise les librairies d'origine pour gérer les protocoles FTP et SFTP.</p><p align="justify">OrionFTP est développé par Olivier Henry à partir de Python 3.6, PyQt 5.11 et PyCharm 2018.2. Pour rapporter un problème ou pour poser une question, veuillez vous rendre à l'adresse <a href="https://github.com/olivierpascalhenry/OrionFTP/issues"><span style=" text-decoration: underline; color:#0000ff;">https://github.com/olivierpascalhenry/OrionFTP/issues</span></a>.</p>
 
 ### manager window ###
 managerWindow=Gestionnaire FTP
@@ -33,8 +33,11 @@ mw_label_2=Hôte :
 mw_label_3=Port :
 mw_label_4=Nom d'utilisateur :
 mw_label_5=Mot de passe :
+mw_label_6=Chiffrement :
 mw_cancel_button=Annuler
 mw_ok_button=Ok
+mw_checkbox_1=afficher le mot de passe
+mw_combobox_2=Connexion FTP explicite sur TLS|Connexion FTP standard (non sécurisée)
 
 ### option window ###
 ow_section_list=Général|Interface|Connexion|Transfert
@@ -62,7 +65,7 @@ ow_combobox_4=Passif|Actif
 ow_combobox_5=Automatique|ASCII|Binaire
 ow_checkbox_8=Autoriser un changement du mode de transfert en cas d’échec ?
 ow_label_11=Que faire si le fichier existe déjà en local ?
-ow_combobox_6=Demander que faire|Ecraser|Télécharger et renomer|Ignorer
+ow_combobox_6=Demander que faire|Ecraser|Télécharger et renommer|Ignorer
 
 ### update window ###
 uw_label_1_frozen=<p align="justify">Cliquez sur <b>Mettre à jour</b> pour télécharger la dernière mise à jour sur <b>Github</b> et l'installer automatiquement.</p><p align="justify">Sous <b>Windows</b>, l'installation de la mise à jour est controlée par l'utilisateur et peut être annulée. Sous <b>Linux</b>, le processus est totallement automatique et ne peut pas être annulé avant son terme.</p>
@@ -85,7 +88,7 @@ miw_label_4=Cliquez sur ce bouton pour charger un fichier xml contenant une list
 miw_label_5=Cliquez sur ce bouton pour sauvegarder la liste des profils FTP dans un autre fichier que celui par défaut.
 miw_label_6=Le bouton Ok permet de confirmer les modifications apportées à la liste des profils. Par la suite un fichier xml par défaut contenant les profils est créé et remplace l'ancien.
 miw_label_7=Le bouton Annuler permet d'annuler les modifications apportées à la liste des profils. Rien n'est sauvegardé dans ce cas.
-miw_label_8_manual=<p>Lorsqu'un profil FTP est créé, chaque champ doit être impérativement remplir pour permettre un bon fonctionnement de la librairie FTP. A champ vide, ou un mauvais usage des champs Hôte/Port/Nom d'utilisateur/Mot de passe peut entrainer un échec lors de la tentative de connexion.</p><p>Même s'il est possible de modifier un profil FTP lorsqu'OrionFTP est connecté à un serveur, les modifications apportés à ce profil ne seront prises en compte que lors de l'ouverture d'une nouvelle connexion.</p>|<b><i>Protocole</i></b> : FTP ou SFTP, il s'agit du protocol utilisé par le serveur auquel vous souhaitez vous connecter.<br><b><i>Hôte</i></b> et <b><i>Port</i></b> : l'adresse IP ou le nom de domaine (ex: 161.162.163.164 ou ftp.mydomain.com) ainsi que le numéro de port du serveur auquel vous souhaitez vous connecter.<br><b><i>Nom d'utilisateur</i></b> et <b><i>Mot de passe</i></b> : les identifiants d'un compte utilisateur valide sur le serveur (S)FTP, authorisé à utiliser ce protocol.
+miw_label_8_manual=<p>Lorsqu'un profil FTP est créé, chaque champ doit être impérativement remplir pour permettre un bon fonctionnement de la librairie FTP. A champ vide, ou un mauvais usage des champs Hôte/Port/Nom d'utilisateur/Mot de passe peut entrainer un échec lors de la tentative de connexion.</p><p>Même s'il est possible de modifier un profil FTP lorsqu'OrionFTP est connecté à un serveur, les modifications apportés à ce profil ne seront prises en compte que lors de l'ouverture d'une nouvelle connexion.</p>|<b><i>Protocole</i></b> : FTP ou SFTP, il s'agit du protocol utilisé par le serveur auquel vous souhaitez vous connecter.<br><b><i>Hôte</i></b> et <b><i>Port</i></b> : l'adresse IP ou le nom de domaine (ex: 161.162.163.164 ou ftp.mydomain.com) ainsi que le numéro de port du serveur auquel vous souhaitez vous connecter.<br><b><i>Nom d'utilisateur</i></b> et <b><i>Mot de passe</i></b> : les identifiants d'un compte utilisateur valide sur le serveur (S)FTP, authorisé à utiliser ce protocol.<br><b><i>afficher le mot de passe</i></b>: par défaut, le mot de passe est caché, il peut être affiché grâce à cette option.
 miw_label_9=Important:
 miw_label_11=Fonctions:
 miw_cancel_button=Annuler
@@ -104,7 +107,7 @@ oiw_label_10=Interface
 oiw_label_11=Connexion
 oiw_label_12=Transfert
 oiw_label_13_manual=Général :|Interface :|Interface :|Connexion :|Transfert :
-oiw_label_15_manual=<b><i>Niveau de log</i></b> : l'utilisateur peut changer le niveau de log. Si un problème apparait, cela peut-être une bonne idée de passer le niveau de log sur DEBUG et d'envoyer le fichier de log au dévelopeur.<br><b><i>Dossier de log</i></b> : le chemin et le dossier où le fichier de log sera écrit, modifier cette option demande un redémarrage du logiciel afin d'être prise en compte.<br><b><i>Langue</i></b> : OrionFTP est livré avec plusieurs fichiers de langue, et la langue la plus adaptée peut-être sélectionnée ici.<br><b><i>Dossier par défaut</i></b> : le dossier affiché dans l'arborescence locale par défaut.<br><b><i>Profil par défaut</i></b> : le profil affiché par défaut dans le ComboBox de la fenêtre principale.<br><b><i>Vérifier les mises à jour d'OrionFTP sur Github</i></b> : cette option permet à OrionFTP de vérifier les mises à jour au démarrage.|<b>PC local</b> :<br>&nbsp;&nbsp;&nbsp;<b><i>Lister les dossiers et fichiers locaux dans une seule arborescence</i></b> : supprime le TreeView local du bas et liste l'ensemble des fichiers et dossiers dans celui du haut.<br>&nbsp;&nbsp;&nbsp;<b><i>Afficher les icones des fichiers et des dossiers dans l’arborescence locale</i></b> : affiche (ou pas) les icones des dossiers et fichiers dans l'arborescence locale.<br>&nbsp;&nbsp;&nbsp;<b><i>Afficher les chemins dans l’arborescence locale</i></b> : affiche (ou pas) le chemin local au dessus des arborescences locales.|<b>Serveur distant</b> :<br>&nbsp;&nbsp;&nbsp;<b><i>Lister les dossiers et fichiers à distance dans une seule arborescence</i></b> : supprime le TreeView distant du bas et liste l'ensemble des fichiers et dossiers dans celui du haut.<br>&nbsp;&nbsp;&nbsp;<b><i>Afficher les icones des fichiers et des dossiers dans l’arborescence distante</i></b> : affiche (ou pas) les icones des dossiers et fichiers dans l'arborescence distante.<br>&nbsp;&nbsp;&nbsp;<b><i>Afficher les chemins dans l’arborescence distante</i></b> : affiche (ou pas) le chemin distant au dessus des arborescences distantes.|<b><i>Type de transfert par défaut</i></b> : Passif par défaut, modifiez cette option si vous remarquez un problème avec la connexion, ou si l'administrateur du server (S)FTP conseille de le faire.<br><b><i>Autoriser un changement du mode de transfert en cas d’échec ?</i></b> : cochez cette option pour autoriser OrionFTP à sélectionner automatiquement le mode de connexion si un échec est enregistré lors de la connexion.<br><b><i>Type de transfert par défaut</i></b> : laissez OrionFTP s'occuper de ce paramètre ou sélectionnez celui qui vous semble le plus approprié, selon les paramètres du serveur (S)FTP.|<b><i>Que faire si le fichier existe déjà en local ?</i></b>: sélectionnez l'action approprié si un fichier ou un dossier du même nom existe déjà dans le dossier où vous essayez de le copier.
+oiw_label_15_manual=<b><i>Niveau de log</i></b> : l'utilisateur peut changer le niveau de log. Si un problème apparait, cela peut-être une bonne idée de passer le niveau de log sur DEBUG et d'envoyer le fichier de log au dévelopeur.<br><b><i>Dossier de log</i></b> : le chemin et le dossier où le fichier de log sera écrit, modifier cette option demande un redémarrage du logiciel afin d'être prise en compte.<br><b><i>Langue</i></b> : OrionFTP est livré avec plusieurs fichiers de langue, et la langue la plus adaptée peut-être sélectionnée ici.<br><b><i>Dossier par défaut</i></b> : le dossier affiché dans l'arborescence locale par défaut.<br><b><i>Profil par défaut</i></b> : le profil affiché par défaut dans le ComboBox de la fenêtre principale.<br><b><i>Vérifier les mises à jour d'OrionFTP sur Github</i></b> : cette option permet à OrionFTP de vérifier les mises à jour au démarrage.|<b>PC local</b> :<br>&nbsp;&nbsp;&nbsp;<b><i>Lister les dossiers et fichiers locaux dans une seule arborescence</i></b> : supprime le TreeView local du bas et liste l'ensemble des fichiers et dossiers dans celui du haut.<br>&nbsp;&nbsp;&nbsp;<b><i>Afficher les icones des fichiers et des dossiers dans l’arborescence locale</i></b> : affiche (ou pas) les icones des dossiers et fichiers dans l'arborescence locale.<br>&nbsp;&nbsp;&nbsp;<b><i>Afficher les chemins dans l’arborescence locale</i></b> : affiche (ou pas) le chemin local au dessus des arborescences locales.|<b>Serveur distant</b> :<br>&nbsp;&nbsp;&nbsp;<b><i>Lister les dossiers et fichiers à distance dans une seule arborescence</i></b> : supprime le TreeView distant du bas et liste l'ensemble des fichiers et dossiers dans celui du haut. Si l'option est activée alors qu'une connexion est déjà établie, la connexion est alors fermée puis réouverte à nouveau afin d'ajuster correctement l'arborescence.<br>&nbsp;&nbsp;&nbsp;<b><i>Afficher les icones des fichiers et des dossiers dans l’arborescence distante</i></b> : affiche (ou pas) les icones des dossiers et fichiers dans l'arborescence distante.<br>&nbsp;&nbsp;&nbsp;<b><i>Afficher les chemins dans l’arborescence distante</i></b> : affiche (ou pas) le chemin distant au dessus des arborescences distantes.|<b><i>Type de transfert par défaut</i></b> : Passif par défaut, modifiez cette option si vous remarquez un problème avec la connexion, ou si l'administrateur du server (S)FTP conseille de le faire.<br><b><i>Autoriser un changement du mode de transfert en cas d’échec ?</i></b> : cochez cette option pour autoriser OrionFTP à sélectionner automatiquement le mode de connexion si un échec est enregistré lors de la connexion.<br><b><i>Type de transfert par défaut</i></b> : laissez OrionFTP s'occuper de ce paramètre ou sélectionnez celui qui vous semble le plus approprié, selon les paramètres du serveur (S)FTP.|<b><i>Que faire si le fichier existe déjà en local ?</i></b>: sélectionnez l'action approprié si un fichier ou un dossier du même nom existe déjà dans le dossier où vous essayez de le copier.
 oiw_cancel_button=Annuler
 
 ### main info ###
@@ -134,6 +137,26 @@ aiw_label_23=Fonctions :
 aiw_connect_button=Connexion
 aiw_download_button=Télécharger
 
+### credentials window ###
+cw_label_1=Hôte:
+cw_label_2=Nom d'utilisateur:
+cw_label_3=Mot de passe:
+cw_label_5=Nom d'utilisateur:
+cw_label_6=Mot de passe:
+cw_submit_button=Soumettre
+cw_cancel_button=Annuler
+cw_label_4_username=Il n'y a pas de nom d'utilisateur stocké pour ce profil. Veuillez entrer un nom d'utiliseur pour vous connecter à l'hôte.
+cw_label_4_password=Il n'y a pas de stocké pour ce profil. Veuillez entrer un mot de passe pour vous connecter à l'hôte.
+cw_label_4_username_password=Il n'y a ni nom d'utilisateur ni mot de passe stockés pour ce profil. Veuillez entrer un nom d'utiliseur et un mot de passe pour vous connecter à l'hôte.
+
+### ask window ###
+askWindow=Téléchargement
+aw_label_1=Un fichier avec le même nom existe déjà dans le dossier local. Que voulez-vous faire avec le fichier à télécharger ?
+aw_label_2=Fichier:
+aw_radio_1=Télécharger et écraser le fichier local
+aw_radio_2=Télécharger et renommer le fichier à télécharger
+aw_radio_3=Ignorer et ne pas télécharger le fichier
+
 ### basic elements ###
 makeachoice=Choisissez une entrée...
 qtreeview=Dossier|Taille|Type
@@ -145,3 +168,9 @@ downloading=Téléchargement : %s
 downloadfailed=Téléchargement échoué
 nonewupdateoption=Il n'y a pas de nouvelle mise à jour pour OrionFTP sur GitHub.
 newupdateoption=Une nouvelle mise à jour est disponible sur GitHub pour OrionFTP. Veuillez quitter la fenêtre des options et cliquer sur le boutton de mise à jour pour lancer le processus de mise à jour.
+connectiontimeout=OrionFTP n'a pas pu se connecter à l'höte. Veuillez vérifier l'adresse et le port, ainsi que la connexion, avant d'essayer à nouveau. Si le problème persiste, veuillez contacter l'administrateur du serveur distant et/ou le dévelopeur du présent logiciel.
+nofolderdownload=Il n'est pas possible de télécharger des dossiers à l'heure actuelle. C'est pourquoi le téléchargement a été annulé. Cette fonction sera disponible dans une prochaine version.
+downloadfailedtext=Un problème est apparu durant le téléchargement et a entrainé un echec. Veuillez sélectionner à nouveau les fichiers à télécharger et relancer le téléchargement. Si le problème persiste, veuillez contacter l'administrateur du serveur et/ou le dévelopeur du logiciel.
+transferstatus=Téléchargement :|Terminé :|En attente :|Annulé :|Ignoré :
+transfermenu=Annuler le téléchargement|Annuler tous les téléchargements|Retirer de la liste|Nettoyer la liste de fichier
+connectionmenu=Supprimer les messages

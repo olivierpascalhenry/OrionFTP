@@ -3,72 +3,72 @@ import sys
 import os
 from PyQt5 import QtWidgets, QtGui, QtCore
 from ui.mainwindow import MainWindow
-from ui._version import _gui_version
+from ui.version import gui_version
 import configparser
 
 
-def create_option_file(path, config_dict):
-    ini_file = open(os.path.join(path, 'orion_ftp.ini'), 'w')
+def create_option_file(main_path, config_dict):
+    ini_file = open(os.path.join(main_path, 'orion_ftp.ini'), 'w')
     config_dict.add_section('LOG')
     config_dict.add_section('OPTIONS')
     config_dict.add_section('INTERFACE')
     config_dict.add_section('CONNECTION')
     config_dict.add_section('TRANSFER')
-    config_dict.set('LOG','level','DEBUG')
-    config_dict.set('LOG','path', '')
-    config_dict.set('OPTIONS','check_update','False')
-    config_dict.set('OPTIONS','language','english')
-    config_dict.set('OPTIONS','default_profile','')
-    config_dict.set('OPTIONS','local_home','')
-    config_dict.set('INTERFACE','local_tree_one_widget','False')
-    config_dict.set('INTERFACE','remote_tree_one_widget','False')
-    config_dict.set('INTERFACE','display_icons_local_tree','True')
-    config_dict.set('INTERFACE','display_icons_remote_tree','True')
-    config_dict.set('INTERFACE','display_path_local_tree','True')
-    config_dict.set('INTERFACE','display_path_remote_tree','True')
-    config_dict.set('CONNECTION','default_transfer_mode','0')
-    config_dict.set('CONNECTION','transfer_mode_fall_back','False')
-    config_dict.set('CONNECTION','default_transfer_type','0')
-    config_dict.set('TRANSFER','file_exist_download','0')
+    config_dict.set('LOG', 'level', 'DEBUG')
+    config_dict.set('LOG', 'path', '')
+    config_dict.set('OPTIONS', 'check_update', 'False')
+    config_dict.set('OPTIONS', 'language', 'english')
+    config_dict.set('OPTIONS', 'default_profile', '')
+    config_dict.set('OPTIONS', 'local_home', '')
+    config_dict.set('INTERFACE', 'local_tree_one_widget', 'False')
+    config_dict.set('INTERFACE', 'remote_tree_one_widget', 'False')
+    config_dict.set('INTERFACE', 'display_icons_local_tree', 'True')
+    config_dict.set('INTERFACE', 'display_icons_remote_tree', 'True')
+    config_dict.set('INTERFACE', 'display_path_local_tree', 'True')
+    config_dict.set('INTERFACE', 'display_path_remote_tree', 'True')
+    config_dict.set('CONNECTION', 'default_transfer_mode', '0')
+    config_dict.set('CONNECTION', 'transfer_mode_fall_back', 'False')
+    config_dict.set('CONNECTION', 'default_transfer_type', '0')
+    config_dict.set('TRANSFER', 'file_exist_download', '0')
     config_dict.write(ini_file)
-    ini_file.close()   
-    
+    ini_file.close()
 
-def launch_egads_gui(path):
+
+def launch_egads_gui(main_path):
     app = QtWidgets.QApplication(sys.argv)
     splash_pix = QtGui.QPixmap('icons/orionftp_splashscreen.png')
     splash = QtWidgets.QSplashScreen(splash_pix, QtCore.Qt.WindowStaysOnTopHint)
     splash.setMask(splash_pix.mask())
     splash.show()
     config_dict = configparser.ConfigParser()
-    if not os.path.exists(os.path.join(path, 'orion_ftp.ini')):
-        create_option_file(path, config_dict)
-    config_dict.read(os.path.join(path, 'orion_ftp.ini'))
+    if not os.path.exists(os.path.join(main_path, 'orion_ftp.ini')):
+        create_option_file(main_path, config_dict)
+    config_dict.read(os.path.join(main_path, 'orion_ftp.ini'))
     try:
         config_dict['INTERFACE']
     except KeyError:
         config_dict = configparser.ConfigParser()
-        create_option_file(path, config_dict)
-        config_dict.read(os.path.join(path, 'orion_ftp.ini'))
-    log_filename = os.path.join(config_dict.get('LOG', 'path'),'orion_ftp.log')
+        create_option_file(main_path, config_dict)
+        config_dict.read(os.path.join(main_path, 'orion_ftp.ini'))
+    log_filename = os.path.join(config_dict.get('LOG', 'path'), 'orion_ftp.log')
     logging.getLogger('').handlers = []
-    logging.basicConfig(filename = log_filename,
-                        level = getattr(logging, config_dict.get('LOG', 'level')),
-                        filemode = 'w',
-                        format = '%(asctime)s : %(levelname)s : %(message)s')
+    logging.basicConfig(filename=log_filename,
+                        level=getattr(logging, config_dict.get('LOG', 'level')),
+                        filemode='w',
+                        format='%(asctime)s : %(levelname)s : %(message)s')
     formatter = logging.Formatter('%(levelname)s : %(message)s')
     console = logging.StreamHandler()
     console.setLevel(logging.DEBUG)
     console.setFormatter(formatter)
     logging.getLogger('').addHandler(console)
     logging.info('**********************************')
-    logging.info('OrionFTP ' + _gui_version + ' is starting ...')
+    logging.info('OrionFTP ' + gui_version + ' is starting ...')
     logging.info('**********************************')
     logging.info('OrionFTP - operating system: ' + str(sys.platform))
     python_version = str(sys.version_info[0]) + '.' + str(sys.version_info[1]) + '.' + str(sys.version_info[2])
     logging.info('OrionFTP - python version: ' + python_version)
     translations = read_translations()
-    ui = MainWindow(path, config_dict, translations)
+    ui = MainWindow(main_path, config_dict, translations)
     ui.show()
     splash.finish(ui)
     sys.exit(app.exec_())
@@ -85,11 +85,11 @@ def read_translations():
             if line[:3] != '###':
                 index = line.find('=')
                 widget = line[:index]
-                text = line[index + 1:].replace('\n','')
+                text = line[index + 1:].replace('\n', '')
                 if '|' in text:
                     text = text.split('|')
                 if text:
-                    try :
+                    try:
                         existing_dict = translations[widget]
                     except KeyError:
                         existing_dict = {}
@@ -108,8 +108,6 @@ def handle_exception(exc_type, exc_value, exc_traceback):
 
 sys.excepthook = handle_exception
 
-
 if __name__ == '__main__':
     path = os.path.abspath(os.path.dirname(__file__))
     launch_egads_gui(path)
-    

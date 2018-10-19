@@ -179,6 +179,11 @@ class Ui_MainWindow(object):
         self.horizontalLayout.addItem(spacerItem6)
         self.main_download_bt = QtWidgets.QToolButton(self.centralwidget)
         self.main_download_bt.setEnabled(False)
+        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Fixed)
+        sizePolicy.setHorizontalStretch(112)
+        sizePolicy.setVerticalStretch(27)
+        sizePolicy.setHeightForWidth(self.main_download_bt.sizePolicy().hasHeightForWidth())
+        self.main_download_bt.setSizePolicy(sizePolicy)
         self.main_download_bt.setMinimumSize(QtCore.QSize(110, 27))
         self.main_download_bt.setMaximumSize(QtCore.QSize(110, 27))
         font = QtGui.QFont()
@@ -510,6 +515,7 @@ class Ui_MainWindow(object):
 "}")
         self.main_local_ln.setText("")
         self.main_local_ln.setFrame(False)
+        self.main_local_ln.setReadOnly(True)
         self.main_local_ln.setObjectName("main_local_ln")
         self.horizontalLayout_2.addWidget(self.main_local_ln)
         self.verticalLayout_4.addLayout(self.horizontalLayout_2)
@@ -543,9 +549,6 @@ class Ui_MainWindow(object):
         self.main_local_tr_1.setFont(font)
         self.main_local_tr_1.setFocusPolicy(QtCore.Qt.NoFocus)
         self.main_local_tr_1.setStyleSheet("QTreeView {\n"
-"    selection-background-color: qlineargradient(x1:0, y1:0, x2:0, y2:1,\n"
-"                                    stop:0 #daecfc, stop:1 #c4e0fc);\n"
-"    selection-color: black;\n"
 "    background: rgb(240,240,240);\n"
 "    color: rgb(45,45,45);\n"
 "    margin-bottom: 0px;\n"
@@ -558,14 +561,24 @@ class Ui_MainWindow(object):
 "                                    stop:0 #eaeaea, stop:1 #dcdcdc);\n"
 "}\n"
 "\n"
+"QTreeView::item: {\n"
+"    border: 0px solid rgb(240,240,240);\n"
+"    border-top-right-radius: 3px;\n"
+"    border-bottom-right-radius: 3px;\n"
+"    padding-right: 1px;\n"
+"    margin-right: 2px;\n"
+"    border-top-left-radius: 3px;\n"
+"    border-bottom-left-radius: 3px;\n"
+"    padding-left: 1px;\n"
+"    margin-left: 2px;\n"
+"}\n"
+"\n"
 "QTreeView::item:hover {\n"
-"    background-color: qlineargradient(x1:0, y1:0, x2:0, y2:1,\n"
-"                                    stop:0 #ecf4fc, stop:1 #dcecfc);\n"
+"    background-color: rgb(230,230,230);\n"
 "}\n"
 "\n"
 "QTreeView::item:selected {\n"
-"    background-color: qlineargradient(x1:0, y1:0, x2:0, y2:1,\n"
-"                                    stop:0 #daecfc, stop:1 #c4e0fc);\n"
+"    background-color: rgb(200,200,200);\n"
 "}\n"
 "\n"
 "QScrollBar:vertical {\n"
@@ -705,8 +718,7 @@ class Ui_MainWindow(object):
 "}\n"
 "\n"
 "QHeaderView::section {\n"
-"    background-color: qlineargradient(x1:0, y1:0, x2:0, y2:1,\n"
-"                                      stop:0 rgb(253,253,253), stop:1 rgb(253,253,253));\n"
+"    background-color: rgb(253,253,253);\n"
 "    color: rgb(45,45,45);\n"
 "    border-top: 1px solid lightgray;\n"
 "    border-bottom: 1px solid lightgray;\n"
@@ -715,15 +727,17 @@ class Ui_MainWindow(object):
 "    padding-bottom: 3px;\n"
 "    height: 30px;\n"
 "    font-family: \"fonts/SourceSansPro-Regular.ttf\";\n"
-"    font-size: 15px;\n"
+"    font-size: 20px;\n"
 "}")
         self.main_local_tr_1.setFrameShape(QtWidgets.QFrame.NoFrame)
+        self.main_local_tr_1.setDragDropMode(QtWidgets.QAbstractItemView.NoDragDrop)
         self.main_local_tr_1.setSelectionMode(QtWidgets.QAbstractItemView.SingleSelection)
         self.main_local_tr_1.setIndentation(20)
         self.main_local_tr_1.setSortingEnabled(True)
         self.main_local_tr_1.setWordWrap(True)
         self.main_local_tr_1.setObjectName("main_local_tr_1")
         self.main_local_tr_1.header().setCascadingSectionResizes(True)
+        self.main_local_tr_1.header().setSortIndicatorShown(False)
         self.main_local_tr_1.header().setStretchLastSection(False)
         self.main_local_tr_2 = QtWidgets.QTreeWidget(self.main_local_sp)
         font = QtGui.QFont()
@@ -734,12 +748,10 @@ class Ui_MainWindow(object):
         self.main_local_tr_2.setFont(font)
         self.main_local_tr_2.setFocusPolicy(QtCore.Qt.NoFocus)
         self.main_local_tr_2.setStyleSheet("QTreeWidget {\n"
-"    selection-background-color: qlineargradient(x1:0, y1:0, x2:0, y2:1,\n"
-"                                    stop:0 #daecfc, stop:1 #c4e0fc);\n"
-"    selection-color: black;\n"
 "    background: rgb(240,240,240);\n"
 "    color: rgb(45,45,45);\n"
 "    margin-bottom: 0px;\n"
+"\n"
 "}\n"
 "\n"
 "QTreeWidget:disabled {\n"
@@ -749,15 +761,28 @@ class Ui_MainWindow(object):
 "                                    stop:0 #eaeaea, stop:1 #dcdcdc);\n"
 "}\n"
 "\n"
+"QTreeWidget::item:first {\n"
+"    border: 0px solid rgb(240,240,240);\n"
+"    border-top-left-radius: 3px;\n"
+"    border-bottom-left-radius: 3px;\n"
+"    padding-left: 1px;\n"
+"    margin-left: 2px;\n"
+"}\n"
+"\n"
+"QTreeWidget::item:last {\n"
+"    border: 0px solid rgb(240,240,240);\n"
+"    border-top-right-radius: 3px;\n"
+"    border-bottom-right-radius: 3px;\n"
+"    padding-right: 1px;\n"
+"    margin-right: 2px;\n"
+"}\n"
 "\n"
 "QTreeWidget::item:hover {\n"
-"    background-color: qlineargradient(x1:0, y1:0, x2:0, y2:1,\n"
-"                                    stop:0 #ecf4fc, stop:1 #dcecfc);\n"
+"    background-color: rgb(230,230,230);\n"
 "}\n"
 "\n"
 "QTreeWidget::item:selected {\n"
-"    background-color: qlineargradient(x1:0, y1:0, x2:0, y2:1,\n"
-"                                    stop:0 #daecfc, stop:1 #c4e0fc);\n"
+"    background-color: rgb(200,200,200);\n"
 "}\n"
 "\n"
 "QScrollBar:vertical {\n"
@@ -897,8 +922,7 @@ class Ui_MainWindow(object):
 "}\n"
 "\n"
 "QHeaderView::section {\n"
-"    background-color: qlineargradient(x1:0, y1:0, x2:0, y2:1,\n"
-"                                      stop:0 rgb(253,253,253), stop:1 rgb(253,253,253));\n"
+"    background-color: rgb(253,253,253);\n"
 "    color: rgb(45,45,45);\n"
 "    border-top: 1px solid lightgray;\n"
 "    border-bottom: 1px solid lightgray;\n"
@@ -911,12 +935,13 @@ class Ui_MainWindow(object):
 "}\n"
 "")
         self.main_local_tr_2.setFrameShape(QtWidgets.QFrame.NoFrame)
-        self.main_local_tr_2.setDragDropMode(QtWidgets.QAbstractItemView.DropOnly)
-        self.main_local_tr_2.setSelectionMode(QtWidgets.QAbstractItemView.ExtendedSelection)
+        self.main_local_tr_2.setDragDropMode(QtWidgets.QAbstractItemView.NoDragDrop)
+        self.main_local_tr_2.setSelectionMode(QtWidgets.QAbstractItemView.SingleSelection)
         self.main_local_tr_2.setIndentation(0)
         self.main_local_tr_2.setWordWrap(True)
         self.main_local_tr_2.setObjectName("main_local_tr_2")
         self.main_local_tr_2.header().setVisible(True)
+        self.main_local_tr_2.header().setSortIndicatorShown(False)
         self.verticalLayout_2.addWidget(self.main_local_sp)
         self.layoutWidget_2 = QtWidgets.QWidget(self.main_splitter)
         self.layoutWidget_2.setObjectName("layoutWidget_2")
@@ -1021,6 +1046,7 @@ class Ui_MainWindow(object):
 "}")
         self.main_remote_ln.setText("")
         self.main_remote_ln.setFrame(False)
+        self.main_remote_ln.setReadOnly(True)
         self.main_remote_ln.setObjectName("main_remote_ln")
         self.horizontalLayout_3.addWidget(self.main_remote_ln)
         self.verticalLayout_5.addLayout(self.horizontalLayout_3)
@@ -1054,9 +1080,6 @@ class Ui_MainWindow(object):
         self.main_remote_tr_1.setFont(font)
         self.main_remote_tr_1.setFocusPolicy(QtCore.Qt.NoFocus)
         self.main_remote_tr_1.setStyleSheet("QTreeView {\n"
-"    selection-background-color: qlineargradient(x1:0, y1:0, x2:0, y2:1,\n"
-"                                    stop:0 #daecfc, stop:1 #c4e0fc);\n"
-"    selection-color: black;\n"
 "    background: rgb(240,240,240);\n"
 "    color: rgb(45,45,45);\n"
 "    margin-bottom: 0px;\n"
@@ -1069,14 +1092,24 @@ class Ui_MainWindow(object):
 "                                    stop:0 #eaeaea, stop:1 #dcdcdc);\n"
 "}\n"
 "\n"
+"QTreeView::item: {\n"
+"    border: 0px solid rgb(240,240,240);\n"
+"    border-top-right-radius: 3px;\n"
+"    border-bottom-right-radius: 3px;\n"
+"    padding-right: 1px;\n"
+"    margin-right: 2px;\n"
+"    border-top-left-radius: 3px;\n"
+"    border-bottom-left-radius: 3px;\n"
+"    padding-left: 1px;\n"
+"    margin-left: 2px;\n"
+"}\n"
+"\n"
 "QTreeView::item:hover {\n"
-"    background-color: qlineargradient(x1:0, y1:0, x2:0, y2:1,\n"
-"                                    stop:0 #ecf4fc, stop:1 #dcecfc);\n"
+"    background-color: rgb(230,230,230);\n"
 "}\n"
 "\n"
 "QTreeView::item:selected {\n"
-"    background-color: qlineargradient(x1:0, y1:0, x2:0, y2:1,\n"
-"                                    stop:0 #daecfc, stop:1 #c4e0fc);\n"
+"    background-color: rgb(200,200,200);\n"
 "}\n"
 "\n"
 "QScrollBar:vertical {\n"
@@ -1216,8 +1249,7 @@ class Ui_MainWindow(object):
 "}\n"
 "\n"
 "QHeaderView::section {\n"
-"    background-color: qlineargradient(x1:0, y1:0, x2:0, y2:1,\n"
-"                                      stop:0 rgb(253,253,253), stop:1 rgb(253,253,253));\n"
+"    background-color: rgb(253,253,253);\n"
 "    color: rgb(45,45,45);\n"
 "    border-top: 1px solid lightgray;\n"
 "    border-bottom: 1px solid lightgray;\n"
@@ -1229,12 +1261,14 @@ class Ui_MainWindow(object):
 "    font-size: 15px;\n"
 "}")
         self.main_remote_tr_1.setFrameShape(QtWidgets.QFrame.NoFrame)
-        self.main_remote_tr_1.setSelectionMode(QtWidgets.QAbstractItemView.SingleSelection)
-        self.main_remote_tr_1.setIndentation(0)
+        self.main_remote_tr_1.setDragDropMode(QtWidgets.QAbstractItemView.NoDragDrop)
+        self.main_remote_tr_1.setSelectionMode(QtWidgets.QAbstractItemView.ExtendedSelection)
+        self.main_remote_tr_1.setIndentation(20)
         self.main_remote_tr_1.setSortingEnabled(True)
         self.main_remote_tr_1.setWordWrap(True)
         self.main_remote_tr_1.setObjectName("main_remote_tr_1")
         self.main_remote_tr_1.header().setCascadingSectionResizes(True)
+        self.main_remote_tr_1.header().setSortIndicatorShown(False)
         self.main_remote_tr_1.header().setStretchLastSection(False)
         self.main_remote_tr_2 = QtWidgets.QTreeWidget(self.main_remote_sp)
         font = QtGui.QFont()
@@ -1245,12 +1279,10 @@ class Ui_MainWindow(object):
         self.main_remote_tr_2.setFont(font)
         self.main_remote_tr_2.setFocusPolicy(QtCore.Qt.NoFocus)
         self.main_remote_tr_2.setStyleSheet("QTreeWidget {\n"
-"    selection-background-color: qlineargradient(x1:0, y1:0, x2:0, y2:1,\n"
-"                                    stop:0 #daecfc, stop:1 #c4e0fc);\n"
-"    selection-color: black;\n"
 "    background: rgb(240,240,240);\n"
 "    color: rgb(45,45,45);\n"
 "    margin-bottom: 0px;\n"
+"\n"
 "}\n"
 "\n"
 "QTreeWidget:disabled {\n"
@@ -1260,15 +1292,28 @@ class Ui_MainWindow(object):
 "                                    stop:0 #eaeaea, stop:1 #dcdcdc);\n"
 "}\n"
 "\n"
+"QTreeWidget::item:first {\n"
+"    border: 0px solid rgb(240,240,240);\n"
+"    border-top-left-radius: 3px;\n"
+"    border-bottom-left-radius: 3px;\n"
+"    padding-left: 1px;\n"
+"    margin-left: 2px;\n"
+"}\n"
+"\n"
+"QTreeWidget::item:last {\n"
+"    border: 0px solid rgb(240,240,240);\n"
+"    border-top-right-radius: 3px;\n"
+"    border-bottom-right-radius: 3px;\n"
+"    padding-right: 1px;\n"
+"    margin-right: 2px;\n"
+"}\n"
 "\n"
 "QTreeWidget::item:hover {\n"
-"    background-color: qlineargradient(x1:0, y1:0, x2:0, y2:1,\n"
-"                                    stop:0 #ecf4fc, stop:1 #dcecfc);\n"
+"    background-color: rgb(230,230,230);\n"
 "}\n"
 "\n"
 "QTreeWidget::item:selected {\n"
-"    background-color: qlineargradient(x1:0, y1:0, x2:0, y2:1,\n"
-"                                    stop:0 #daecfc, stop:1 #c4e0fc);\n"
+"    background-color: rgb(200,200,200);\n"
 "}\n"
 "\n"
 "QScrollBar:vertical {\n"
@@ -1408,8 +1453,7 @@ class Ui_MainWindow(object):
 "}\n"
 "\n"
 "QHeaderView::section {\n"
-"    background-color: qlineargradient(x1:0, y1:0, x2:0, y2:1,\n"
-"                                      stop:0 rgb(253,253,253), stop:1 rgb(253,253,253));\n"
+"    background-color: rgb(253,253,253);\n"
 "    color: rgb(45,45,45);\n"
 "    border-top: 1px solid lightgray;\n"
 "    border-bottom: 1px solid lightgray;\n"
@@ -1421,12 +1465,13 @@ class Ui_MainWindow(object):
 "    font-size: 15px;\n"
 "}")
         self.main_remote_tr_2.setFrameShape(QtWidgets.QFrame.NoFrame)
-        self.main_remote_tr_2.setDragDropMode(QtWidgets.QAbstractItemView.DragOnly)
+        self.main_remote_tr_2.setDragDropMode(QtWidgets.QAbstractItemView.NoDragDrop)
         self.main_remote_tr_2.setSelectionMode(QtWidgets.QAbstractItemView.ExtendedSelection)
         self.main_remote_tr_2.setIndentation(0)
         self.main_remote_tr_2.setWordWrap(True)
         self.main_remote_tr_2.setObjectName("main_remote_tr_2")
         self.main_remote_tr_2.header().setVisible(True)
+        self.main_remote_tr_2.header().setSortIndicatorShown(False)
         self.verticalLayout_3.addWidget(self.main_remote_sp)
         self.gridLayout_3.addWidget(self.main_splitter, 0, 0, 1, 1)
         self.main_tabwidget = QtWidgets.QTabWidget(self.splitter)
@@ -1523,25 +1568,15 @@ class Ui_MainWindow(object):
         self.gridLayout_5 = QtWidgets.QGridLayout(self.connection_tab)
         self.gridLayout_5.setContentsMargins(0, 0, 0, 0)
         self.gridLayout_5.setObjectName("gridLayout_5")
-        self.connexion_browser = QtWidgets.QTextBrowser(self.connection_tab)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Preferred)
-        sizePolicy.setHorizontalStretch(0)
-        sizePolicy.setVerticalStretch(0)
-        sizePolicy.setHeightForWidth(self.connexion_browser.sizePolicy().hasHeightForWidth())
-        self.connexion_browser.setSizePolicy(sizePolicy)
-        self.connexion_browser.setMinimumSize(QtCore.QSize(0, 0))
+        self.connexion_browser = QtWidgets.QTableWidget(self.connection_tab)
         font = QtGui.QFont()
         font.setFamily("fonts/SourceSansPro-Regular.ttf")
         font.setPointSize(9)
         font.setKerning(True)
         font.setStyleStrategy(QtGui.QFont.PreferAntialias)
         self.connexion_browser.setFont(font)
-        self.connexion_browser.setStyleSheet("QTextBrowser {\n"
-"    border: 0px solid black;\n"
-"    border-bottom-right-radius: 0px;\n"
-"    border-bottom-left-radius: 0px;\n"
-"    border-top-right-radius: 0px;\n"
-"\n"
+        self.connexion_browser.setFocusPolicy(QtCore.Qt.NoFocus)
+        self.connexion_browser.setStyleSheet("QTableWidget {\n"
 "    background-color:  rgb(240, 240, 240);\n"
 "    color: rgb(45,45,45);\n"
 "}\n"
@@ -1702,8 +1737,15 @@ class Ui_MainWindow(object):
 "  right: -1px;\n"
 "  bottom: -1px;\n"
 "}")
-        self.connexion_browser.setHorizontalScrollBarPolicy(QtCore.Qt.ScrollBarAlwaysOff)
+        self.connexion_browser.setFrameShape(QtWidgets.QFrame.NoFrame)
+        self.connexion_browser.setSelectionMode(QtWidgets.QAbstractItemView.NoSelection)
+        self.connexion_browser.setShowGrid(False)
+        self.connexion_browser.setRowCount(0)
+        self.connexion_browser.setColumnCount(2)
         self.connexion_browser.setObjectName("connexion_browser")
+        self.connexion_browser.horizontalHeader().setVisible(False)
+        self.connexion_browser.verticalHeader().setVisible(False)
+        self.connexion_browser.verticalHeader().setDefaultSectionSize(20)
         self.gridLayout_5.addWidget(self.connexion_browser, 0, 0, 1, 1)
         self.main_tabwidget.addTab(self.connection_tab, "")
         self.transfers_tab = QtWidgets.QWidget()
@@ -1722,11 +1764,46 @@ class Ui_MainWindow(object):
         self.transfert_tree.setFocusPolicy(QtCore.Qt.NoFocus)
         self.transfert_tree.setStyleSheet("QTreeWidget {\n"
 "    background: rgb(240,240,240);\n"
-"    border: 0px solid black;\n"
-"    border-bottom-right-radius: 0px;\n"
-"    border-bottom-left-radius: 0px;\n"
-"    border-top-right-radius: 0px;\n"
 "    color: rgb(45,45,45);\n"
+"    margin-bottom: 0px;\n"
+"\n"
+"}\n"
+"\n"
+"QTreeWidget:disabled {\n"
+"    color: rgb(90,90,90);\n"
+"    selection-color: rgb(90,90,90);\n"
+"    selection-background-color: qlineargradient(x1:0, y1:0, x2:0, y2:1,\n"
+"                                    stop:0 #eaeaea, stop:1 #dcdcdc);\n"
+"}\n"
+"\n"
+"QTreeWidget::item {\n"
+"    margin-top: 0px;\n"
+"    margin-bottom: 0px;\n"
+"}\n"
+"\n"
+"\n"
+"QTreeWidget::item:first {\n"
+"    border: 0px solid rgb(240,240,240);\n"
+"    border-top-left-radius: 3px;\n"
+"    border-bottom-left-radius: 3px;\n"
+"    padding-left: 1px;\n"
+"    margin-left: 2px;\n"
+"}\n"
+"\n"
+"QTreeWidget::item:last {\n"
+"    border: 0px solid rgb(240,240,240);\n"
+"    border-top-right-radius: 3px;\n"
+"    border-bottom-right-radius: 3px;\n"
+"    padding-right: 1px;\n"
+"    margin-right: 2px;\n"
+"}\n"
+"\n"
+"QTreeWidget::item:hover {\n"
+"    background-color: rgb(230,230,230);\n"
+"}\n"
+"\n"
+"QTreeWidget::item:selected {\n"
+"    background-color: rgb(200,200,200);\n"
 "}\n"
 "\n"
 "QScrollBar:vertical {\n"
@@ -1866,21 +1943,21 @@ class Ui_MainWindow(object):
 "}\n"
 "\n"
 "QHeaderView::section {\n"
-"    background-color: qlineargradient(x1:0, y1:0, x2:0, y2:1,\n"
-"                                      stop:0 rgb(253,253,253), stop:1 rgb(253,253,253));\n"
+"    background-color: rgb(253,253,253);\n"
 "    color: rgb(45,45,45);\n"
 "    border-top: 1px solid lightgray;\n"
 "    border-bottom: 1px solid lightgray;\n"
 "    border-right: 1px solid lightgray;\n"
 "    padding-left: 10px;\n"
 "    padding-bottom: 3px;\n"
-"    height: 30px;\n"
+"    height: 27px;\n"
 "    font-family: \"fonts/SourceSansPro-Regular.ttf\";\n"
 "    font-size: 15px;\n"
+"    margin-bottom: 3px;\n"
 "}")
         self.transfert_tree.setFrameShape(QtWidgets.QFrame.NoFrame)
         self.transfert_tree.setEditTriggers(QtWidgets.QAbstractItemView.NoEditTriggers)
-        self.transfert_tree.setSelectionMode(QtWidgets.QAbstractItemView.NoSelection)
+        self.transfert_tree.setSelectionMode(QtWidgets.QAbstractItemView.ExtendedSelection)
         self.transfert_tree.setIndentation(0)
         self.transfert_tree.setWordWrap(True)
         self.transfert_tree.setHeaderHidden(True)
@@ -1964,29 +2041,22 @@ class Ui_MainWindow(object):
         icon7.addPixmap(QtGui.QPixmap("icons/manager_icon.svg"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.actionManager.setIcon(icon7)
         self.actionManager.setObjectName("actionManager")
-        self.actionHome = QtWidgets.QAction(MainWindow)
-        self.actionHome.setEnabled(False)
-        icon8 = QtGui.QIcon()
-        icon8.addPixmap(QtGui.QPixmap("icons/origin_icon.svg"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
-        self.actionHome.setIcon(icon8)
-        self.actionHome.setObjectName("actionHome")
         self.actionRefresh = QtWidgets.QAction(MainWindow)
         self.actionRefresh.setEnabled(False)
-        icon9 = QtGui.QIcon()
-        icon9.addPixmap(QtGui.QPixmap("icons/reload_icon.svg"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
-        self.actionRefresh.setIcon(icon9)
+        icon8 = QtGui.QIcon()
+        icon8.addPixmap(QtGui.QPixmap("icons/reload_icon.svg"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        self.actionRefresh.setIcon(icon8)
         self.actionRefresh.setObjectName("actionRefresh")
         self.actionUpdate = QtWidgets.QAction(MainWindow)
         self.actionUpdate.setEnabled(False)
-        icon10 = QtGui.QIcon()
-        icon10.addPixmap(QtGui.QPixmap("icons/orionftp_update_off.svg"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
-        self.actionUpdate.setIcon(icon10)
+        icon9 = QtGui.QIcon()
+        icon9.addPixmap(QtGui.QPixmap("icons/orionftp_update_off.svg"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        self.actionUpdate.setIcon(icon9)
         self.actionUpdate.setObjectName("actionUpdate")
         self.toolBar.addAction(self.actionExit)
         self.toolBar.addAction(self.actionSeparator)
         self.toolBar.addAction(self.actionManager)
         self.toolBar.addAction(self.actionClose)
-        self.toolBar.addAction(self.actionHome)
         self.toolBar.addAction(self.actionRefresh)
         self.toolBar.addAction(self.actionSeparator3)
         self.toolBar.addAction(self.actionOptions)
@@ -2014,17 +2084,12 @@ class Ui_MainWindow(object):
         self.main_remote_tr_2.headerItem().setText(0, _translate("MainWindow", "File"))
         self.main_remote_tr_2.headerItem().setText(1, _translate("MainWindow", "Size"))
         self.main_remote_tr_2.headerItem().setText(2, _translate("MainWindow", "Type"))
-        self.connexion_browser.setDocumentTitle(_translate("MainWindow", "Changelog"))
-        self.connexion_browser.setHtml(_translate("MainWindow", "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n"
-"<html><head><meta name=\"qrichtext\" content=\"1\" /><title>Changelog</title><style type=\"text/css\">\n"
-"p, li { white-space: pre-wrap; }\n"
-"</style></head><body style=\" font-family:\'FreeSans\'; font-size:9pt; font-weight:400; font-style:normal;\">\n"
-"<p style=\"-qt-paragraph-type:empty; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><br /></p></body></html>"))
         self.main_tabwidget.setTabText(self.main_tabwidget.indexOf(self.connection_tab), _translate("MainWindow", "FTP Connection"))
         self.transfert_tree.headerItem().setText(0, _translate("MainWindow", "Status"))
         self.transfert_tree.headerItem().setText(1, _translate("MainWindow", "File"))
         self.transfert_tree.headerItem().setText(2, _translate("MainWindow", "Size"))
-        self.transfert_tree.headerItem().setText(3, _translate("MainWindow", "Progress"))
+        self.transfert_tree.headerItem().setText(3, _translate("MainWindow", "Speed"))
+        self.transfert_tree.headerItem().setText(4, _translate("MainWindow", "Progress"))
         self.main_tabwidget.setTabText(self.main_tabwidget.indexOf(self.transfers_tab), _translate("MainWindow", "Transfers"))
         self.toolBar.setWindowTitle(_translate("MainWindow", "toolBar"))
         self.actionClose.setText(_translate("MainWindow", "Close..."))
@@ -2038,8 +2103,6 @@ class Ui_MainWindow(object):
         self.actionSeparator3.setText(_translate("MainWindow", "separator3"))
         self.actionManager.setText(_translate("MainWindow", "FTP Manager..."))
         self.actionManager.setToolTip(_translate("MainWindow", "Open the FTP manager"))
-        self.actionHome.setText(_translate("MainWindow", "Home"))
-        self.actionHome.setToolTip(_translate("MainWindow", "Go back to the home directory"))
         self.actionRefresh.setText(_translate("MainWindow", "Refresh"))
         self.actionRefresh.setToolTip(_translate("MainWindow", "Refresh the FTP view"))
         self.actionUpdate.setText(_translate("MainWindow", "Update..."))

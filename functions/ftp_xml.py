@@ -3,9 +3,11 @@ import datetime
 import logging
 import collections
 
+
 NAMESPACE_URI = 'OrionFTP'
 
-def create_profile_xml(self, out_file_name, ftp_profiles):
+
+def create_profile_xml(out_file_name, ftp_profiles):
     logging.debug('ftp_xml.py - create_profile_xml - starting ...')
     doc = xml.dom.minidom.Document()
     doc_root = add_element(doc, "OrionFTP", doc)
@@ -19,6 +21,7 @@ def create_profile_xml(self, out_file_name, ftp_profiles):
         server = add_element(doc, "Server", servers)
         add_element(doc, "Name", server, key)
         add_element(doc, "Protocol", server, profile['protocol'])
+        add_element(doc, "Encryption", server, profile['encryption'])
         add_element(doc, "Host", server, profile['host'])
         add_element(doc, "Port", server, profile['port'])
         add_element(doc, "Username", server, profile['username'])
@@ -34,7 +37,7 @@ def create_profile_xml(self, out_file_name, ftp_profiles):
     logging.info('ftp_xml.py - create_profile_xml - xml file successfully created')
     
 
-def read_profile_xml(self, xml_file):
+def read_profile_xml(xml_file):
     logging.debug('ftp_xml.py - read_profile_xml - xml file reading in progress (' + str(xml_file) + ') ...')
     f = open(xml_file, 'r')
     doc = xml.dom.minidom.parse(f)
@@ -46,12 +49,31 @@ def read_profile_xml(self, xml_file):
     servers = doc.getElementsByTagName('Servers')[0]
     nodes = servers.getElementsByTagName('Server')
     for node in nodes:
-        profile = {}
-        profile['protocol'] = get_element_value(node, 'Protocol')
-        profile['host'] = get_element_value(node, 'Host')
-        profile['port'] = get_element_value(node, 'Port')
-        profile['username'] = get_element_value(node, 'Username')
-        profile['password'] = get_element_value(node, 'Password')
+        profile = dict()
+        protocol = get_element_value(node, 'Protocol')
+        host = get_element_value(node, 'Host')
+        encryption = get_element_value(node, 'Encryption')
+        port = get_element_value(node, 'Port')
+        username = get_element_value(node, 'Username')
+        password = get_element_value(node, 'Password')
+        if protocol is None:
+            protocol = ''
+        if host is None:
+            host = ''
+        if encryption is None:
+            encryption = ''
+        if port is None:
+            port = ''
+        if username is None:
+            username = ''
+        if password is None:
+            password = ''
+        profile['protocol'] = protocol
+        profile['host'] = host
+        profile['port'] = port
+        profile['encryption'] = encryption
+        profile['username'] = username
+        profile['password'] = password
         ftp_profiles[get_element_value(node, 'Name')] = profile
     
     logging.info('ftp_xml.py - read_profile_xml - xml file successfully parsed')

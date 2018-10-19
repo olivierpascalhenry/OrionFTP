@@ -1,7 +1,7 @@
 Version:
 -------
 
-OrionFTP 0.4.0.
+OrionFTP 0.5.0.
 
 
 Project Overview:
@@ -37,7 +37,7 @@ Install instructions for sources:
 ---------------------------------
 Download sources and uncompress them somewhere on your hard drive. Open a terminal in the new directory and launch CMEMS Data Downloader by typing: python cmems_data_downloader.py. Do not forget to install dependencies :
 
-* PyQt5 v5.10+
+* PyQt5 v5.11+
 * requests v2.18+
 
 

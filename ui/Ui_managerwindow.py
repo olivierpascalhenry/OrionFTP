@@ -234,15 +234,15 @@ class Ui_managerWindow(object):
 "}")
         self.splitter.setOrientation(QtCore.Qt.Horizontal)
         self.splitter.setObjectName("splitter")
-        self.widget = QtWidgets.QWidget(self.splitter)
-        self.widget.setObjectName("widget")
-        self.horizontalLayout_3 = QtWidgets.QHBoxLayout(self.widget)
+        self.layoutWidget = QtWidgets.QWidget(self.splitter)
+        self.layoutWidget.setObjectName("layoutWidget")
+        self.horizontalLayout_3 = QtWidgets.QHBoxLayout(self.layoutWidget)
         self.horizontalLayout_3.setContentsMargins(0, 0, 0, 0)
         self.horizontalLayout_3.setObjectName("horizontalLayout_3")
         self.verticalLayout = QtWidgets.QVBoxLayout()
         self.verticalLayout.setSpacing(4)
         self.verticalLayout.setObjectName("verticalLayout")
-        self.mw_profile_list = QtWidgets.QListWidget(self.widget)
+        self.mw_profile_list = QtWidgets.QListWidget(self.layoutWidget)
         self.mw_profile_list.setEnabled(True)
         self.mw_profile_list.setMinimumSize(QtCore.QSize(0, 0))
         self.mw_profile_list.setMaximumSize(QtCore.QSize(16777215, 16777215))
@@ -462,7 +462,7 @@ class Ui_managerWindow(object):
         self.verticalLayout.addWidget(self.mw_profile_list)
         self.horizontalLayout = QtWidgets.QHBoxLayout()
         self.horizontalLayout.setObjectName("horizontalLayout")
-        self.mw_add_button = QtWidgets.QToolButton(self.widget)
+        self.mw_add_button = QtWidgets.QToolButton(self.layoutWidget)
         self.mw_add_button.setMinimumSize(QtCore.QSize(27, 27))
         self.mw_add_button.setMaximumSize(QtCore.QSize(27, 27))
         self.mw_add_button.setStyleSheet("QToolButton {\n"
@@ -483,7 +483,7 @@ class Ui_managerWindow(object):
         self.horizontalLayout.addWidget(self.mw_add_button)
         spacerItem = QtWidgets.QSpacerItem(10, 20, QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Minimum)
         self.horizontalLayout.addItem(spacerItem)
-        self.mw_del_button = QtWidgets.QToolButton(self.widget)
+        self.mw_del_button = QtWidgets.QToolButton(self.layoutWidget)
         self.mw_del_button.setEnabled(False)
         self.mw_del_button.setMinimumSize(QtCore.QSize(27, 27))
         self.mw_del_button.setMaximumSize(QtCore.QSize(27, 27))
@@ -505,7 +505,7 @@ class Ui_managerWindow(object):
         self.horizontalLayout.addWidget(self.mw_del_button)
         spacerItem1 = QtWidgets.QSpacerItem(198, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
         self.horizontalLayout.addItem(spacerItem1)
-        self.mw_save_button = QtWidgets.QToolButton(self.widget)
+        self.mw_save_button = QtWidgets.QToolButton(self.layoutWidget)
         self.mw_save_button.setEnabled(False)
         self.mw_save_button.setMinimumSize(QtCore.QSize(27, 27))
         self.mw_save_button.setMaximumSize(QtCore.QSize(27, 27))
@@ -527,7 +527,7 @@ class Ui_managerWindow(object):
         self.horizontalLayout.addWidget(self.mw_save_button)
         spacerItem2 = QtWidgets.QSpacerItem(10, 20, QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Minimum)
         self.horizontalLayout.addItem(spacerItem2)
-        self.mw_open_button = QtWidgets.QToolButton(self.widget)
+        self.mw_open_button = QtWidgets.QToolButton(self.layoutWidget)
         self.mw_open_button.setMinimumSize(QtCore.QSize(27, 27))
         self.mw_open_button.setMaximumSize(QtCore.QSize(27, 27))
         self.mw_open_button.setStyleSheet("QToolButton {\n"
@@ -550,12 +550,12 @@ class Ui_managerWindow(object):
         self.horizontalLayout_3.addLayout(self.verticalLayout)
         spacerItem3 = QtWidgets.QSpacerItem(10, 20, QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Minimum)
         self.horizontalLayout_3.addItem(spacerItem3)
-        self.layoutWidget = QtWidgets.QWidget(self.splitter)
-        self.layoutWidget.setObjectName("layoutWidget")
-        self.horizontalLayout_2 = QtWidgets.QHBoxLayout(self.layoutWidget)
+        self.layoutWidget1 = QtWidgets.QWidget(self.splitter)
+        self.layoutWidget1.setObjectName("layoutWidget1")
+        self.horizontalLayout_2 = QtWidgets.QHBoxLayout(self.layoutWidget1)
         self.horizontalLayout_2.setContentsMargins(0, 0, 0, 0)
         self.horizontalLayout_2.setObjectName("horizontalLayout_2")
-        self.scroll_area = QtWidgets.QScrollArea(self.layoutWidget)
+        self.scroll_area = QtWidgets.QScrollArea(self.layoutWidget1)
         self.scroll_area.setStyleSheet("QScrollArea { background: transparent; }\n"
 "\n"
 "QScrollArea > QWidget > QWidget { background: transparent; }\n"
@@ -609,7 +609,7 @@ class Ui_managerWindow(object):
 "  height: 20px;\n"
 "  subcontrol-position: bottom;\n"
 "  subcontrol-origin: margin;\n"
-"  border-bottom-right-radius: 5px;\n"
+"  border-bottom-right-radius: 0px;\n"
 "}\n"
 "\n"
 "QScrollBar::add-line:vertical:hover {\n"
@@ -629,7 +629,7 @@ class Ui_managerWindow(object):
 "  height: 20px;\n"
 "  subcontrol-position: top;\n"
 "  subcontrol-origin: margin;\n"
-"  border-top-right-radius: 5px;\n"
+"  border-top-right-radius: 0px;\n"
 "}\n"
 "\n"
 "QScrollBar::sub-line:vertical:hover {\n"
@@ -671,7 +671,7 @@ class Ui_managerWindow(object):
 "  width: 20px;\n"
 "  subcontrol-position: right;\n"
 "  subcontrol-origin: margin;\n"
-"  border-bottom-right-radius: 5px;\n"
+"  border-bottom-right-radius: 0px;\n"
 "}\n"
 "\n"
 "QScrollBar::add-line:horizontal:hover {\n"
@@ -691,7 +691,7 @@ class Ui_managerWindow(object):
 "  width: 20px;\n"
 "  subcontrol-position: left;\n"
 "  subcontrol-origin: margin;\n"
-"border-bottom-left-radius: 5px;\n"
+"border-bottom-left-radius: 0px;\n"
 "}\n"
 "\n"
 "QScrollBar::sub-line:horizontal:hover {\n"
@@ -727,207 +727,18 @@ class Ui_managerWindow(object):
         self.scroll_area.setWidgetResizable(True)
         self.scroll_area.setObjectName("scroll_area")
         self.scrollAreaWidgetContents_2 = QtWidgets.QWidget()
-        self.scrollAreaWidgetContents_2.setGeometry(QtCore.QRect(0, 0, 456, 238))
+        self.scrollAreaWidgetContents_2.setGeometry(QtCore.QRect(0, 0, 498, 262))
         self.scrollAreaWidgetContents_2.setObjectName("scrollAreaWidgetContents_2")
         self.gridLayout_2 = QtWidgets.QGridLayout(self.scrollAreaWidgetContents_2)
         self.gridLayout_2.setContentsMargins(0, 0, 0, 0)
         self.gridLayout_2.setObjectName("gridLayout_2")
+        spacerItem4 = QtWidgets.QSpacerItem(20, 74, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
+        self.gridLayout_2.addItem(spacerItem4, 1, 1, 1, 1)
+        spacerItem5 = QtWidgets.QSpacerItem(10, 20, QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Minimum)
+        self.gridLayout_2.addItem(spacerItem5, 0, 0, 1, 1)
         self.gridLayout = QtWidgets.QGridLayout()
         self.gridLayout.setVerticalSpacing(15)
         self.gridLayout.setObjectName("gridLayout")
-        self.mw_label_1 = QtWidgets.QLabel(self.scrollAreaWidgetContents_2)
-        self.mw_label_1.setMinimumSize(QtCore.QSize(0, 27))
-        self.mw_label_1.setMaximumSize(QtCore.QSize(16777215, 27))
-        font = QtGui.QFont()
-        font.setFamily("fonts/SourceSansPro-Regular.ttf")
-        font.setPointSize(10)
-        font.setBold(False)
-        font.setWeight(50)
-        font.setKerning(True)
-        font.setStyleStrategy(QtGui.QFont.PreferAntialias)
-        self.mw_label_1.setFont(font)
-        self.mw_label_1.setStyleSheet("QLabel {\n"
-"    color: rgb(45,45,45);\n"
-"}")
-        self.mw_label_1.setAlignment(QtCore.Qt.AlignRight|QtCore.Qt.AlignTrailing|QtCore.Qt.AlignVCenter)
-        self.mw_label_1.setObjectName("mw_label_1")
-        self.gridLayout.addWidget(self.mw_label_1, 0, 0, 1, 1)
-        self.mw_combobox = QtWidgets.QComboBox(self.scrollAreaWidgetContents_2)
-        self.mw_combobox.setEnabled(False)
-        self.mw_combobox.setMinimumSize(QtCore.QSize(270, 27))
-        self.mw_combobox.setMaximumSize(QtCore.QSize(270, 27))
-        font = QtGui.QFont()
-        font.setFamily("fonts/SourceSansPro-Regular.ttf")
-        font.setPointSize(9)
-        font.setKerning(True)
-        font.setStyleStrategy(QtGui.QFont.PreferAntialias)
-        self.mw_combobox.setFont(font)
-        self.mw_combobox.setStyleSheet("QComboBox {\n"
-"    border: 1px solid #acacac;\n"
-"    border-radius: 1px;\n"
-"    padding-left: 5px;\n"
-"    background-color: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1, \n"
-"                                stop: 0 #f0f0f0, stop: 1 #e5e5e5);\n"
-"}\n"
-"\n"
-"QComboBox:disabled {\n"
-"    background-color:  rgb(200,200,200);\n"
-"}\n"
-"\n"
-"QComboBox:hover {\n"
-"    border: 1px solid #7eb4ea;\n"
-"    border-radius: 1px;\n"
-"    background-color: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1, \n"
-"                                stop: 0 #ecf4fc, stop: 1 #dcecfc);\n"
-"}\n"
-"\n"
-"QComboBox::drop-down {\n"
-"    subcontrol-origin: padding;\n"
-"    subcontrol-position: top right;\n"
-"    width: 27px;\n"
-"    border-left-width: 1px;\n"
-"    border-left-color: darkgray;\n"
-"    border-left-style: solid;\n"
-"    border-top-right-radius: 3px;\n"
-"    border-bottom-right-radius: 3px;\n"
-"}\n"
-"\n"
-"QComboBox::down-arrow {\n"
-"    image: url(icons/down_arrow_icon.svg); \n"
-"    width: 16px;\n"
-"    height: 16px\n"
-"}\n"
-"\n"
-"QComboBox QAbstractItemView {\n"
-"    selection-background-color: rgb(200,200,200);\n"
-"    selection-color: black;\n"
-"    background: #f0f0f0;\n"
-"    border: 0px solid #f0f0f0;\n"
-"}\n"
-"\n"
-"QComboBox QAbstractItemView::item {\n"
-"    margin: 5px 5px 5px 5px;\n"
-"}")
-        self.mw_combobox.setObjectName("mw_combobox")
-        self.mw_combobox.addItem("")
-        self.mw_combobox.addItem("")
-        self.gridLayout.addWidget(self.mw_combobox, 0, 1, 1, 2)
-        self.mw_label_2 = QtWidgets.QLabel(self.scrollAreaWidgetContents_2)
-        self.mw_label_2.setMinimumSize(QtCore.QSize(0, 27))
-        self.mw_label_2.setMaximumSize(QtCore.QSize(16777215, 27))
-        font = QtGui.QFont()
-        font.setFamily("fonts/SourceSansPro-Regular.ttf")
-        font.setPointSize(10)
-        font.setBold(False)
-        font.setWeight(50)
-        font.setKerning(True)
-        font.setStyleStrategy(QtGui.QFont.PreferAntialias)
-        self.mw_label_2.setFont(font)
-        self.mw_label_2.setStyleSheet("QLabel {\n"
-"    color: rgb(45,45,45);\n"
-"}")
-        self.mw_label_2.setAlignment(QtCore.Qt.AlignRight|QtCore.Qt.AlignTrailing|QtCore.Qt.AlignVCenter)
-        self.mw_label_2.setObjectName("mw_label_2")
-        self.gridLayout.addWidget(self.mw_label_2, 1, 0, 1, 1)
-        self.mw_line_1 = QtWidgets.QLineEdit(self.scrollAreaWidgetContents_2)
-        self.mw_line_1.setEnabled(False)
-        self.mw_line_1.setMinimumSize(QtCore.QSize(0, 27))
-        self.mw_line_1.setMaximumSize(QtCore.QSize(16777215, 27))
-        palette = QtGui.QPalette()
-        brush = QtGui.QBrush(QtGui.QColor(45, 45, 45))
-        brush.setStyle(QtCore.Qt.SolidPattern)
-        palette.setBrush(QtGui.QPalette.Active, QtGui.QPalette.WindowText, brush)
-        brush = QtGui.QBrush(QtGui.QColor(240, 240, 240))
-        brush.setStyle(QtCore.Qt.SolidPattern)
-        palette.setBrush(QtGui.QPalette.Active, QtGui.QPalette.Button, brush)
-        brush = QtGui.QBrush(QtGui.QColor(45, 45, 45))
-        brush.setStyle(QtCore.Qt.SolidPattern)
-        palette.setBrush(QtGui.QPalette.Active, QtGui.QPalette.Text, brush)
-        brush = QtGui.QBrush(QtGui.QColor(45, 45, 45))
-        brush.setStyle(QtCore.Qt.SolidPattern)
-        palette.setBrush(QtGui.QPalette.Active, QtGui.QPalette.ButtonText, brush)
-        brush = QtGui.QBrush(QtGui.QColor(240, 240, 240))
-        brush.setStyle(QtCore.Qt.SolidPattern)
-        palette.setBrush(QtGui.QPalette.Active, QtGui.QPalette.Base, brush)
-        brush = QtGui.QBrush(QtGui.QColor(240, 240, 240))
-        brush.setStyle(QtCore.Qt.SolidPattern)
-        palette.setBrush(QtGui.QPalette.Active, QtGui.QPalette.Window, brush)
-        brush = QtGui.QBrush(QtGui.QColor(45, 45, 45))
-        brush.setStyle(QtCore.Qt.SolidPattern)
-        palette.setBrush(QtGui.QPalette.Inactive, QtGui.QPalette.WindowText, brush)
-        brush = QtGui.QBrush(QtGui.QColor(240, 240, 240))
-        brush.setStyle(QtCore.Qt.SolidPattern)
-        palette.setBrush(QtGui.QPalette.Inactive, QtGui.QPalette.Button, brush)
-        brush = QtGui.QBrush(QtGui.QColor(45, 45, 45))
-        brush.setStyle(QtCore.Qt.SolidPattern)
-        palette.setBrush(QtGui.QPalette.Inactive, QtGui.QPalette.Text, brush)
-        brush = QtGui.QBrush(QtGui.QColor(45, 45, 45))
-        brush.setStyle(QtCore.Qt.SolidPattern)
-        palette.setBrush(QtGui.QPalette.Inactive, QtGui.QPalette.ButtonText, brush)
-        brush = QtGui.QBrush(QtGui.QColor(240, 240, 240))
-        brush.setStyle(QtCore.Qt.SolidPattern)
-        palette.setBrush(QtGui.QPalette.Inactive, QtGui.QPalette.Base, brush)
-        brush = QtGui.QBrush(QtGui.QColor(240, 240, 240))
-        brush.setStyle(QtCore.Qt.SolidPattern)
-        palette.setBrush(QtGui.QPalette.Inactive, QtGui.QPalette.Window, brush)
-        brush = QtGui.QBrush(QtGui.QColor(45, 45, 45))
-        brush.setStyle(QtCore.Qt.SolidPattern)
-        palette.setBrush(QtGui.QPalette.Disabled, QtGui.QPalette.WindowText, brush)
-        brush = QtGui.QBrush(QtGui.QColor(200, 200, 200))
-        brush.setStyle(QtCore.Qt.SolidPattern)
-        palette.setBrush(QtGui.QPalette.Disabled, QtGui.QPalette.Button, brush)
-        brush = QtGui.QBrush(QtGui.QColor(45, 45, 45))
-        brush.setStyle(QtCore.Qt.SolidPattern)
-        palette.setBrush(QtGui.QPalette.Disabled, QtGui.QPalette.Text, brush)
-        brush = QtGui.QBrush(QtGui.QColor(45, 45, 45))
-        brush.setStyle(QtCore.Qt.SolidPattern)
-        palette.setBrush(QtGui.QPalette.Disabled, QtGui.QPalette.ButtonText, brush)
-        brush = QtGui.QBrush(QtGui.QColor(200, 200, 200))
-        brush.setStyle(QtCore.Qt.SolidPattern)
-        palette.setBrush(QtGui.QPalette.Disabled, QtGui.QPalette.Base, brush)
-        brush = QtGui.QBrush(QtGui.QColor(200, 200, 200))
-        brush.setStyle(QtCore.Qt.SolidPattern)
-        palette.setBrush(QtGui.QPalette.Disabled, QtGui.QPalette.Window, brush)
-        self.mw_line_1.setPalette(palette)
-        font = QtGui.QFont()
-        font.setFamily("fonts/SourceSansPro-Regular.ttf")
-        font.setPointSize(9)
-        font.setBold(False)
-        font.setWeight(50)
-        font.setKerning(True)
-        font.setStyleStrategy(QtGui.QFont.PreferAntialias)
-        self.mw_line_1.setFont(font)
-        self.mw_line_1.setStyleSheet("QLineEdit {\n"
-"    border-radius: 3px;\n"
-"    padding: 1px 4px 1px 4px;\n"
-"    background-color: rgb(240, 240, 240);\n"
-"    color: rgb(45,45,45);\n"
-"}\n"
-"\n"
-"QLineEdit:disabled {\n"
-"    background-color: rgb(200,200,200);\n"
-"}")
-        self.mw_line_1.setText("")
-        self.mw_line_1.setFrame(False)
-        self.mw_line_1.setObjectName("mw_line_1")
-        self.gridLayout.addWidget(self.mw_line_1, 1, 1, 1, 1)
-        self.mw_label_3 = QtWidgets.QLabel(self.scrollAreaWidgetContents_2)
-        self.mw_label_3.setMinimumSize(QtCore.QSize(0, 27))
-        self.mw_label_3.setMaximumSize(QtCore.QSize(16777215, 27))
-        font = QtGui.QFont()
-        font.setFamily("fonts/SourceSansPro-Regular.ttf")
-        font.setPointSize(10)
-        font.setBold(False)
-        font.setWeight(50)
-        font.setKerning(True)
-        font.setStyleStrategy(QtGui.QFont.PreferAntialias)
-        self.mw_label_3.setFont(font)
-        self.mw_label_3.setStyleSheet("QLabel {\n"
-"    color: rgb(45,45,45);\n"
-"}")
-        self.mw_label_3.setAlignment(QtCore.Qt.AlignRight|QtCore.Qt.AlignTrailing|QtCore.Qt.AlignVCenter)
-        self.mw_label_3.setObjectName("mw_label_3")
-        self.gridLayout.addWidget(self.mw_label_3, 1, 2, 1, 1)
         self.mw_line_2 = QtWidgets.QLineEdit(self.scrollAreaWidgetContents_2)
         self.mw_line_2.setEnabled(False)
         self.mw_line_2.setMinimumSize(QtCore.QSize(50, 27))
@@ -1009,7 +820,89 @@ class Ui_managerWindow(object):
         self.mw_line_2.setText("")
         self.mw_line_2.setFrame(False)
         self.mw_line_2.setObjectName("mw_line_2")
-        self.gridLayout.addWidget(self.mw_line_2, 1, 3, 1, 1)
+        self.gridLayout.addWidget(self.mw_line_2, 2, 3, 1, 1)
+        self.mw_line_1 = QtWidgets.QLineEdit(self.scrollAreaWidgetContents_2)
+        self.mw_line_1.setEnabled(False)
+        self.mw_line_1.setMinimumSize(QtCore.QSize(0, 27))
+        self.mw_line_1.setMaximumSize(QtCore.QSize(16777215, 27))
+        palette = QtGui.QPalette()
+        brush = QtGui.QBrush(QtGui.QColor(45, 45, 45))
+        brush.setStyle(QtCore.Qt.SolidPattern)
+        palette.setBrush(QtGui.QPalette.Active, QtGui.QPalette.WindowText, brush)
+        brush = QtGui.QBrush(QtGui.QColor(240, 240, 240))
+        brush.setStyle(QtCore.Qt.SolidPattern)
+        palette.setBrush(QtGui.QPalette.Active, QtGui.QPalette.Button, brush)
+        brush = QtGui.QBrush(QtGui.QColor(45, 45, 45))
+        brush.setStyle(QtCore.Qt.SolidPattern)
+        palette.setBrush(QtGui.QPalette.Active, QtGui.QPalette.Text, brush)
+        brush = QtGui.QBrush(QtGui.QColor(45, 45, 45))
+        brush.setStyle(QtCore.Qt.SolidPattern)
+        palette.setBrush(QtGui.QPalette.Active, QtGui.QPalette.ButtonText, brush)
+        brush = QtGui.QBrush(QtGui.QColor(240, 240, 240))
+        brush.setStyle(QtCore.Qt.SolidPattern)
+        palette.setBrush(QtGui.QPalette.Active, QtGui.QPalette.Base, brush)
+        brush = QtGui.QBrush(QtGui.QColor(240, 240, 240))
+        brush.setStyle(QtCore.Qt.SolidPattern)
+        palette.setBrush(QtGui.QPalette.Active, QtGui.QPalette.Window, brush)
+        brush = QtGui.QBrush(QtGui.QColor(45, 45, 45))
+        brush.setStyle(QtCore.Qt.SolidPattern)
+        palette.setBrush(QtGui.QPalette.Inactive, QtGui.QPalette.WindowText, brush)
+        brush = QtGui.QBrush(QtGui.QColor(240, 240, 240))
+        brush.setStyle(QtCore.Qt.SolidPattern)
+        palette.setBrush(QtGui.QPalette.Inactive, QtGui.QPalette.Button, brush)
+        brush = QtGui.QBrush(QtGui.QColor(45, 45, 45))
+        brush.setStyle(QtCore.Qt.SolidPattern)
+        palette.setBrush(QtGui.QPalette.Inactive, QtGui.QPalette.Text, brush)
+        brush = QtGui.QBrush(QtGui.QColor(45, 45, 45))
+        brush.setStyle(QtCore.Qt.SolidPattern)
+        palette.setBrush(QtGui.QPalette.Inactive, QtGui.QPalette.ButtonText, brush)
+        brush = QtGui.QBrush(QtGui.QColor(240, 240, 240))
+        brush.setStyle(QtCore.Qt.SolidPattern)
+        palette.setBrush(QtGui.QPalette.Inactive, QtGui.QPalette.Base, brush)
+        brush = QtGui.QBrush(QtGui.QColor(240, 240, 240))
+        brush.setStyle(QtCore.Qt.SolidPattern)
+        palette.setBrush(QtGui.QPalette.Inactive, QtGui.QPalette.Window, brush)
+        brush = QtGui.QBrush(QtGui.QColor(45, 45, 45))
+        brush.setStyle(QtCore.Qt.SolidPattern)
+        palette.setBrush(QtGui.QPalette.Disabled, QtGui.QPalette.WindowText, brush)
+        brush = QtGui.QBrush(QtGui.QColor(200, 200, 200))
+        brush.setStyle(QtCore.Qt.SolidPattern)
+        palette.setBrush(QtGui.QPalette.Disabled, QtGui.QPalette.Button, brush)
+        brush = QtGui.QBrush(QtGui.QColor(45, 45, 45))
+        brush.setStyle(QtCore.Qt.SolidPattern)
+        palette.setBrush(QtGui.QPalette.Disabled, QtGui.QPalette.Text, brush)
+        brush = QtGui.QBrush(QtGui.QColor(45, 45, 45))
+        brush.setStyle(QtCore.Qt.SolidPattern)
+        palette.setBrush(QtGui.QPalette.Disabled, QtGui.QPalette.ButtonText, brush)
+        brush = QtGui.QBrush(QtGui.QColor(200, 200, 200))
+        brush.setStyle(QtCore.Qt.SolidPattern)
+        palette.setBrush(QtGui.QPalette.Disabled, QtGui.QPalette.Base, brush)
+        brush = QtGui.QBrush(QtGui.QColor(200, 200, 200))
+        brush.setStyle(QtCore.Qt.SolidPattern)
+        palette.setBrush(QtGui.QPalette.Disabled, QtGui.QPalette.Window, brush)
+        self.mw_line_1.setPalette(palette)
+        font = QtGui.QFont()
+        font.setFamily("fonts/SourceSansPro-Regular.ttf")
+        font.setPointSize(9)
+        font.setBold(False)
+        font.setWeight(50)
+        font.setKerning(True)
+        font.setStyleStrategy(QtGui.QFont.PreferAntialias)
+        self.mw_line_1.setFont(font)
+        self.mw_line_1.setStyleSheet("QLineEdit {\n"
+"    border-radius: 3px;\n"
+"    padding: 1px 4px 1px 4px;\n"
+"    background-color: rgb(240, 240, 240);\n"
+"    color: rgb(45,45,45);\n"
+"}\n"
+"\n"
+"QLineEdit:disabled {\n"
+"    background-color: rgb(200,200,200);\n"
+"}")
+        self.mw_line_1.setText("")
+        self.mw_line_1.setFrame(False)
+        self.mw_line_1.setObjectName("mw_line_1")
+        self.gridLayout.addWidget(self.mw_line_1, 2, 1, 1, 1)
         self.mw_label_4 = QtWidgets.QLabel(self.scrollAreaWidgetContents_2)
         self.mw_label_4.setMinimumSize(QtCore.QSize(0, 27))
         self.mw_label_4.setMaximumSize(QtCore.QSize(16777215, 27))
@@ -1026,7 +919,107 @@ class Ui_managerWindow(object):
 "}")
         self.mw_label_4.setAlignment(QtCore.Qt.AlignRight|QtCore.Qt.AlignTrailing|QtCore.Qt.AlignVCenter)
         self.mw_label_4.setObjectName("mw_label_4")
-        self.gridLayout.addWidget(self.mw_label_4, 2, 0, 1, 1)
+        self.gridLayout.addWidget(self.mw_label_4, 3, 0, 1, 1)
+        self.mw_label_2 = QtWidgets.QLabel(self.scrollAreaWidgetContents_2)
+        self.mw_label_2.setMinimumSize(QtCore.QSize(0, 27))
+        self.mw_label_2.setMaximumSize(QtCore.QSize(16777215, 27))
+        font = QtGui.QFont()
+        font.setFamily("fonts/SourceSansPro-Regular.ttf")
+        font.setPointSize(10)
+        font.setBold(False)
+        font.setWeight(50)
+        font.setKerning(True)
+        font.setStyleStrategy(QtGui.QFont.PreferAntialias)
+        self.mw_label_2.setFont(font)
+        self.mw_label_2.setStyleSheet("QLabel {\n"
+"    color: rgb(45,45,45);\n"
+"}")
+        self.mw_label_2.setAlignment(QtCore.Qt.AlignRight|QtCore.Qt.AlignTrailing|QtCore.Qt.AlignVCenter)
+        self.mw_label_2.setObjectName("mw_label_2")
+        self.gridLayout.addWidget(self.mw_label_2, 2, 0, 1, 1)
+        self.mw_line_4 = QtWidgets.QLineEdit(self.scrollAreaWidgetContents_2)
+        self.mw_line_4.setEnabled(False)
+        self.mw_line_4.setMinimumSize(QtCore.QSize(0, 27))
+        self.mw_line_4.setMaximumSize(QtCore.QSize(16777215, 27))
+        palette = QtGui.QPalette()
+        brush = QtGui.QBrush(QtGui.QColor(45, 45, 45))
+        brush.setStyle(QtCore.Qt.SolidPattern)
+        palette.setBrush(QtGui.QPalette.Active, QtGui.QPalette.WindowText, brush)
+        brush = QtGui.QBrush(QtGui.QColor(240, 240, 240))
+        brush.setStyle(QtCore.Qt.SolidPattern)
+        palette.setBrush(QtGui.QPalette.Active, QtGui.QPalette.Button, brush)
+        brush = QtGui.QBrush(QtGui.QColor(45, 45, 45))
+        brush.setStyle(QtCore.Qt.SolidPattern)
+        palette.setBrush(QtGui.QPalette.Active, QtGui.QPalette.Text, brush)
+        brush = QtGui.QBrush(QtGui.QColor(45, 45, 45))
+        brush.setStyle(QtCore.Qt.SolidPattern)
+        palette.setBrush(QtGui.QPalette.Active, QtGui.QPalette.ButtonText, brush)
+        brush = QtGui.QBrush(QtGui.QColor(240, 240, 240))
+        brush.setStyle(QtCore.Qt.SolidPattern)
+        palette.setBrush(QtGui.QPalette.Active, QtGui.QPalette.Base, brush)
+        brush = QtGui.QBrush(QtGui.QColor(240, 240, 240))
+        brush.setStyle(QtCore.Qt.SolidPattern)
+        palette.setBrush(QtGui.QPalette.Active, QtGui.QPalette.Window, brush)
+        brush = QtGui.QBrush(QtGui.QColor(45, 45, 45))
+        brush.setStyle(QtCore.Qt.SolidPattern)
+        palette.setBrush(QtGui.QPalette.Inactive, QtGui.QPalette.WindowText, brush)
+        brush = QtGui.QBrush(QtGui.QColor(240, 240, 240))
+        brush.setStyle(QtCore.Qt.SolidPattern)
+        palette.setBrush(QtGui.QPalette.Inactive, QtGui.QPalette.Button, brush)
+        brush = QtGui.QBrush(QtGui.QColor(45, 45, 45))
+        brush.setStyle(QtCore.Qt.SolidPattern)
+        palette.setBrush(QtGui.QPalette.Inactive, QtGui.QPalette.Text, brush)
+        brush = QtGui.QBrush(QtGui.QColor(45, 45, 45))
+        brush.setStyle(QtCore.Qt.SolidPattern)
+        palette.setBrush(QtGui.QPalette.Inactive, QtGui.QPalette.ButtonText, brush)
+        brush = QtGui.QBrush(QtGui.QColor(240, 240, 240))
+        brush.setStyle(QtCore.Qt.SolidPattern)
+        palette.setBrush(QtGui.QPalette.Inactive, QtGui.QPalette.Base, brush)
+        brush = QtGui.QBrush(QtGui.QColor(240, 240, 240))
+        brush.setStyle(QtCore.Qt.SolidPattern)
+        palette.setBrush(QtGui.QPalette.Inactive, QtGui.QPalette.Window, brush)
+        brush = QtGui.QBrush(QtGui.QColor(45, 45, 45))
+        brush.setStyle(QtCore.Qt.SolidPattern)
+        palette.setBrush(QtGui.QPalette.Disabled, QtGui.QPalette.WindowText, brush)
+        brush = QtGui.QBrush(QtGui.QColor(200, 200, 200))
+        brush.setStyle(QtCore.Qt.SolidPattern)
+        palette.setBrush(QtGui.QPalette.Disabled, QtGui.QPalette.Button, brush)
+        brush = QtGui.QBrush(QtGui.QColor(45, 45, 45))
+        brush.setStyle(QtCore.Qt.SolidPattern)
+        palette.setBrush(QtGui.QPalette.Disabled, QtGui.QPalette.Text, brush)
+        brush = QtGui.QBrush(QtGui.QColor(45, 45, 45))
+        brush.setStyle(QtCore.Qt.SolidPattern)
+        palette.setBrush(QtGui.QPalette.Disabled, QtGui.QPalette.ButtonText, brush)
+        brush = QtGui.QBrush(QtGui.QColor(200, 200, 200))
+        brush.setStyle(QtCore.Qt.SolidPattern)
+        palette.setBrush(QtGui.QPalette.Disabled, QtGui.QPalette.Base, brush)
+        brush = QtGui.QBrush(QtGui.QColor(200, 200, 200))
+        brush.setStyle(QtCore.Qt.SolidPattern)
+        palette.setBrush(QtGui.QPalette.Disabled, QtGui.QPalette.Window, brush)
+        self.mw_line_4.setPalette(palette)
+        font = QtGui.QFont()
+        font.setFamily("fonts/SourceSansPro-Regular.ttf")
+        font.setPointSize(9)
+        font.setBold(False)
+        font.setWeight(50)
+        font.setKerning(True)
+        font.setStyleStrategy(QtGui.QFont.PreferAntialias)
+        self.mw_line_4.setFont(font)
+        self.mw_line_4.setStyleSheet("QLineEdit {\n"
+"    border-radius: 3px;\n"
+"    padding: 1px 4px 1px 4px;\n"
+"    background-color: rgb(240, 240, 240);\n"
+"    color: rgb(45,45,45);\n"
+"}\n"
+"\n"
+"QLineEdit:disabled {\n"
+"    background-color: rgb(200,200,200);\n"
+"}")
+        self.mw_line_4.setText("")
+        self.mw_line_4.setFrame(False)
+        self.mw_line_4.setEchoMode(QtWidgets.QLineEdit.Password)
+        self.mw_line_4.setObjectName("mw_line_4")
+        self.gridLayout.addWidget(self.mw_line_4, 4, 1, 1, 3)
         self.mw_line_3 = QtWidgets.QLineEdit(self.scrollAreaWidgetContents_2)
         self.mw_line_3.setEnabled(False)
         self.mw_line_3.setMinimumSize(QtCore.QSize(0, 27))
@@ -1108,7 +1101,24 @@ class Ui_managerWindow(object):
         self.mw_line_3.setText("")
         self.mw_line_3.setFrame(False)
         self.mw_line_3.setObjectName("mw_line_3")
-        self.gridLayout.addWidget(self.mw_line_3, 2, 1, 1, 3)
+        self.gridLayout.addWidget(self.mw_line_3, 3, 1, 1, 3)
+        self.mw_label_3 = QtWidgets.QLabel(self.scrollAreaWidgetContents_2)
+        self.mw_label_3.setMinimumSize(QtCore.QSize(0, 27))
+        self.mw_label_3.setMaximumSize(QtCore.QSize(16777215, 27))
+        font = QtGui.QFont()
+        font.setFamily("fonts/SourceSansPro-Regular.ttf")
+        font.setPointSize(10)
+        font.setBold(False)
+        font.setWeight(50)
+        font.setKerning(True)
+        font.setStyleStrategy(QtGui.QFont.PreferAntialias)
+        self.mw_label_3.setFont(font)
+        self.mw_label_3.setStyleSheet("QLabel {\n"
+"    color: rgb(45,45,45);\n"
+"}")
+        self.mw_label_3.setAlignment(QtCore.Qt.AlignRight|QtCore.Qt.AlignTrailing|QtCore.Qt.AlignVCenter)
+        self.mw_label_3.setObjectName("mw_label_3")
+        self.gridLayout.addWidget(self.mw_label_3, 2, 2, 1, 1)
         self.mw_label_5 = QtWidgets.QLabel(self.scrollAreaWidgetContents_2)
         self.mw_label_5.setMinimumSize(QtCore.QSize(0, 27))
         self.mw_label_5.setMaximumSize(QtCore.QSize(16777215, 27))
@@ -1125,94 +1135,179 @@ class Ui_managerWindow(object):
 "}")
         self.mw_label_5.setAlignment(QtCore.Qt.AlignRight|QtCore.Qt.AlignTrailing|QtCore.Qt.AlignVCenter)
         self.mw_label_5.setObjectName("mw_label_5")
-        self.gridLayout.addWidget(self.mw_label_5, 3, 0, 1, 1)
-        self.mw_line_4 = QtWidgets.QLineEdit(self.scrollAreaWidgetContents_2)
-        self.mw_line_4.setEnabled(False)
-        self.mw_line_4.setMinimumSize(QtCore.QSize(0, 27))
-        self.mw_line_4.setMaximumSize(QtCore.QSize(16777215, 27))
-        palette = QtGui.QPalette()
-        brush = QtGui.QBrush(QtGui.QColor(45, 45, 45))
-        brush.setStyle(QtCore.Qt.SolidPattern)
-        palette.setBrush(QtGui.QPalette.Active, QtGui.QPalette.WindowText, brush)
-        brush = QtGui.QBrush(QtGui.QColor(240, 240, 240))
-        brush.setStyle(QtCore.Qt.SolidPattern)
-        palette.setBrush(QtGui.QPalette.Active, QtGui.QPalette.Button, brush)
-        brush = QtGui.QBrush(QtGui.QColor(45, 45, 45))
-        brush.setStyle(QtCore.Qt.SolidPattern)
-        palette.setBrush(QtGui.QPalette.Active, QtGui.QPalette.Text, brush)
-        brush = QtGui.QBrush(QtGui.QColor(45, 45, 45))
-        brush.setStyle(QtCore.Qt.SolidPattern)
-        palette.setBrush(QtGui.QPalette.Active, QtGui.QPalette.ButtonText, brush)
-        brush = QtGui.QBrush(QtGui.QColor(240, 240, 240))
-        brush.setStyle(QtCore.Qt.SolidPattern)
-        palette.setBrush(QtGui.QPalette.Active, QtGui.QPalette.Base, brush)
-        brush = QtGui.QBrush(QtGui.QColor(240, 240, 240))
-        brush.setStyle(QtCore.Qt.SolidPattern)
-        palette.setBrush(QtGui.QPalette.Active, QtGui.QPalette.Window, brush)
-        brush = QtGui.QBrush(QtGui.QColor(45, 45, 45))
-        brush.setStyle(QtCore.Qt.SolidPattern)
-        palette.setBrush(QtGui.QPalette.Inactive, QtGui.QPalette.WindowText, brush)
-        brush = QtGui.QBrush(QtGui.QColor(240, 240, 240))
-        brush.setStyle(QtCore.Qt.SolidPattern)
-        palette.setBrush(QtGui.QPalette.Inactive, QtGui.QPalette.Button, brush)
-        brush = QtGui.QBrush(QtGui.QColor(45, 45, 45))
-        brush.setStyle(QtCore.Qt.SolidPattern)
-        palette.setBrush(QtGui.QPalette.Inactive, QtGui.QPalette.Text, brush)
-        brush = QtGui.QBrush(QtGui.QColor(45, 45, 45))
-        brush.setStyle(QtCore.Qt.SolidPattern)
-        palette.setBrush(QtGui.QPalette.Inactive, QtGui.QPalette.ButtonText, brush)
-        brush = QtGui.QBrush(QtGui.QColor(240, 240, 240))
-        brush.setStyle(QtCore.Qt.SolidPattern)
-        palette.setBrush(QtGui.QPalette.Inactive, QtGui.QPalette.Base, brush)
-        brush = QtGui.QBrush(QtGui.QColor(240, 240, 240))
-        brush.setStyle(QtCore.Qt.SolidPattern)
-        palette.setBrush(QtGui.QPalette.Inactive, QtGui.QPalette.Window, brush)
-        brush = QtGui.QBrush(QtGui.QColor(45, 45, 45))
-        brush.setStyle(QtCore.Qt.SolidPattern)
-        palette.setBrush(QtGui.QPalette.Disabled, QtGui.QPalette.WindowText, brush)
-        brush = QtGui.QBrush(QtGui.QColor(200, 200, 200))
-        brush.setStyle(QtCore.Qt.SolidPattern)
-        palette.setBrush(QtGui.QPalette.Disabled, QtGui.QPalette.Button, brush)
-        brush = QtGui.QBrush(QtGui.QColor(45, 45, 45))
-        brush.setStyle(QtCore.Qt.SolidPattern)
-        palette.setBrush(QtGui.QPalette.Disabled, QtGui.QPalette.Text, brush)
-        brush = QtGui.QBrush(QtGui.QColor(45, 45, 45))
-        brush.setStyle(QtCore.Qt.SolidPattern)
-        palette.setBrush(QtGui.QPalette.Disabled, QtGui.QPalette.ButtonText, brush)
-        brush = QtGui.QBrush(QtGui.QColor(200, 200, 200))
-        brush.setStyle(QtCore.Qt.SolidPattern)
-        palette.setBrush(QtGui.QPalette.Disabled, QtGui.QPalette.Base, brush)
-        brush = QtGui.QBrush(QtGui.QColor(200, 200, 200))
-        brush.setStyle(QtCore.Qt.SolidPattern)
-        palette.setBrush(QtGui.QPalette.Disabled, QtGui.QPalette.Window, brush)
-        self.mw_line_4.setPalette(palette)
+        self.gridLayout.addWidget(self.mw_label_5, 4, 0, 1, 1)
+        self.mw_label_1 = QtWidgets.QLabel(self.scrollAreaWidgetContents_2)
+        self.mw_label_1.setMinimumSize(QtCore.QSize(0, 27))
+        self.mw_label_1.setMaximumSize(QtCore.QSize(16777215, 27))
         font = QtGui.QFont()
         font.setFamily("fonts/SourceSansPro-Regular.ttf")
-        font.setPointSize(9)
+        font.setPointSize(10)
         font.setBold(False)
         font.setWeight(50)
         font.setKerning(True)
         font.setStyleStrategy(QtGui.QFont.PreferAntialias)
-        self.mw_line_4.setFont(font)
-        self.mw_line_4.setStyleSheet("QLineEdit {\n"
-"    border-radius: 3px;\n"
-"    padding: 1px 4px 1px 4px;\n"
-"    background-color: rgb(240, 240, 240);\n"
+        self.mw_label_1.setFont(font)
+        self.mw_label_1.setStyleSheet("QLabel {\n"
+"    color: rgb(45,45,45);\n"
+"}")
+        self.mw_label_1.setAlignment(QtCore.Qt.AlignRight|QtCore.Qt.AlignTrailing|QtCore.Qt.AlignVCenter)
+        self.mw_label_1.setObjectName("mw_label_1")
+        self.gridLayout.addWidget(self.mw_label_1, 0, 0, 1, 1)
+        self.mw_checkbox_1 = QtWidgets.QCheckBox(self.scrollAreaWidgetContents_2)
+        self.mw_checkbox_1.setEnabled(False)
+        font = QtGui.QFont()
+        font.setFamily("fonts/SourceSansPro-Regular.ttf")
+        font.setPointSize(8)
+        font.setItalic(True)
+        self.mw_checkbox_1.setFont(font)
+        self.mw_checkbox_1.setStyleSheet("QCheckBox {\n"
 "    color: rgb(45,45,45);\n"
 "}\n"
 "\n"
-"QLineEdit:disabled {\n"
-"    background-color: rgb(200,200,200);\n"
+"QCheckBox:disabled {\n"
+"    color: rgb(150,150,150);\n"
 "}")
-        self.mw_line_4.setText("")
-        self.mw_line_4.setFrame(False)
-        self.mw_line_4.setObjectName("mw_line_4")
-        self.gridLayout.addWidget(self.mw_line_4, 3, 1, 1, 3)
+        self.mw_checkbox_1.setIconSize(QtCore.QSize(20, 20))
+        self.mw_checkbox_1.setObjectName("mw_checkbox_1")
+        self.gridLayout.addWidget(self.mw_checkbox_1, 5, 1, 1, 3)
+        self.mw_combobox_1 = QtWidgets.QComboBox(self.scrollAreaWidgetContents_2)
+        self.mw_combobox_1.setEnabled(False)
+        self.mw_combobox_1.setMinimumSize(QtCore.QSize(270, 27))
+        self.mw_combobox_1.setMaximumSize(QtCore.QSize(270, 27))
+        font = QtGui.QFont()
+        font.setFamily("fonts/SourceSansPro-Regular.ttf")
+        font.setPointSize(9)
+        font.setKerning(True)
+        font.setStyleStrategy(QtGui.QFont.PreferAntialias)
+        self.mw_combobox_1.setFont(font)
+        self.mw_combobox_1.setStyleSheet("QComboBox {\n"
+"    border: 1px solid #acacac;\n"
+"    border-radius: 1px;\n"
+"    padding-left: 5px;\n"
+"    background-color: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1, \n"
+"                                stop: 0 #f0f0f0, stop: 1 #e5e5e5);\n"
+"}\n"
+"\n"
+"QComboBox:disabled {\n"
+"    background-color:  rgb(200,200,200);\n"
+"}\n"
+"\n"
+"QComboBox:hover {\n"
+"    border: 1px solid #7eb4ea;\n"
+"    border-radius: 1px;\n"
+"    background-color: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1, \n"
+"                                stop: 0 #ecf4fc, stop: 1 #dcecfc);\n"
+"}\n"
+"\n"
+"QComboBox::drop-down {\n"
+"    subcontrol-origin: padding;\n"
+"    subcontrol-position: top right;\n"
+"    width: 27px;\n"
+"    border-left-width: 1px;\n"
+"    border-left-color: darkgray;\n"
+"    border-left-style: solid;\n"
+"    border-top-right-radius: 3px;\n"
+"    border-bottom-right-radius: 3px;\n"
+"}\n"
+"\n"
+"QComboBox::down-arrow {\n"
+"    image: url(icons/down_arrow_icon.svg); \n"
+"    width: 16px;\n"
+"    height: 16px\n"
+"}\n"
+"\n"
+"QComboBox QAbstractItemView {\n"
+"    selection-background-color: rgb(200,200,200);\n"
+"    selection-color: black;\n"
+"    background: #f0f0f0;\n"
+"    border: 0px solid #f0f0f0;\n"
+"}\n"
+"\n"
+"QComboBox QAbstractItemView::item {\n"
+"    margin: 5px 5px 5px 5px;\n"
+"}")
+        self.mw_combobox_1.setObjectName("mw_combobox_1")
+        self.mw_combobox_1.addItem("")
+        self.mw_combobox_1.addItem("")
+        self.gridLayout.addWidget(self.mw_combobox_1, 0, 1, 1, 2)
+        self.mw_label_6 = QtWidgets.QLabel(self.scrollAreaWidgetContents_2)
+        self.mw_label_6.setMinimumSize(QtCore.QSize(0, 27))
+        self.mw_label_6.setMaximumSize(QtCore.QSize(16777215, 27))
+        font = QtGui.QFont()
+        font.setFamily("fonts/SourceSansPro-Regular.ttf")
+        font.setPointSize(10)
+        font.setBold(False)
+        font.setWeight(50)
+        font.setKerning(True)
+        font.setStyleStrategy(QtGui.QFont.PreferAntialias)
+        self.mw_label_6.setFont(font)
+        self.mw_label_6.setStyleSheet("QLabel {\n"
+"    color: rgb(45,45,45);\n"
+"}")
+        self.mw_label_6.setAlignment(QtCore.Qt.AlignRight|QtCore.Qt.AlignTrailing|QtCore.Qt.AlignVCenter)
+        self.mw_label_6.setObjectName("mw_label_6")
+        self.gridLayout.addWidget(self.mw_label_6, 1, 0, 1, 1)
+        self.mw_combobox_2 = QtWidgets.QComboBox(self.scrollAreaWidgetContents_2)
+        self.mw_combobox_2.setEnabled(False)
+        self.mw_combobox_2.setMinimumSize(QtCore.QSize(270, 27))
+        self.mw_combobox_2.setMaximumSize(QtCore.QSize(270, 27))
+        font = QtGui.QFont()
+        font.setFamily("fonts/SourceSansPro-Regular.ttf")
+        font.setPointSize(9)
+        font.setKerning(True)
+        font.setStyleStrategy(QtGui.QFont.PreferAntialias)
+        self.mw_combobox_2.setFont(font)
+        self.mw_combobox_2.setStyleSheet("QComboBox {\n"
+"    border: 1px solid #acacac;\n"
+"    border-radius: 1px;\n"
+"    padding-left: 5px;\n"
+"    background-color: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1, \n"
+"                                stop: 0 #f0f0f0, stop: 1 #e5e5e5);\n"
+"}\n"
+"\n"
+"QComboBox:disabled {\n"
+"    background-color:  rgb(200,200,200);\n"
+"}\n"
+"\n"
+"QComboBox:hover {\n"
+"    border: 1px solid #7eb4ea;\n"
+"    border-radius: 1px;\n"
+"    background-color: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1, \n"
+"                                stop: 0 #ecf4fc, stop: 1 #dcecfc);\n"
+"}\n"
+"\n"
+"QComboBox::drop-down {\n"
+"    subcontrol-origin: padding;\n"
+"    subcontrol-position: top right;\n"
+"    width: 27px;\n"
+"    border-left-width: 1px;\n"
+"    border-left-color: darkgray;\n"
+"    border-left-style: solid;\n"
+"    border-top-right-radius: 3px;\n"
+"    border-bottom-right-radius: 3px;\n"
+"}\n"
+"\n"
+"QComboBox::down-arrow {\n"
+"    image: url(icons/down_arrow_icon.svg); \n"
+"    width: 16px;\n"
+"    height: 16px\n"
+"}\n"
+"\n"
+"QComboBox QAbstractItemView {\n"
+"    selection-background-color: rgb(200,200,200);\n"
+"    selection-color: black;\n"
+"    background: #f0f0f0;\n"
+"    border: 0px solid #f0f0f0;\n"
+"}\n"
+"\n"
+"QComboBox QAbstractItemView::item {\n"
+"    margin: 5px 5px 5px 5px;\n"
+"}")
+        self.mw_combobox_2.setObjectName("mw_combobox_2")
+        self.mw_combobox_2.addItem("")
+        self.mw_combobox_2.addItem("")
+        self.gridLayout.addWidget(self.mw_combobox_2, 1, 1, 1, 1)
         self.gridLayout_2.addLayout(self.gridLayout, 0, 1, 1, 1)
-        spacerItem4 = QtWidgets.QSpacerItem(20, 74, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
-        self.gridLayout_2.addItem(spacerItem4, 1, 1, 1, 1)
-        spacerItem5 = QtWidgets.QSpacerItem(10, 20, QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Minimum)
-        self.gridLayout_2.addItem(spacerItem5, 0, 0, 1, 1)
         self.scroll_area.setWidget(self.scrollAreaWidgetContents_2)
         self.horizontalLayout_2.addWidget(self.scroll_area)
         self.gridLayout_3.addWidget(self.splitter, 0, 0, 1, 1)
@@ -1333,19 +1428,24 @@ class Ui_managerWindow(object):
         self.gridLayout_3.addLayout(self.horizontalLayout_7, 2, 0, 1, 1)
 
         self.retranslateUi(managerWindow)
-        self.mw_combobox.setCurrentIndex(0)
+        self.mw_combobox_1.setCurrentIndex(0)
+        self.mw_combobox_2.setCurrentIndex(0)
         QtCore.QMetaObject.connectSlotsByName(managerWindow)
 
     def retranslateUi(self, managerWindow):
         _translate = QtCore.QCoreApplication.translate
         managerWindow.setWindowTitle(_translate("managerWindow", "FTP Manager"))
-        self.mw_label_1.setText(_translate("managerWindow", "Protocol:"))
-        self.mw_combobox.setItemText(0, _translate("managerWindow", "File Transfer Protocol (FTP)"))
-        self.mw_combobox.setItemText(1, _translate("managerWindow", "SSH File Transfer Protocol (SFTP)"))
+        self.mw_label_4.setText(_translate("managerWindow", "Username:"))
         self.mw_label_2.setText(_translate("managerWindow", "Host:"))
         self.mw_label_3.setText(_translate("managerWindow", "Port:"))
-        self.mw_label_4.setText(_translate("managerWindow", "Username:"))
         self.mw_label_5.setText(_translate("managerWindow", "Password:"))
+        self.mw_label_1.setText(_translate("managerWindow", "Protocol:"))
+        self.mw_checkbox_1.setText(_translate("managerWindow", "show password"))
+        self.mw_combobox_1.setItemText(0, _translate("managerWindow", "File Transfer Protocol (FTP)"))
+        self.mw_combobox_1.setItemText(1, _translate("managerWindow", "SSH File Transfer Protocol (SFTP)"))
+        self.mw_label_6.setText(_translate("managerWindow", "Encryption:"))
+        self.mw_combobox_2.setItemText(0, _translate("managerWindow", "Use explicit FTP over TLS"))
+        self.mw_combobox_2.setItemText(1, _translate("managerWindow", "Use plain FTP (insecure)"))
         self.mw_ok_button.setText(_translate("managerWindow", "Ok"))
         self.mw_cancel_button.setText(_translate("managerWindow", "Cancel"))
 

@@ -3,12 +3,13 @@ import logging
 import requests
 import sys
 import platform
-import time
 import urllib
+import time
+import ftplib
 from functions.material_functions import tree_objects_init
 from functions.utilities import set_size
-from PyQt5 import QtCore, QtGui, QtWidgets, Qt
-from ui._version import _gui_version
+from PyQt5 import QtCore, Qt
+from ui.version import gui_version
 from distutils.version import LooseVersion
         
 
@@ -19,7 +20,7 @@ class FindFilesAndPopulate(Qt.QThread):
         Qt.QThread.__init__(self)
         logging.info('thread_functions.py - FindFilesAndPopulate - __init__')
         self.path = path
-        tree_objects_init(self)
+        self.file_types, self.type_icons = tree_objects_init()
         
     def run(self):
         logging.debug('thread_functions.py - FindFilesAndPopulate - run')
@@ -40,7 +41,7 @@ class FindFilesAndPopulate(Qt.QThread):
                 iconfile = 'file_icon.png'
             if not iconfile:
                 iconfile = 'file_icon.png'
-            file_list.append([filename, filesize, filesize_str, filetype,'icons/' + iconfile])
+            file_list.append([filename, filesize, filesize_str, filetype, 'icons/' + iconfile])
         self.finished.emit(file_list)
     
     def stop(self):
@@ -58,28 +59,30 @@ class CheckOrionFTPOnline(Qt.QThread):
     def run(self):
         logging.debug('thread_functions.py - CheckOrionFTPOnline - run')
         url = 'https://api.github.com/repos/olivierpascalhenry/OrionFTP/releases/latest'
+        # noinspection PyBroadException
         try:
             json_object = requests.get(url=url).json()
-            format = ''
-            if getattr(sys, 'frozen', False) :
+            file_format = ''
+            if getattr(sys, 'frozen', False):
                 if platform.system() == 'Windows':
-                    format = '.msi'
+                    file_format = '.msi'
                 elif platform.system() == 'Linux':
-                    format = '.tar.gz'
+                    file_format = '.tar.gz'
             else:
-                format = 'sources.zip'
-            if LooseVersion(_gui_version) < LooseVersion(json_object['tag_name']):
+                file_format = 'sources.zip'
+            if LooseVersion(gui_version) < LooseVersion(json_object['tag_name']):
                 assets = json_object['assets']
                 download_url = 'no new version'
                 for asset in assets:
                     link = asset['browser_download_url']
-                    if format in link:
+                    if file_format in link:
                         download_url = link  
                 self.finished.emit(download_url)
             else:
                 self.finished.emit('no new version')
         except Exception:
-            logging.exception('thread_functions.py - CheckOrionFTPOnline - run - internet connection error - url ' + url)
+            logging.exception('thread_functions.py - CheckOrionFTPOnline - run - internet connection error - url '
+                              + url)
 
     def stop(self):
         logging.debug('thread_functions.py - CheckOrionFTPOnline - stop')
@@ -107,23 +110,25 @@ class DownloadFile(Qt.QThread):
         pre_download_text = self.translations_dict['downloading'][self.config_dict['OPTIONS'].get('language')]
         self.download_update.emit([0, pre_download_text % self.filename])
         opened_file = open(self.update_file, 'wb')
+        # noinspection PyBroadException
         try:
             opened_url = urllib.request.urlopen(self.url_name, timeout=10)
-            totalFileSize = int(opened_url.info()['Content-Length'])
-            bufferSize = 9192
-            fileSize = 0
+            total_file_size = int(opened_url.info()['Content-Length'])
+            buffer_size = 9192
+            file_size = 0
             start = time.time()
             while True:
                 if self.cancel:
                     opened_file.close()
                     break
-                buffer = opened_url.read(bufferSize)
+                buffer = opened_url.read(buffer_size)
                 if not buffer:
                     break
-                fileSize += len(buffer)
+                file_size += len(buffer)
                 opened_file.write(buffer)
-                download_speed = set_size(fileSize/(time.time() - start)) + '/s'
-                self.download_update.emit([round(fileSize * 100 / totalFileSize), download_text % (self.filename, download_speed)])
+                download_speed = set_size(file_size/(time.time() - start)) + '/s'
+                self.download_update.emit([round(file_size * 100 / total_file_size),
+                                           download_text % (self.filename, download_speed)])
             opened_file.close()
             if not self.cancel:
                 logging.debug('thread_functions.py - DownloadFile - run - download finished')
@@ -131,7 +136,8 @@ class DownloadFile(Qt.QThread):
             else:
                 logging.debug('thread_functions.py - DownloadFile - run - download canceled')
         except Exception:
-            logging.exception('thread_functions.py - DownloadFile - run - connexion issue ; self.url_name ' + self.url_name)
+            logging.exception('thread_functions.py - DownloadFile - run - connexion issue ; self.url_name '
+                              + self.url_name)
             opened_file.close()
             self.download_failed.emit()
     
@@ -142,3 +148,195 @@ class DownloadFile(Qt.QThread):
     def stop(self):
         logging.debug('thread_functions.py - DownloadFile - stop')
         self.terminate()
+
+
+class DownloadFTPFile(Qt.QThread):
+    download_update = QtCore.pyqtSignal(list)
+    update_status = QtCore.pyqtSignal(list)
+    update_down_widget = QtCore.pyqtSignal()
+    download_done = QtCore.pyqtSignal(list)
+    download_failed = QtCore.pyqtSignal()
+    download_canceled = QtCore.pyqtSignal(int)
+    all_download_canceled = QtCore.pyqtSignal()
+
+    def __init__(self, ftp, file_list, folder, translations_dict, config_dict):
+        Qt.QThread.__init__(self)
+        logging.info('thread_functions.py - DownloadFTPFile - __init__')
+        self.translations_dict = translations_dict
+        self.config_dict = config_dict
+        self.ftp = ftp
+        self.file_list = file_list
+        self.folder = folder
+        self.cancel = False
+        self.cancel_all = False
+        self.connected = True
+        self.downloading = False
+        self.file_path = None
+        self.local_file_path = None
+
+    def run(self):
+        logging.debug('thread_functions.py - DownloadFTPFile - run - download started')
+        text_1 = self.translations_dict['transferstatus'][self.config_dict['OPTIONS'].get('language')][0]
+        text_2 = ''
+        self.f = None
+        self.downloading = True
+        try:
+            for i, file in enumerate(self.file_list):
+                logging.debug('thread_functions.py - DownloadFTPFile - run - file: ' + file['file'])
+                if i > 0:
+                    if self.cancel:
+                        text_2 = self.translations_dict['transferstatus'][self.config_dict['OPTIONS'].get('language')][
+                                3]
+                        self.cancel = False
+                    else:
+                        text_2 = self.translations_dict['transferstatus'][self.config_dict['OPTIONS'].get('language')][
+                                1]
+                self.file_path = file['path'] + file['file']
+                self.local_file_path = self.folder + '/' + file['local_name']
+                self._update_status([0, 'Downloading ' + self.file_path])
+                self.download_update.emit([i, text_1, text_2, '', 0])
+                self._update_status([1, 'TYPE i'])
+                message = self.ftp.sendcmd('TYPE i')
+                self._update_status([2, message])
+                self._update_status([1, ' SIZE ' + self.file_path])
+                self.total_size = self.ftp.size(self.file_path)
+                self._update_status([2, self.total_size])
+                self._update_status([1, 'TYPE A'])
+                message = self.ftp.sendcmd('TYPE A')
+                self._update_status([2, message])
+                self.file_size = 0
+                self.f = open(self.local_file_path, 'wb')
+                self.update_down_widget.emit()
+                start = time.time()
+
+                def callback(data):
+                    if self.cancel or self.cancel_all:
+                        self.f.close()
+                    else:
+                        self.file_size += len(data)
+                        download_speed = set_size(self.file_size / (time.time() - start)) + '/s'
+                        self.download_update.emit([i, text_1, text_2, download_speed,
+                                                   round(self.file_size * 100 / self.total_size)])
+                        try:
+                            self.f.write(data)
+                        except ValueError:
+                            pass
+
+                try:
+                    self._update_status([1, 'RETR ' + self.file_path])
+                    message = self.ftp.retrbinary('RETR ' + self.file_path, callback)
+                    self._update_status([2, message])
+                    self.f.close()
+                except (AttributeError, ftplib.error_reply) as e:
+                    if self.cancel:
+                        self._update_status([0, 'Download of file ' + self.file_path
+                                             + ' has been canceled.'])
+                        self.connected = False
+                    elif self.cancel_all:
+                        self._update_status([0, 'All downloads have been canceled.'])
+                        self.connected = False
+                    elif "'NoneType' object has no attribute 'readline'" in str(e):
+                        self.downloading = False
+                        try:
+                            self.f.close()
+                            os.remove(self.local_file_path)
+                        except PermissionError:
+                            logging.exception('thread_functions.py - DownloadProducts - run - PermissionError - The '
+                                              + 'file couldn\'t be removed.')
+                        return
+
+                if self.cancel_all or self.cancel:
+                    while True:
+                        if self.connected:
+                            break
+                    try:
+                        self.f.close()
+                        self.f = None
+                        os.remove(self.local_file_path)
+                    except PermissionError:
+                        logging.exception('thread_functions.py - DownloadProducts - run - PermissionError - The file '
+                                          + 'couldn\'t be removed.')
+                    if self.cancel_all:
+                        break
+                    if self.cancel:
+                        continue
+
+            if self.cancel_all:
+                logging.debug('thread_functions.py - DownloadProducts - run - all download canceled')
+                self.all_download_canceled.emit()
+                self.downloading = False
+            elif self.cancel:
+                logging.debug('thread_functions.py - DownloadProducts - run - download canceled')
+                self.download_canceled.emit(i)
+                self.downloading = False
+            else:
+                logging.debug('thread_functions.py - DownloadProducts - run - download finished')
+                text = self.translations_dict['transferstatus'][self.config_dict['OPTIONS'].get('language')][1]
+                self.download_done.emit([len(self.file_list) - 1, text, '', '', 100])
+                self.downloading = False
+
+        except Exception:
+            logging.exception('thread_functions.py - DownloadProducts - run - connexion issue')
+            try:
+                self.f.close()
+            except Exception:
+                pass
+            self.download_failed.emit()
+            self.downloading = False
+
+    def cancel_download(self):
+        logging.debug('thread_functions.py - DownloadFTPFile - cancel_download')
+        self.cancel = True
+
+    def cancel_all_download(self):
+        logging.debug('thread_functions.py - DownloadFTPFile - cancel_all_download')
+        self.cancel_all = True
+
+    def _update_status(self, status_list):
+        logging.debug('thread_functions.py - DownloadFTPFile - _update_status')
+        self.update_status.emit(status_list)
+
+    def close_file(self):
+        try:
+            self.f.close()
+            self.f = None
+            os.remove(self.local_file_path)
+        except PermissionError:
+            logging.exception('thread_functions.py - DownloadProducts - run - PermissionError - The file '
+                              + 'couldn\'t be removed.')
+
+    def stop(self):
+        logging.debug('thread_functions.py - DownloadFTPFile - stop')
+        self.terminate()
+
+
+class SetDefaultLocalPath(Qt.QThread):
+    finished = QtCore.pyqtSignal()
+
+    def __init__(self, path, local_tree_up):
+        Qt.QThread.__init__(self)
+        logging.info('thread_functions.py - SetDefaultLocalPath - __init__')
+        self.path = path
+        self.local_tree_up = local_tree_up
+
+    def run(self):
+        logging.info('thread_functions.py - SetDefaultLocalPath - run')
+        folder_list = list()
+        if platform.system() == 'Windows':
+            folder_list = self.path.split('\\')
+        elif platform.system() == 'Linux':
+            folder_list = self.path.split('/')
+        path = ''
+        index = None
+        for i, folder in enumerate(folder_list):
+            if i == 0:
+                path += folder
+            else:
+                if platform.system() == 'Windows':
+                    path += '\\' + folder
+                elif platform.system() == 'Linux':
+                    path += '/' + folder
+            index = self.local_tree_up.model().index(path)
+            self.local_tree_up.expand(index)
+        self.local_tree_up.setCurrentIndex(index)
+        self.finished.emit()

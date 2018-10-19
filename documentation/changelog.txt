@@ -4,12 +4,68 @@ CHANGELOG
 
 To do list:
 -----------
-  - propose a window for those who doesn't want to keep their credentials in the xml file.
-  - set the size of the local tree view with one column to have the same than the bottom one.
+  - add option to reconnect or not automatically if a timeout occures. (v0.6)
+  - display a wheel when connecting to a server. (v0.6)
+  - display icon bars in the local and remote section. (v0.6)
+  - remove download button and add a receive button + icon to the remote section (v0.6)
+  - add SFTP protocol. (v0.7)
+  - scroll automatically to the last row when messages are displayed in the connection widget. (v0.6)
   
-
 To fix list:
 ------------
+
+Limitations:
+------------
+  - for now, it is not possible to download a folder and its content.
+  - for now, when a file is added/modified/deleted on the local computer, the local down widget listing only files is not refreshed and won't reflect changes until the local up widget is triggered.
+  - for now, options in the Connection section are not used and have no impact on how the FTP class works.
+
+  
+October 19 2018, Release version 0.5.0
+======================================
+First version of the object handling the FTP(/TLS) connection.
+Until version 1.0.0, the config file is expected to evolve and can be deleted without further notice to introduce new options.
+Until version 1.0.0, the ftp_profiles.xml file is expected to evolve and can be deleted without further notice to introduce new options.
+
+  ADDED:
+    - a new class to handle FTP connection has been added. It has been linked with the dedicated widgets in the GUI. Options have now impacts on remote widgets.
+    - a window has been added for those who don't want to keep their username and/or password in the xml file.
+    - when a connection is initiated, the ftp profile selection widget and the connection button are disabled. The connection must be closed (or must crash) to enable them again.
+    - when a connection is established, and if the user change interface options for remote widgets, the connection is closed and opened again with the same profile to set the new layout.
+    - now the local tree will display the default path saved in options.
+    - the password is now hidden in the FTP manager by default, a checkbox to show it has been added.
+    - connexion encryption has been added to FTP manager.
+    - error messages have been added if OrionFTP can't connect to the host.
+    - a menu has been added to the transfer widget when files are queued and/or downloaded to propose to remove and cancel downloading/s.
+    - a menu has been added to the connection widget to clear all messages.
+    - once a download is finished, it is possible to clean the list of downloaded files.
+    - download speed has been added to the transfer tree.
+    - during downloading, if a file with the same name exists in the local folder, OrionFTP will use options to decide what to do (a window has been added if the user has to make the decision).
+
+  FIXED:
+    - a library wasn't properly imported and thus, the software couldn't find the temp folder in Windows.
+    - when reading the ftp_profiles.xml file, when a field is empty, it is automatically set to None. Now, those fields are empty strings.
+    - the option to display remote files in only one tree widget didn't work well. It has been fixed.
+    - fixed encoding of french caracters when connecting to FTP.
+    - the size of tree widget headers is now set to the whole widget width.
+    - the widget welcoming the actual local path wasn't reseted when interface options were changed. It has been fixed.
+    - an issue was corrected in the MyQFileSystemModel class, the first column header text wasn't translated properly.
+    - in the local tree widget, if one local tree is displayed and if the option to display two tree is then set, if a file was selected, OrionFTP couldn't parse files in the down local tree.
+    - if the local path is empty, the download button is now disabled.
+    - if the ftp connection is closed when downloading a file, the download is well stopped and the file is well closed and removed.
+    - when a new profile is selected in the ftp profile combobox and a connection is established, the text in the local path widget is selected automatically. It has been fixed.
+    - fixed a small issue with CSS applied to local and remote trees.
+    - fixed a strange issue with the download button (still checking it).
+    - in the about window, links couldn't be opened by the default internet browser. It has been fixed.
+    - in the ftp manager, if a user wants to open a backup and then cancel before selecting a file, an error is raised. It has been fixed.
+    - the backup creation function in the FTP manager window couldn't work properly as an old code has been removed from the ftp manager window a while ago. It has been fixed. 
+  
+  MODIFED:
+    - when modified, options are now set if options have changed compared to the ones before modification.
+    - commands and responses in the connection tab are now colored.
+    - to stop a transfer, the FTP class kill the connection, initialise a new FTP object and connect again.
+    - the text browser displaying messages from the FTP class has been replaced by a table widget for simplification.
+    - during a download, the local down widget, if it is displayed, is refreshed at the beginning of each download and once all downloads are finished.
 
 
 October 5 2018, Release version 0.4.0
