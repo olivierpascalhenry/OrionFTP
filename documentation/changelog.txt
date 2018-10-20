@@ -9,7 +9,6 @@ To do list:
   - display icon bars in the local and remote section. (v0.6)
   - remove download button and add a receive button + icon to the remote section (v0.6)
   - add SFTP protocol. (v0.7)
-  - scroll automatically to the last row when messages are displayed in the connection widget. (v0.6)
   
 To fix list:
 ------------
@@ -19,6 +18,18 @@ Limitations:
   - for now, it is not possible to download a folder and its content.
   - for now, when a file is added/modified/deleted on the local computer, the local down widget listing only files is not refreshed and won't reflect changes until the local up widget is triggered.
   - for now, options in the Connection section are not used and have no impact on how the FTP class works.
+
+  
+October 20 2018, Release version 0.5.1
+======================================  
+Until version 1.0.0, the config file is expected to evolve and can be deleted without further notice to introduce new options.
+Until version 1.0.0, the ftp_profiles.xml file is expected to evolve and can be deleted without further notice to introduce new options.
+
+  ADDED:
+    - when a message is displayed in the connection widget, the widget will automatically scroll down to display it.
+  
+  FIXED:
+    - the import of Qt.QThread leads to crash of the bluetooth dll. it has been fixed by importing QThread from QtCore.
 
   
 October 19 2018, Release version 0.5.0

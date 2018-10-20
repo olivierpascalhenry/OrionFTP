@@ -24,7 +24,7 @@ from functions.gui_functions import activate_ftp_connection, set_one_two_local, 
 from functions.gui_functions import display_remote_path, set_local_icon_provider, set_connection_local_tree
 from functions.gui_functions import display_file_folder_local_tree, set_local_files, set_default_path_local_tree
 from functions.gui_functions import set_download_finished, transfer_tree_menu, connection_browser_menu
-from functions.gui_functions import activate_download_button
+from functions.gui_functions import activate_download_button, test_splitter_position
 
 
 class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
@@ -55,6 +55,8 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
         self.connexion_browser.setContextMenuPolicy(QtCore.Qt.CustomContextMenu)
         self.connexion_browser.customContextMenuRequested.connect(lambda position: connection_browser_menu(self,
                                                                                                            position))
+        # self.main_splitter.splitterMoved.connect(lambda left, right: test_splitter_position(self, left, right))
+        # self.splitter.setSizes([605, 605])
         translate_elements(self, self.config_dict['OPTIONS'].get('language'), self.translations_dict)
         set_ftp_profiles(self)
         set_profile_list(self)

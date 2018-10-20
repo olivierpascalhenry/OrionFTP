@@ -502,6 +502,9 @@ class FTPProtocol(QtCore.QObject):
         message_item.setForeground(QtGui.QColor(45, 45, 45))
         self.gui_connect_widget.setItem(index, 0, status_item)
         self.gui_connect_widget.setItem(index, 1, message_item)
+        self.gui_connect_widget.scrollToItem(status_item, QtWidgets.QAbstractItemView.PositionAtCenter)
+        self.gui_connect_widget.selectRow(index)
+
 
     def _parse_listing(self, listing):
         logging.debug('protocol_functions.py - FTPProtocol - _parse_listing')

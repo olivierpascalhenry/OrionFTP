@@ -392,3 +392,8 @@ def connection_process_trigger(self, action):
         self.connexion_browser.clear()
         for i in reversed(range(self.connexion_browser.rowCount())):
             self.connexion_browser.removeRow(i)
+
+
+def test_splitter_position(self, left, right):
+    print(left, right)
+    self.splitter.moveSplitter(left + 5, right)

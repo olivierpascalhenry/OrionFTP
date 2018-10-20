@@ -1,13 +1,13 @@
 Version:
 -------
 
-OrionFTP 0.5.0.
+OrionFTP 0.5.1.
 
 
 Project Overview:
 -----------------
 
-The idea behind OrionFTP is to propose a small and simple FTP client with basic options. It was designed for my own use and for my familly (in particular my father). It is based on Python 3.5, PyQt 5.10 and written with the help of Eclipse.
+The idea behind OrionFTP is to propose a small and simple FTP client with basic options. It was designed for my own use and for my familly (in particular my father). It is based on Python 3.6, PyQt 5.11 and written with the help of PyCharm 2018.2.
 
 
 Important information:
@@ -19,12 +19,12 @@ Until version 1.0.0, the config file is expected to evolve and can be deleted wi
 Features:
 ---------
 
-For now, it can download files from a FTP or SFTP server. In the future, folder(s) download and basic upload will be added. Drag and drop is not available at this time, but it will be in a future release.
+For now, it can download files from a FTP(/TLS) server. In the future, folder(s) download and basic upload will be added. Drag and drop is not available at this time, but it will be in a future release.
 
 
 Compatibility:
 --------------
-    - sources : linux, windows, macos
+    - sources : linux, windows, macos (not yet)
     - binaries : windows (from Windows 7 32), linux (not yet)
 
 

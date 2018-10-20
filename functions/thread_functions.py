@@ -8,16 +8,16 @@ import time
 import ftplib
 from functions.material_functions import tree_objects_init
 from functions.utilities import set_size
-from PyQt5 import QtCore, Qt
+from PyQt5 import QtCore
 from ui.version import gui_version
 from distutils.version import LooseVersion
         
 
-class FindFilesAndPopulate(Qt.QThread):
+class FindFilesAndPopulate(QtCore.QThread):
     finished = QtCore.pyqtSignal(list)
     
     def __init__(self, path):
-        Qt.QThread.__init__(self)
+        QtCore.QThread.__init__(self)
         logging.info('thread_functions.py - FindFilesAndPopulate - __init__')
         self.path = path
         self.file_types, self.type_icons = tree_objects_init()
@@ -49,11 +49,11 @@ class FindFilesAndPopulate(Qt.QThread):
         self.terminate()
 
 
-class CheckOrionFTPOnline(Qt.QThread):
+class CheckOrionFTPOnline(QtCore.QThread):
     finished = QtCore.pyqtSignal(str)
     
     def __init__(self):
-        Qt.QThread.__init__(self)
+        QtCore.QThread.__init__(self)
         logging.info('thread_functions.py - CheckOrionFTPOnline - __init__')
     
     def run(self):
@@ -89,13 +89,13 @@ class CheckOrionFTPOnline(Qt.QThread):
         self.terminate()
 
 
-class DownloadFile(Qt.QThread):
+class DownloadFile(QtCore.QThread):
     download_update = QtCore.pyqtSignal(list)
     download_done = QtCore.pyqtSignal()
     download_failed = QtCore.pyqtSignal()
     
     def __init__(self, url_name, update_file, config_dict, translations_dict):
-        Qt.QThread.__init__(self)
+        QtCore.QThread.__init__(self)
         logging.info('thread_functions.py - DownloadFile - __init__ - url_name ' + str(url_name))
         self.url_name = url_name
         self.update_file = update_file
@@ -150,7 +150,7 @@ class DownloadFile(Qt.QThread):
         self.terminate()
 
 
-class DownloadFTPFile(Qt.QThread):
+class DownloadFTPFile(QtCore.QThread):
     download_update = QtCore.pyqtSignal(list)
     update_status = QtCore.pyqtSignal(list)
     update_down_widget = QtCore.pyqtSignal()
@@ -160,7 +160,7 @@ class DownloadFTPFile(Qt.QThread):
     all_download_canceled = QtCore.pyqtSignal()
 
     def __init__(self, ftp, file_list, folder, translations_dict, config_dict):
-        Qt.QThread.__init__(self)
+        QtCore.QThread.__init__(self)
         logging.info('thread_functions.py - DownloadFTPFile - __init__')
         self.translations_dict = translations_dict
         self.config_dict = config_dict
@@ -310,11 +310,11 @@ class DownloadFTPFile(Qt.QThread):
         self.terminate()
 
 
-class SetDefaultLocalPath(Qt.QThread):
+class SetDefaultLocalPath(QtCore.QThread):
     finished = QtCore.pyqtSignal()
 
     def __init__(self, path, local_tree_up):
-        Qt.QThread.__init__(self)
+        QtCore.QThread.__init__(self)
         logging.info('thread_functions.py - SetDefaultLocalPath - __init__')
         self.path = path
         self.local_tree_up = local_tree_up
