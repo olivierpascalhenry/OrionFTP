@@ -29,6 +29,7 @@ def create_option_file(main_path, config_dict):
     config_dict.set('CONNECTION', 'default_transfer_mode', '0')
     config_dict.set('CONNECTION', 'transfer_mode_fall_back', 'False')
     config_dict.set('CONNECTION', 'default_transfer_type', '0')
+    config_dict.set('CONNECTION', 'timeout_connection', 'True')
     config_dict.set('TRANSFER', 'file_exist_download', '0')
     config_dict.write(ini_file)
     ini_file.close()
@@ -46,6 +47,12 @@ def launch_egads_gui(main_path):
     config_dict.read(os.path.join(main_path, 'orion_ftp.ini'))
     try:
         config_dict['INTERFACE']
+    except KeyError:
+        config_dict = configparser.ConfigParser()
+        create_option_file(main_path, config_dict)
+        config_dict.read(os.path.join(main_path, 'orion_ftp.ini'))
+    try:
+        config_dict['CONNECTION'].getboolean('timeout_connection')
     except KeyError:
         config_dict = configparser.ConfigParser()
         create_option_file(main_path, config_dict)

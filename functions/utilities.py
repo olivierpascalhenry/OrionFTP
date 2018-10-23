@@ -20,8 +20,8 @@ def translate_elements(widget, language, translations_dict):
                     for i, item in enumerate(translation[language]):
                         child_widget.headerItem().setText(i, item)
                 elif isinstance(child_widget, QtWidgets.QToolButton):
-                    if 'info' in element:
-                        pass
+                    if 'action' in element:
+                        child_widget.setToolTip(translation[language])
                     else:
                         child_widget.setText(translation[language])
                 elif isinstance(child_widget, QtWidgets.QComboBox):

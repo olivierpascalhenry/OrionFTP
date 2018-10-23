@@ -2,7 +2,8 @@
 main_profile_lb=FTP profile:
 main_profile_cb=No stored profile...
 main_connect_bt=Connect
-main_download_bt=Download
+main_download_bt=Receive
+main_upload_bt=Send
 main_local_lb=Local:
 main_remote_lb=Remote:
 main_tabwidget=FTP Connection|Transfert
@@ -11,14 +12,14 @@ main_local_tr_2=File|Size|Type
 main_remote_tr_2=File|Size|Type
 
 ### toolbar tooltips ###
-actionClose=Close the opened connection
-actionOptions=Open the option window
-actionExit=Exit
-actionAbout=About OrionFTP
-actionManager=Open the FTP manager
+action_close_bt=Close the opened connection
+action_option_bt=Open the option window
+action_quit_bt=Exit
+action_about_bt=About OrionFTP
+action_manager_bt=Open the FTP manager
 actionHome=Go back to the home directory
-actionRefresh=Refresh the FTP view
-actionUpdate=No update !
+action_refresh_bt=Refresh the FTP view
+action_update_bt=No update !
 
 ### about window ###
 aboutlogWindow=About OrionFTP
@@ -37,7 +38,7 @@ mw_label_6=Encryption:
 mw_cancel_button=Cancel
 mw_ok_button=Ok
 mw_checkbox_1=show password
-mw_combobox_2=Use explicite FTP over TLS|Use plain FTP (insecure)
+mw_combobox_2=Use explicite FTP over TLS|Use plain FTP
 
 ### option window ###
 ow_section_list=General|Interface|Connection|Transfer
@@ -64,6 +65,7 @@ ow_label_9=Default transfer type:
 ow_combobox_4=Passive|Active
 ow_combobox_5=Automatic|ASCII|Binary
 ow_checkbox_8=Allow fall back to other transfer mode on failure ?
+ow_checkbox_9=Allow automatic reconnection if the connexion is closed by the host ?
 ow_label_11=What to do if the file/folder already exists localy ?
 ow_combobox_6=Ask what to do|Overwrite|Download and rename|Ignore
 
@@ -135,7 +137,8 @@ aiw_label_21=Here you will find information about OrionFTP.
 aiw_label_22=When a red ! is visible, an update is available for OrionFTP. In that case, click on this icon to start the update procedure.
 aiw_label_23=Functions:
 aiw_connect_button=Connect
-aiw_download_button=Download
+aiw_download_button=Receive
+aiw_upload_button=Send
 
 ### credentials window ###
 cw_label_1=Host:
@@ -156,10 +159,16 @@ aw_label_2=File:
 aw_radio_1=Download and overwrite the local file
 aw_radio_2=Download and rename the downloaded file
 aw_radio_3=Ignore and skip the download
+aw_checkbox_1=Apply to all conflicts ?
+
+### wait window ###
+waitWindow=Please wait...
+ww_label_1=Connecting, please wait...
 
 ### basic elements ###
 makeachoice=Make a choice...
-qtreeview=Folder|Size|Type
+qtreeviewup=Folder|Size|Type
+qtreeviewdown=File|Size|Type
 nonewupdate=No update available !
 newupdatefrozen=A new update is available for OrionFTP ! Click here to install it automatically.
 newupdatesources=A new update is available for OrionFTP ! Click here to download it.
@@ -168,7 +177,8 @@ downloading=Downloading %s
 downloadfailed=Download failed
 nonewupdateoption=There is no new update for OrionFTP on GitHub.
 newupdateoption=A new update for OrionFTP is available on GitHub. Please exit the option window and click on the Update button to launch the update process.
-connectiontimeout=OrionFTP couldn't connect to the host. Please check the host adress/port and/or the connection, and try again. If the problem persists, please contact the host administrator and/or the software developer.
+connectiontimeout=OrionFTP couldn't connect to the host. Please check the host adress/port and/or the connection parameters, and try again. If the problem persists, please contact the host administrator and/or the software developer.
+connectionissue=OrionFTP experienced an issue with the connection to the host.
 nofolderdownload=It is not possible to download folder(s) for now. Thus the download has been canceled. That possibility will be available in a next version.
 downloadfailedtext=An issue occurred during download, and thus download failed. Please select again requested files and relaunch the download. If the issue persists, contact the host administrator and/or the developer of the software.
 transferstatus=Downloading:|Finished:|Queued:|Canceled:|ignored:

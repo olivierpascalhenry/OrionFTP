@@ -24,7 +24,7 @@ from functions.gui_functions import activate_ftp_connection, set_one_two_local, 
 from functions.gui_functions import display_remote_path, set_local_icon_provider, set_connection_local_tree
 from functions.gui_functions import display_file_folder_local_tree, set_local_files, set_default_path_local_tree
 from functions.gui_functions import set_download_finished, transfer_tree_menu, connection_browser_menu
-from functions.gui_functions import activate_download_button, test_splitter_position
+from functions.gui_functions import activate_download_button, set_splitter_position
 
 
 class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
@@ -55,8 +55,8 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
         self.connexion_browser.setContextMenuPolicy(QtCore.Qt.CustomContextMenu)
         self.connexion_browser.customContextMenuRequested.connect(lambda position: connection_browser_menu(self,
                                                                                                            position))
-        # self.main_splitter.splitterMoved.connect(lambda left, right: test_splitter_position(self, left, right))
-        # self.splitter.setSizes([605, 605])
+        self.main_splitter_1.splitterMoved.connect(lambda left, right: set_splitter_position(self, left, right))
+        self.main_splitter_3.setSizes([605, 605])
         translate_elements(self, self.config_dict['OPTIONS'].get('language'), self.translations_dict)
         set_ftp_profiles(self)
         set_profile_list(self)
@@ -75,35 +75,14 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
         self.main_profile_cb.setItemDelegate(QtWidgets.QStyledItemDelegate())
         self.transfert_tree.setHeaderHidden(False)
         set_default_path_local_tree(self)
+        self.action_quit_bt.clicked.connect(self.close_window)
+        self.action_option_bt.clicked.connect(self.open_options)
+        self.action_about_bt.clicked.connect(self.open_about)
+        self.action_update_bt.clicked.connect(self.download_and_install_update)
+        self.action_refresh_bt.clicked.connect(self.refresh_remote_folder)
+        self.action_close_bt.clicked.connect(self.close_connection)
+        self.action_manager_bt.clicked.connect(self.open_manager)
         logging.info('mainwindow.py - MainWindow ready')
-
-    @QtCore.pyqtSlot()
-    def on_actionExit_triggered(self):
-        self.close_window()
-
-    @QtCore.pyqtSlot()
-    def on_actionManager_triggered(self):
-        self.open_manager()
-
-    @QtCore.pyqtSlot()
-    def on_actionAbout_triggered(self):
-        self.open_about()
-
-    @QtCore.pyqtSlot()
-    def on_actionOptions_triggered(self):
-        self.open_options()
-
-    @QtCore.pyqtSlot()
-    def on_actionClose_triggered(self):
-        self.close_connection()
-
-    @QtCore.pyqtSlot()
-    def on_actionRefresh_triggered(self):
-        self.refresh_remote_folder()
-
-    @QtCore.pyqtSlot()
-    def on_actionUpdate_triggered(self):
-        self.download_and_install_update()
 
     def open_manager(self):
         logging.debug('mainwindow.py - open_manager')
@@ -130,6 +109,8 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
         config_dict_copy.read_file(config_string)
         self.optionsWindow = MyOptions(config_dict_copy, self.translations_dict, ftp_profile_list)
         self.optionsWindow.exec_()
+        if self.optionsWindow.link_latest_version is not None:
+            self.parse_orionftp_update(self.optionsWindow.link_latest_version)
         if self.optionsWindow.ow_config_dict is not None:
             logging.debug('mainwindow.py - open_options - saving config dict')
             self.config_dict = self.optionsWindow.ow_config_dict
@@ -140,11 +121,11 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
 
     def check_orionftp_update(self):
         logging.debug('mainwindow.py - check_orionftp_update')
-        self.actionUpdate.setEnabled(False)
+        self.action_update_bt.setEnabled(False)
         icon = QtGui.QIcon()
         icon.addPixmap(QtGui.QPixmap("icons/orionftp_update_off.svg"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
-        self.actionUpdate.setIcon(icon)
-        self.actionUpdate.setToolTip('')
+        self.action_update_bt.setIcon(icon)
+        self.action_update_bt.setToolTip('')
         if self.config_dict['OPTIONS'].getboolean('check_update'):
             self.check_downloader = CheckOrionFTPOnline()
             self.check_downloader.start()
@@ -155,23 +136,23 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
     def parse_orionftp_update(self, val):
         logging.debug('mainwindow.py - parse_orionftp_update - val ' + str(val))
         if val == 'no new version':
-            self.actionUpdate.setEnabled(False)
+            self.action_update_bt.setEnabled(False)
             icon = QtGui.QIcon()
             icon.addPixmap(QtGui.QPixmap("icons/orionftp_update_off.svg"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
-            self.actionUpdate.setIcon(icon)
-            self.actionUpdate.setToolTip(self.translations_dict['nonewupdate'][self.config_dict['OPTIONS']
-                                         .get('language')])
+            self.action_update_bt.setIcon(icon)
+            self.action_update_bt.setToolTip(self.translations_dict['nonewupdate'][self.config_dict['OPTIONS']
+                                             .get('language')])
         elif 'http' in val:
-            self.actionUpdate.setEnabled(True)
+            self.action_update_bt.setEnabled(True)
             icon = QtGui.QIcon()
             icon.addPixmap(QtGui.QPixmap("icons/orionftp_update_on.svg"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
-            self.actionUpdate.setIcon(icon)
+            self.action_update_bt.setIcon(icon)
             if getattr(sys, 'frozen', False):
-                self.actionUpdate.setToolTip(self.translations_dict['newupdatefrozen'][self.config_dict['OPTIONS']
-                                             .get('language')])
+                self.action_update_bt.setToolTip(self.translations_dict['newupdatefrozen'][self.config_dict['OPTIONS']
+                                                 .get('language')])
             else:
-                self.actionUpdate.setToolTip(self.translations_dict['newupdatesources'][self.config_dict['OPTIONS']
-                                             .get('language')])
+                self.action_update_bt.setToolTip(self.translations_dict['newupdatesources'][self.config_dict['OPTIONS']
+                                                 .get('language')])
             self.link_latest_version = val
 
     def download_and_install_update(self):
@@ -222,6 +203,7 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
         self.infoWindow.exec_()
 
     def initiate_connection(self):
+        logging.debug('mainwindow.py - Mainwindow - initiate_connection')
         if self.main_profile_cb.currentIndex() != 0:
             widget_list = [self.main_remote_ln, self.main_remote_tr_1, self.main_remote_tr_2,
                            self.connexion_browser, self.transfert_tree]
@@ -232,37 +214,61 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
                                             self.translations_dict)
             elif self.ftp_profiles[str(self.main_profile_cb.currentText())]['protocol'] == 'sftp':
                 pass
-            self.protocol.download_finished.connect(lambda: set_download_finished(self))
             self.protocol.update_local_file_list.connect(lambda: set_local_files(self))
-            success = self.protocol.connection()
-            if success:
-                activate_ftp_icons(self)
-                deactivate_ftp_connection(self)
-                self.main_local_ln.setSelection(0, 0)
-            else:
-                self.protocol = None
-                text = self.translations_dict['connectiontimeout'][self.config_dict['OPTIONS'].get('language')]
-                self.infoWindow = MyInfo(text)
-                self.infoWindow.resize(450, 200)
-                self.infoWindow.exec_()
+            self.protocol.connection_success.connect(self.successful_connection)
+            self.protocol.connection_failure.connect(self.unsuccessful_connection)
+            self.protocol.connection_issue.connect(self.connection_issue)
+            self.protocol.connection_closed.connect(self.connection_closed)
+            self.protocol.download_finished.connect(lambda: set_download_finished(self))
+            self.protocol.connection_start()
+
+    def successful_connection(self):
+        logging.debug('mainwindow.py - Mainwindow - successful_connection')
+        activate_ftp_icons(self)
+        deactivate_ftp_connection(self)
+        self.main_local_ln.setSelection(0, 0)
+
+    def unsuccessful_connection(self):
+        logging.debug('mainwindow.py - Mainwindow - unsuccessful_connection')
+        deactivate_ftp_icons(self)
+        activate_ftp_connection(self)
+        self.protocol = None
+        text = self.translations_dict['connectiontimeout'][self.config_dict['OPTIONS'].get('language')]
+        self.infoWindow = MyInfo(text)
+        self.infoWindow.resize(450, 200)
+        self.infoWindow.exec_()
+
+    def connection_issue(self):
+        logging.debug('mainwindow.py - Mainwindow - connection_issue')
+        text = self.translations_dict['connectionissue'][self.config_dict['OPTIONS'].get('language')]
+        self.infoWindow = MyInfo(text)
+        self.infoWindow.resize(450, 200)
+        self.infoWindow.exec_()
 
     def close_connection(self):
         logging.debug('mainwindow.py - MainWindow - close_connection')
         if self.protocol is not None:
             self.protocol.close_ftp()
-            deactivate_ftp_icons(self)
-            activate_ftp_connection(self)
-            clean_remote_widgets(self)
-            self.protocol = None
-            set_download_finished(self)
+
+    def connection_closed(self):
+        logging.debug('mainwindow.py - Mainwindow - connection_closed')
+        deactivate_ftp_icons(self)
+        activate_ftp_connection(self)
+        clean_remote_widgets(self)
+        self.protocol = None
+        set_download_finished(self)
 
     def refresh_remote_folder(self):
         logging.debug('mainwindow.py - MainWindow - refresh_remote_folder')
         if self.protocol is not None:
-            index = self.main_remote_tr_1.selectedIndexes()[0]
-            self.protocol.refresh(index)
+            try:
+                index = self.main_remote_tr_1.selectedIndexes()[0]
+                self.protocol.refresh(index)
+            except IndexError:
+                pass
 
     def download_selection(self):
+        logging.debug('mainwindow.py - MainWindow - download_selection')
         if self.protocol is not None:
             self.main_tabwidget.setCurrentIndex(1)
             self.downloading = True
@@ -270,6 +276,7 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
             activate_download_button(self)
 
     def apply_options(self, config_dict):
+        logging.debug('mainwindow.py - MainWindow - apply_options')
         if self.config_dict['OPTIONS'].get('language') != config_dict['language']:
             logging.debug('mainwindow.py - MainWindow - apply_options - language set')
             translate_elements(self, self.config_dict['OPTIONS'].get('language'), self.translations_dict)
@@ -325,6 +332,7 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
             display_remote_path(self)
 
     def close_window(self):
+        logging.debug('mainwindow.py - MainWindow - close_window')
         self.close_connection()
         self.close()
 

@@ -1,0 +1,310 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>waitWindow</class>
+ <widget class="QWidget" name="waitWindow">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>370</width>
+    <height>96</height>
+   </rect>
+  </property>
+  <property name="minimumSize">
+   <size>
+    <width>0</width>
+    <height>0</height>
+   </size>
+  </property>
+  <property name="maximumSize">
+   <size>
+    <width>16777215</width>
+    <height>16777215</height>
+   </size>
+  </property>
+  <property name="font">
+   <font>
+    <family>FreeSans</family>
+    <pointsize>10</pointsize>
+    <stylestrategy>PreferAntialias</stylestrategy>
+    <kerning>true</kerning>
+   </font>
+  </property>
+  <property name="windowTitle">
+   <string>Please wait...</string>
+  </property>
+  <property name="windowIcon">
+   <iconset>
+    <normaloff>icons/info_popup_icon.svg</normaloff>icons/info_popup_icon.svg</iconset>
+  </property>
+  <property name="styleSheet">
+   <string notr="true">QWidget {
+	background-color: rgb(230,230,230);
+}
+
+QScrollBar:vertical {
+  border: 1px solid white;
+  background-color: rgb(240, 240, 240);
+  width: 20px;
+  margin: 21px 0px 21px 0px;
+}
+
+QScrollBar:horizontal {
+  border: 1px solid white;
+  background-color: rgb(240, 240, 240);
+  height: 20px;
+  margin: 0px 21px 0px 21px;
+}
+
+QScrollBar::handle:vertical {
+  background-color: rgb(205, 205, 205);
+  min-height: 25px;
+}
+
+QScrollBar:handle:vertical:hover {
+  background-color: rgb(166, 166, 166);
+}
+
+QScrollBar:handle:vertical:pressed {
+  background-color: rgb(96, 96, 96);
+}
+
+QScrollBar::handle:horizontal {
+  background-color: rgb(205, 205, 205);
+  min-width: 25px;
+}
+
+QScrollBar:handle:horizontal:hover {
+  background-color: rgb(166, 166, 166);
+}
+
+QScrollBar:handle:horizontal:pressed {
+  background-color: rgb(96, 96, 96);
+}
+
+QScrollBar::add-line:vertical {
+  border-top: 1px solid rgb(240,240,240);
+  border-left: 1px solid white;
+  border-right: 1px solid white;
+  border-bottom: 1px solid white;
+  background-color: rgb(240, 240, 240);
+  height: 20px;
+  subcontrol-position: bottom;
+  subcontrol-origin: margin;
+}
+
+QScrollBar::add-line:vertical:hover {
+  background-color: rgb(218, 218, 218);
+}
+
+QScrollBar::add-line:vertical:pressed {
+  background-color: rgb(96, 96, 96);
+}
+
+QScrollBar::sub-line:vertical {
+  border-top: 1px solid white;
+  border-left: 1px solid white;
+  border-right: 1px solid white;
+  border-bottom: 1px solid rgb(240,240,240);
+  background-color: rgb(240, 240, 240);
+  height: 20px;
+  subcontrol-position: top;
+  subcontrol-origin: margin;
+}
+
+QScrollBar::sub-line:vertical:hover {
+  background-color: rgb(218, 218, 218);
+}
+
+QScrollBar::sub-line:vertical:pressed {
+  background-color: rgb(96, 96, 96);
+}
+
+QScrollBar::up-arrow:vertical {
+  image: url(icons/up_arrow_icon.svg); 
+  width: 16px;
+  height: 16px;
+}
+
+QScrollBar::up-arrow:vertical:pressed {
+  right: -1px;
+  bottom: -1px;
+}
+
+QScrollBar::down-arrow:vertical {
+  image: url(icons/down_arrow_icon.svg); 
+  width: 16px;
+  height: 16px;
+}
+
+QScrollBar::down-arrow:vertical:pressed {
+  right: -1px;
+  bottom: -1px;
+}
+
+QScrollBar::add-line:horizontal {
+  border-top: 1px solid white;
+  border-left: 1px solid rgb(240,240,240);
+  border-right: 1px solid white;
+  border-bottom: 1px solid white;
+  background-color: rgb(240, 240, 240);
+  width: 20px;
+  subcontrol-position: right;
+  subcontrol-origin: margin;
+}
+
+QScrollBar::add-line:horizontal:hover {
+  background-color: rgb(218, 218, 218);
+}
+
+QScrollBar::add-line:horizontal:pressed {
+  background-color: rgb(96, 96, 96);
+}
+
+QScrollBar::sub-line:horizontal {
+  border-top: 1px solid white;
+  border-left: 1px solid white;
+  border-right: 1px solid rgb(240,240,240);
+  border-bottom: 1px solid white;
+  background-color: rgb(240, 240, 240);
+  width: 20px;
+  subcontrol-position: left;
+  subcontrol-origin: margin;
+}
+
+QScrollBar::sub-line:horizontal:hover {
+  background-color: rgb(218, 218, 218);
+}
+
+QScrollBar::sub-line:horizontal:pressed {
+  background-color: rgb(96, 96, 96);
+}
+
+QScrollBar::left-arrow:horizontal {
+  image: url(icons/left_arrow_icon.svg); 
+  width: 16px;
+  height: 16px;
+}
+
+QScrollBar::left-arrow:horizontal:pressed {
+  right: -1px;
+  bottom: -1px;
+}
+
+QScrollBar::right-arrow:horizontal {
+  image: url(icons/right_arrow_icon.svg); 
+  width: 16px;
+  height: 16px;
+}
+
+QScrollBar::right-arrow:horizontal:pressed {
+  right: -1px;
+  bottom: -1px;
+}</string>
+  </property>
+  <layout class="QGridLayout" name="gridLayout">
+   <item row="0" column="0">
+    <widget class="QLabel" name="ww_label_1">
+     <property name="minimumSize">
+      <size>
+       <width>0</width>
+       <height>0</height>
+      </size>
+     </property>
+     <property name="maximumSize">
+      <size>
+       <width>16777215</width>
+       <height>16777215</height>
+      </size>
+     </property>
+     <property name="font">
+      <font>
+       <family>FreeSans</family>
+       <pointsize>10</pointsize>
+       <stylestrategy>PreferAntialias</stylestrategy>
+       <kerning>true</kerning>
+      </font>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">QLabel {
+	color: rgb(45,45,45);
+    margin-bottom: 0px;
+}</string>
+     </property>
+     <property name="frameShape">
+      <enum>QFrame::NoFrame</enum>
+     </property>
+     <property name="frameShadow">
+      <enum>QFrame::Plain</enum>
+     </property>
+     <property name="lineWidth">
+      <number>0</number>
+     </property>
+     <property name="midLineWidth">
+      <number>0</number>
+     </property>
+     <property name="text">
+      <string>Connecting, please wait...</string>
+     </property>
+     <property name="textFormat">
+      <enum>Qt::AutoText</enum>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignCenter</set>
+     </property>
+     <property name="wordWrap">
+      <bool>true</bool>
+     </property>
+    </widget>
+   </item>
+   <item row="2" column="0">
+    <layout class="QHBoxLayout" name="horizontalLayout">
+     <item>
+      <spacer name="horizontalSpacer">
+       <property name="orientation">
+        <enum>Qt::Horizontal</enum>
+       </property>
+       <property name="sizeHint" stdset="0">
+        <size>
+         <width>40</width>
+         <height>20</height>
+        </size>
+       </property>
+      </spacer>
+     </item>
+     <item>
+      <layout class="QVBoxLayout" name="verticalLayout"/>
+     </item>
+     <item>
+      <spacer name="horizontalSpacer_2">
+       <property name="orientation">
+        <enum>Qt::Horizontal</enum>
+       </property>
+       <property name="sizeHint" stdset="0">
+        <size>
+         <width>40</width>
+         <height>20</height>
+        </size>
+       </property>
+      </spacer>
+     </item>
+    </layout>
+   </item>
+   <item row="1" column="0">
+    <spacer name="verticalSpacer">
+     <property name="orientation">
+      <enum>Qt::Vertical</enum>
+     </property>
+     <property name="sizeHint" stdset="0">
+      <size>
+       <width>20</width>
+       <height>40</height>
+      </size>
+     </property>
+    </spacer>
+   </item>
+  </layout>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>

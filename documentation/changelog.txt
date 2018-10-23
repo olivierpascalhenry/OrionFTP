@@ -4,11 +4,8 @@ CHANGELOG
 
 To do list:
 -----------
-  - add option to reconnect or not automatically if a timeout occures. (v0.6)
-  - display a wheel when connecting to a server. (v0.6)
-  - display icon bars in the local and remote section. (v0.6)
-  - remove download button and add a receive button + icon to the remote section (v0.6)
   - add SFTP protocol. (v0.7)
+  - add folder download. (v0.8)
   
 To fix list:
 ------------
@@ -16,10 +13,32 @@ To fix list:
 Limitations:
 ------------
   - for now, it is not possible to download a folder and its content.
-  - for now, when a file is added/modified/deleted on the local computer, the local down widget listing only files is not refreshed and won't reflect changes until the local up widget is triggered.
-  - for now, options in the Connection section are not used and have no impact on how the FTP class works.
 
+
+October 23 2018, Release version 0.6.0
+======================================
+Until version 1.0.0, the config file is expected to evolve and can be deleted without further notice to introduce new options.
+Until version 1.0.0, the ftp_profiles.xml file is expected to evolve and can be deleted without further notice to introduce new options.
   
+  ADDED:
+    - a window with a spinning wheel has been added for connection.
+    - an option to reconnect automatically (or not) in case of time out has been added.
+    - a connexion can be passive or active based on options.
+    - transfers can be binary or ascii based on options.
+    - a folder watcher has been added to the local trees (if two local trees are displayed, and not only one): if a file is added/modified/deleted, the folder watcher will trigger a new listing of the watched directory.
+    - the possibility to apply action to all files when a conflict with an existing file is detected has been added
+  
+  MODIFIED:
+    - few changes in the GUI were introduced.
+    - the connection phase to a FTP server has been moved in a QThread to avoid freezing of the GUI.
+  
+  FIXED:
+    - fixed an issue in the option window which prevents the user to check manually for an update.
+    - if no item is selected in the remote trees, and the refresh button is clicked, it leads to an error. It has been fixed.
+    - sometimes, when the download is too fast, the computation of speed can lead to a division-by-0 error because of the precision of time computation. It has been fixed.
+    - in the ftp manager, if a user wants to save a backup and then cancel before selecting a file, an error is raised. It has been fixed.
+
+
 October 20 2018, Release version 0.5.1
 ======================================  
 Until version 1.0.0, the config file is expected to evolve and can be deleted without further notice to introduce new options.

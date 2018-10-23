@@ -1,24 +1,27 @@
 import logging
 import ftplib
 import base64
-import socket
 import os
 from pathlib import Path
-from functions.window_functions import MyCredentials, MyInfo, MyQuestion
+from functions.window_functions import MyCredentials, MyInfo, MyQuestion, MyWait
 from functions.gui_elements import MyQTreeWidgetItem, CustomTreeItem
 from functions.utilities import set_size
 from functions.material_functions import tree_objects_init
-from functions.thread_functions import DownloadFTPFile
+from functions.thread_functions import DownloadFTPFile, ConnectFTP
 from PyQt5 import QtGui, QtWidgets, QtCore
 
 
 class FTPProtocol(QtCore.QObject):
     download_finished = QtCore.pyqtSignal()
     update_local_file_list = QtCore.pyqtSignal()
+    connection_success = QtCore.pyqtSignal()
+    connection_failure = QtCore.pyqtSignal()
+    connection_issue = QtCore.pyqtSignal()
+    connection_closed = QtCore.pyqtSignal()
 
     def __init__(self, ftp_profile, widgets, config_dict, translations_dict):
         QtCore.QObject.__init__(self)
-        logging.debug('protocol_functions.py - FTPProtocol - __init__')
+        logging.info('protocol_functions.py - FTPProtocol - __init__')
         self.config_dict = config_dict
         self.translations_dict = translations_dict
         self.one_tree_option = self.config_dict['INTERFACE'].getboolean('remote_tree_one_widget')
@@ -29,6 +32,8 @@ class FTPProtocol(QtCore.QObject):
         self.host = self.ftp_profile['host']
         self.port = self.ftp_profile['port']
         self.encryption = self.ftp_profile['encryption']
+        self.transfer_mode = int(self.config_dict['CONNECTION'].get('default_transfer_mode'))
+        self.reconnect = self.config_dict['CONNECTION'].getboolean('timeout_connection')
         self.ftp_protocol = None
         self.file_list = list()
         self.folder_list = list()
@@ -48,9 +53,12 @@ class FTPProtocol(QtCore.QObject):
         self.file_types, self.type_icons = tree_objects_init()
         self.thread = None
         self.label_1 = []
+        self.waitWindow = None
+        self.file_action_result = None
+        self.action_to_all = False
 
-    def connection(self):
-        logging.debug('protocol_functions.py - FTPProtocol - connection')
+    def connection_start(self):
+        logging.debug('protocol_functions.py - FTPProtocol - connection_start')
         if not self.username or not self.password:
             self.credential_window = MyCredentials(self.host, self.username, self.password,
                                                    self.config_dict, self.translations_dict)
@@ -59,30 +67,7 @@ class FTPProtocol(QtCore.QObject):
                 self.username = self.credential_window.username
                 self.password = self.credential_window.password
         if self.username is not None or self.password is not None:
-            try:
-                self.ftp_protocol = self._ftp_connection()
-                self._update_connection_widget([1, 'PWD'])
-                self.first_path = self.ftp_protocol.pwd()
-                self._update_connection_widget([2, '"' + self.first_path + '" is the current directory'])
-                self._list_folders_files(first_listing=True, first_path=self.first_path)
-                return True
-            except ftplib.error_perm as e:
-                logging.exception('protocol_functions.py - FTPProtocol - connection - error')
-                if '550' in str(e):
-                    self._update_connection_widget([3, 'SSL/TLS required on the control channel'])
-                elif '500' in str(e):
-                    self._update_connection_widget([3, 'AUTH not understood'])
-                else:
-                    self._update_connection_widget([3, 'Login incorrect'])
-                return False
-            except socket.timeout:
-                logging.exception('protocol_functions.py - FTPProtocol - connection - error')
-                self._update_connection_widget([3, 'The connection was refused by ' + self.host])
-                return False
-            except ConnectionRefusedError:
-                logging.exception('protocol_functions.py - FTPProtocol - connection - error')
-                self._update_connection_widget([3, 'Timed out, no response from ' + self.host])
-                return False
+            self._ftp_connection(0)
 
     def change_path(self, index):
         logging.debug('protocol_functions.py - FTPProtocol - change_path')
@@ -102,10 +87,12 @@ class FTPProtocol(QtCore.QObject):
                                                     + self.remote_path])
                 except ftplib.error_temp:
                     logging.exception('protocol_functions.py - FTPProtocol - connection - error')
-                    self._update_connection_widget([3, 'No transfer timeout (300 seconds): closing control connection'])
-                    self.ftp_protocol = self._ftp_connection()
-                    self.old_remote_path = ''
-                    self.change_path(index)
+                    self._update_connection_widget([3, 'No transfer timeout: closing control connection'])
+                    if self.reconnect:
+                        self._ftp_connection(index)
+                    else:
+                        self.connection_closed.emit()
+                        self._all_download_canceled()
 
     def refresh(self, index):
         logging.debug('protocol_functions.py - FTPProtocol - refresh')
@@ -150,9 +137,12 @@ class FTPProtocol(QtCore.QObject):
                 self.thread.start()
         except ftplib.error_temp:
             logging.exception('protocol_functions.py - FTPProtocol - connection - error')
-            self._update_connection_widget([3, 'No transfer timeout (300 seconds): closing control connection'])
-            self.ftp_protocol = self._ftp_connection()
-            self.download_selection(local_path)
+            self._update_connection_widget([3, 'No transfer timeout: closing control connection'])
+            if self.reconnect:
+                self._ftp_connection(local_path)
+            else:
+                self.connection_closed.emit()
+                self._all_download_canceled()
 
     def cancel_download(self):
         logging.debug('protocol_functions.py - FTPProtocol - cancel_download')
@@ -160,9 +150,7 @@ class FTPProtocol(QtCore.QObject):
             self.thread.cancel_download()
             self.ftp_protocol.quit()
             self.ftp_protocol = None
-            self.ftp_protocol = self._ftp_connection()
-            self.thread.ftp = self.ftp_protocol
-            self.thread.connected = True
+            self._ftp_connection(1)
         except AttributeError:
             pass
 
@@ -172,9 +160,7 @@ class FTPProtocol(QtCore.QObject):
             self.thread.cancel_all_download()
             self.ftp_protocol.quit()
             self.ftp_protocol = None
-            self.ftp_protocol = self._ftp_connection()
-            self.thread.ftp = self.ftp_protocol
-            self.thread.connected = True
+            self._ftp_connection(1)
         except AttributeError:
             pass
 
@@ -217,13 +203,16 @@ class FTPProtocol(QtCore.QObject):
             self._update_connection_widget([2, message])
             self._update_connection_widget([0, 'Connection to ' + self.host + ':' + self.port + ' closed.'])
             self._all_download_canceled()
+            self.connection_closed.emit()
             logging.debug('protocol_functions.py - FTPProtocol - close_ftp - connection closed')
         except (ftplib.error_temp, OSError, AttributeError):
             logging.exception('protocol_functions.py - FTPProtocol - connection - error')
             self._update_connection_widget([3, 'No transfer timeout (300 seconds): closing control connection'])
             self._update_connection_widget([0, 'Connection to ' + self.host + ':' + self.port + ' closed.'])
+            self.connection_closed.emit()
 
     def clear_transfers(self):
+        logging.debug('protocol_functions.py - FTPProtocol - clear_transfers')
         self.gui_transfer_widget.clear()
         self.label_1 = []
 
@@ -368,13 +357,19 @@ class FTPProtocol(QtCore.QObject):
         if first_listing:
             self.remote_path = str(first_path)
         listing = []
-        self._update_connection_widget([1, 'LIST'])
-        message = self.ftp_protocol.retrlines('LIST', listing.append)
-        self._update_connection_widget([2, message])
-        file_folder_list = self._parse_listing(listing)
-        self._populate_path()
-        self._populate_tree_up(file_folder_list, first_listing=first_listing, parent_index=parent_index)
-        self._populate_tree_down(file_folder_list)
+        try:
+            self._update_connection_widget([1, 'LIST'])
+            message = self.ftp_protocol.retrlines('LIST', listing.append)
+            self._update_connection_widget([2, message])
+            file_folder_list = self._parse_listing(listing)
+            self._populate_path()
+            self._populate_tree_up(file_folder_list, first_listing=first_listing, parent_index=parent_index)
+            self._populate_tree_down(file_folder_list)
+        except ftplib.error_temp as e:
+            logging.exception('protocol_functions.py - FTPProtocol - _list_folders_files - error')
+            if '425' in str(e):
+                self._update_connection_widget([3, 'Unable to build data connection: Connection refused'])
+            self._connexion_error()
 
     def _build_remote_path(self, index):
         logging.debug('protocol_functions.py - FTPProtocol - _build_remote_path')
@@ -479,7 +474,6 @@ class FTPProtocol(QtCore.QObject):
                 self.gui_tree_down.addTopLevelItem(widget)
 
     def _update_connection_widget(self, message_list):
-        logging.debug('protocol_functions.py - FTPProtocol - _update_connection_widget')
         item, message = message_list[0], message_list[1]
         color = None
         if item == 0:
@@ -505,7 +499,6 @@ class FTPProtocol(QtCore.QObject):
         self.gui_connect_widget.scrollToItem(status_item, QtWidgets.QAbstractItemView.PositionAtCenter)
         self.gui_connect_widget.selectRow(index)
 
-
     def _parse_listing(self, listing):
         logging.debug('protocol_functions.py - FTPProtocol - _parse_listing')
         clean_listing = list()
@@ -524,7 +517,7 @@ class FTPProtocol(QtCore.QObject):
                 if self.one_tree_option:
                     folder_listing.append([filename, filesize, filesize_str, filetype, 'icons/' + iconfile])
             else:
-                ext = filename[filename.rfind('.')+1:]
+                ext = filename[filename.rfind('.') + 1:]
                 if ext:
                     try:
                         filetype = self.file_types[ext]
@@ -548,7 +541,9 @@ class FTPProtocol(QtCore.QObject):
         return clean_listing
 
     def _set_file_folder_list(self, local_path):
+        logging.debug('protocol_functions.py - FTPProtocol - _set_file_folder_list')
         file_list = list()
+        self.to_all = False
         if self.gui_tree_up.selectedIndexes():
             for index in self.gui_tree_up.selectedIndexes():
                 if self.gui_tree_up_model.itemFromIndex(index).statusTip() != 'folder':
@@ -579,29 +574,13 @@ class FTPProtocol(QtCore.QObject):
 
         return file_list
 
-    def _ftp_connection(self):
-        self._update_connection_widget([0, 'Connecting to ' + self.host + ':' + self.port + '...'])
-        if self.encryption == 'plain':
-            ftp_protocol = ftplib.FTP(timeout=5)
-        else:
-            ftp_protocol = MyFTP_TLS(timeout=5)
-        message = ftp_protocol.connect(self.host, int(self.port))
-        self._update_connection_widget([2, message])
-        if self.encryption != 'plain':
-            self._update_connection_widget([1, 'AUTH TLS'])
-            message = ftp_protocol.auth()
-            self._update_connection_widget([2, message])
-            self._update_connection_widget([1, 'PROT P'])
-            message = ftp_protocol.prot_p()
-            self._update_connection_widget([2, message])
-        self._update_connection_widget([1, 'USER ' + self.username + ' ; PASS **************'])
-        message = ftp_protocol.login(self.username, self.password)
-        self._update_connection_widget([2, message])
-        self._update_connection_widget([1, 'OPTS UTF8 ON'])
-        message = ftp_protocol.sendcmd("OPTS UTF8 ON")
-        self._update_connection_widget([2, message])
-        ftp_protocol.encoding = 'utf-8'
-        return ftp_protocol
+    def _connection_end(self):
+        logging.debug('protocol_functions.py - FTPProtocol - _connection_end')
+        self.connection_success.emit()
+        self._update_connection_widget([1, 'PWD'])
+        self.first_path = self.ftp_protocol.pwd()
+        self._update_connection_widget([2, '"' + self.first_path + '" is the current directory'])
+        self._list_folders_files(first_listing=True, first_path=self.first_path)
 
     def _reset_up_down_tree(self):
         logging.debug('protocol_functions.py - FTPProtocol - reset_tree')
@@ -614,17 +593,23 @@ class FTPProtocol(QtCore.QObject):
         self.gui_tree_up.hideColumn(2)
 
     def _check_file_exist(self, file, local_path):
+        logging.debug('protocol_functions.py - FTPProtocol - _check_file_exist')
         check_file = Path(local_path + '/' + file)
         try:
             if check_file.is_file():
-                result = self._file_exist_question(file)
-                if result is not None:
-                    if result == 1:
+                if int(self.config_dict['TRANSFER'].get('file_exist_download')) == 0:
+                    if not self.action_to_all:
+                        self.file_action_result, self.action_to_all = self._file_exist_question(file)
+                else:
+                    self.file_action_result = int(self.config_dict['TRANSFER'].get('file_exist_download'))
+                    self.action_to_all = False
+                if self.file_action_result is not None:
+                    if self.file_action_result == 1:
                         return file
-                    elif result == 2:
+                    elif self.file_action_result == 2:
                         name, ext = os.path.splitext(file)
                         return name + '_copy' + ext
-                    elif result == 3:
+                    elif self.file_action_result == 3:
                         return None
                 else:
                     raise AttributeError('The answer chosen by the user can\'t be None.')
@@ -637,15 +622,55 @@ class FTPProtocol(QtCore.QObject):
             self.download_finished.emit()
 
     def _file_exist_question(self, filename):
-        if int(self.config_dict['TRANSFER'].get('file_exist_download')) == 0:
-            self.myQuestion = MyQuestion(filename, self.config_dict, self.translations_dict)
-            self.myQuestion.exec_()
-            return self.myQuestion.result
-        else:
-            return self.ask_option
+        logging.debug('protocol_functions.py - FTPProtocol - _file_exist_question')
+        self.myQuestion = MyQuestion(filename, self.config_dict, self.translations_dict)
+        self.myQuestion.exec_()
+        return self.myQuestion.result, self.myQuestion.to_all
 
     def _update_local_down_widget(self):
+        logging.debug('protocol_functions.py - FTPProtocol - _update_local_down_widget')
         self.update_local_file_list.emit()
+
+    def _open_wait_window(self):
+        logging.debug('protocol_functions.py - FTPProtocol - _open_wait_window')
+        self.waitWindow = MyWait(self.config_dict, self.translations_dict)
+        self.waitWindow.exec_()
+
+    def _close_wait_window(self, val):
+        logging.debug('protocol_functions.py - FTPProtocol - _close_wait_window')
+        action = val[0]
+        self.ftp_protocol = val[1]
+        self.waitWindow.close()
+        self.waitWindow = None
+        self.connection_thread.stop()
+        if action == 0:
+            self._connection_end()
+        elif action == 1:
+            self.thread.ftp = self.ftp_protocol
+            self.thread.connected = True
+        elif isinstance(action, QtCore.QModelIndex):
+            self.old_remote_path = ''
+            self.change_path(action)
+        elif isinstance(action, str):
+            self.download_selection(action)
+
+    def _connexion_error(self):
+        logging.debug('protocol_functions.py - FTPProtocol - _connexion_error')
+        if self.waitWindow is not None:
+            self.waitWindow.close()
+            self.connection_failure.emit()
+        else:
+            self.connection_issue.emit()
+
+    def _ftp_connection(self, action):
+        logging.debug('protocol_functions.py - FTPProtocol - _ftp_connection')
+        self.connection_thread = ConnectFTP(self.host, self.port, self.transfer_mode, self.encryption,
+                                            self.username, self.password, action)
+        self.connection_thread.connection_start.connect(self._open_wait_window)
+        self.connection_thread.connection_update.connect(self._update_connection_widget)
+        self.connection_thread.connection_error.connect(self._connexion_error)
+        self.connection_thread.connected.connect(self._close_wait_window)
+        self.connection_thread.start()
 
 
 class MyFTP_TLS(ftplib.FTP_TLS):

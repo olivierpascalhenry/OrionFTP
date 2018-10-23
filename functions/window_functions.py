@@ -17,11 +17,42 @@ from ui.Ui_optioninfowindow import Ui_optionInfoWindow
 from ui.Ui_maininfowindow import Ui_mainInfoWindow
 from ui.Ui_credentialswindow import Ui_credentialsWindow
 from ui.Ui_askwindow import Ui_askWindow
+from ui.Ui_waitwindow import Ui_waitWindow
 from ui.version import gui_version
 from functions.utilities import translate_elements, clear_layout, get_file_name
 from functions.material_functions import profile_window_objects_initialization
 from functions.thread_functions import DownloadFile, CheckOrionFTPOnline
 from functions.ftp_xml import read_profile_xml, create_profile_xml
+from functions.gui_elements import QtWaitingSpinner
+
+
+class MyWait(QtWidgets.QDialog, Ui_waitWindow):
+    def __init__(self, config_dict, translations_dict):
+        logging.debug('window_functions.py - MyWait - __init__')
+        QtWidgets.QWidget.__init__(self)
+        self.setupUi(self)
+        translate_elements(self, config_dict['OPTIONS'].get('language'), translations_dict)
+        self.setup_spinner()
+        logging.info('window_functions.py - MyWait ready')
+
+    def setup_spinner(self):
+        logging.debug('window_functions.py - MyWait - setup_spinner')
+        self.spinner = QtWaitingSpinner(self, centerOnParent=False)
+        self.verticalLayout.addWidget(self.spinner)
+        self.spinner.setRoundness(70.0)
+        self.spinner.setMinimumTrailOpacity(15.0)
+        self.spinner.setTrailFadePercentage(70.0)
+        self.spinner.setNumberOfLines(12)
+        self.spinner.setLineLength(10)
+        self.spinner.setLineWidth(5)
+        self.spinner.setInnerRadius(10)
+        self.spinner.setRevolutionsPerSecond(1)
+        self.spinner.setColor(QtGui.QColor(45, 45, 45))
+        self.spinner.start()
+
+    def close_window(self):
+        logging.debug('window_functions.py - MyWait - closeWindow')
+        self.close()
 
 
 class MyQuestion(QtWidgets.QDialog, Ui_askWindow):
@@ -33,12 +64,18 @@ class MyQuestion(QtWidgets.QDialog, Ui_askWindow):
         self.aw_label_3.setText(filename)
         self.aw_button_1.clicked.connect(self.close_window)
         self.aw_group_1.buttonClicked.connect(self.activate_button)
+        self.aw_checkbox_1.stateChanged.connect(self.set_to_all)
         self.result = None
-        logging.info('window_functions.py - MyInfo ready')
+        self.to_all = False
+        logging.info('window_functions.py - MyQuestion ready')
 
     def activate_button(self, val):
+        logging.debug('window_functions.py - MyQuestion - activate_button')
         self.result = int(val.objectName()[-1:])
         self.aw_button_1.setEnabled(True)
+
+    def set_to_all(self):
+        self.to_all = self.aw_checkbox_1.isChecked()
 
     def close_window(self):
         logging.debug('window_functions.py - MyQuestion - close_window')
@@ -258,7 +295,8 @@ class MyManager(QtWidgets.QDialog, Ui_managerWindow):
 
     def save_backup(self):
         filename = get_file_name(self, 'save')
-        create_profile_xml(filename, self.ftp_profiles)
+        if filename:
+            create_profile_xml(filename, self.ftp_profiles)
 
     def save_profiles(self):
         logging.debug('window_functions.py - MyManager - save_profiles')
@@ -1127,9 +1165,26 @@ class MyOptions(QtWidgets.QDialog, Ui_optionWindow):
         self.ow_checkbox_8.setStyleSheet("QCheckBox {\n"
                                          "    color: rgb(45,45,45);\n"
                                          "    margin-right: 20px;\n"
+                                         "}\n"
+                                         "QCheckBox:disabled {\n"
+                                         "    color: rgb(90,90,90);\n"
                                          "}")
         self.ow_checkbox_8.setObjectName("ow_checkbox_8")
         self.gridLayout_3.addWidget(self.ow_checkbox_8, 1, 0, 1, 5)
+
+        self.ow_checkbox_9 = QtWidgets.QCheckBox(self.scrollAreaWidgetContents_2)
+        self.ow_checkbox_9.setMinimumSize(QtCore.QSize(0, 27))
+        self.ow_checkbox_9.setMaximumSize(QtCore.QSize(16777215, 27))
+        self.ow_checkbox_9.setFont(font)
+        self.ow_checkbox_9.setStyleSheet("QCheckBox {\n"
+                                         "    color: rgb(45,45,45);\n"
+                                         "    margin-right: 20px;\n"
+                                         "}\n"
+                                         "QCheckBox:disabled {\n"
+                                         "    color: rgb(90,90,90);\n"
+                                         "}")
+        self.ow_checkbox_9.setObjectName("ow_checkbox_9")
+        self.gridLayout_3.addWidget(self.ow_checkbox_9, 2, 0, 1, 5)
         self.ow_label_9 = QtWidgets.QLabel(self.scrollAreaWidgetContents_2)
         self.ow_label_9.setMinimumSize(QtCore.QSize(0, 27))
         self.ow_label_9.setMaximumSize(QtCore.QSize(16777215, 27))
@@ -1139,11 +1194,11 @@ class MyOptions(QtWidgets.QDialog, Ui_optionWindow):
                                       "}")
         self.ow_label_9.setAlignment(QtCore.Qt.AlignRight | QtCore.Qt.AlignTrailing | QtCore.Qt.AlignVCenter)
         self.ow_label_9.setObjectName("ow_label_9")
-        self.gridLayout_3.addWidget(self.ow_label_9, 2, 0, 1, 1)
+        self.gridLayout_3.addWidget(self.ow_label_9, 3, 0, 1, 1)
         self.gridLayout_3.addItem(QtWidgets.QSpacerItem(20,
                                                         20,
                                                         QtWidgets.QSizePolicy.Fixed,
-                                                        QtWidgets.QSizePolicy.Minimum), 2, 1, 1, 1)
+                                                        QtWidgets.QSizePolicy.Minimum), 3, 1, 1, 1)
         self.ow_combobox_5 = QtWidgets.QComboBox(self.scrollAreaWidgetContents_2)
         self.ow_combobox_5.setMinimumSize(QtCore.QSize(130, 27))
         self.ow_combobox_5.setMaximumSize(QtCore.QSize(130, 27))
@@ -1199,11 +1254,11 @@ class MyOptions(QtWidgets.QDialog, Ui_optionWindow):
         self.ow_combobox_5.addItem("")
         self.ow_combobox_5.addItem("")
         self.ow_combobox_5.addItem("")
-        self.gridLayout_3.addWidget(self.ow_combobox_5, 2, 2, 1, 2)
+        self.gridLayout_3.addWidget(self.ow_combobox_5, 3, 2, 1, 2)
         self.gridLayout_3.addItem(QtWidgets.QSpacerItem(38,
                                                         20,
                                                         QtWidgets.QSizePolicy.Expanding,
-                                                        QtWidgets.QSizePolicy.Minimum), 2, 4, 1, 1)
+                                                        QtWidgets.QSizePolicy.Minimum), 3, 4, 1, 1)
         self.horizontalLayout.addLayout(self.gridLayout_3)
         self.horizontalLayout.addItem(QtWidgets.QSpacerItem(40,
                                                             20,
@@ -1216,6 +1271,8 @@ class MyOptions(QtWidgets.QDialog, Ui_optionWindow):
                                            .get('language')][i])
         self.ow_checkbox_8.setText(self.translations_dict['ow_checkbox_8'][self.ow_config_dict['OPTIONS']
                                    .get('language')])
+        self.ow_checkbox_9.setText(self.translations_dict['ow_checkbox_9'][self.ow_config_dict['OPTIONS']
+                                   .get('language')])
         self.ow_label_9.setText(self.translations_dict['ow_label_9'][self.ow_config_dict['OPTIONS'].get('language')])
         for i in range(3):
             self.ow_combobox_5.setItemText(i, self.translations_dict['ow_combobox_5'][self.ow_config_dict['OPTIONS']
@@ -1225,7 +1282,10 @@ class MyOptions(QtWidgets.QDialog, Ui_optionWindow):
         self.read_connection_options()
         self.ow_combobox_4.currentIndexChanged.connect(self.set_combobox_options)
         self.ow_combobox_5.currentIndexChanged.connect(self.set_combobox_options)
+        self.ow_checkbox_8.setChecked(False)
+        self.ow_checkbox_8.setEnabled(False)
         self.ow_checkbox_8.stateChanged.connect(self.set_checkbox_options)
+        self.ow_checkbox_9.stateChanged.connect(self.set_checkbox_options)
 
     def populate_transfer_options(self):
         logging.debug('window_functions.py - MyOptions - populate_transfer_options')
@@ -1382,6 +1442,8 @@ class MyOptions(QtWidgets.QDialog, Ui_optionWindow):
             self.ow_config_dict.set('INTERFACE', 'display_path_remote_tree', str(self.sender().isChecked()))
         if self.sender().objectName() == 'ow_checkbox_8':
             self.ow_config_dict.set('CONNECTION', 'transfer_mode_fall_back', str(self.sender().isChecked()))
+        if self.sender().objectName() == 'ow_checkbox_9':
+            self.ow_config_dict.set('CONNECTION', 'timeout_connection', str(self.sender().isChecked()))
 
     def set_lineedit_options(self, val):
         logging.debug('window_functions.py - MyOptions - set_lineedit_options')
@@ -1424,6 +1486,7 @@ class MyOptions(QtWidgets.QDialog, Ui_optionWindow):
         self.ow_combobox_4.setCurrentIndex(int(self.ow_config_dict['CONNECTION'].get('default_transfer_mode')))
         self.ow_combobox_5.setCurrentIndex(int(self.ow_config_dict['CONNECTION'].get('default_transfer_type')))
         self.ow_checkbox_8.setChecked(self.ow_config_dict['CONNECTION'].getboolean('transfer_mode_fall_back'))
+        self.ow_checkbox_9.setChecked(self.ow_config_dict['CONNECTION'].getboolean('timeout_connection'))
 
     def read_transfer_options(self):
         logging.debug('window_functions.py - MyOptions - read_transfer_options')
@@ -1572,6 +1635,7 @@ class MyManagerInfo(QtWidgets.QDialog, Ui_managerInfoWindow):
         self.miw_previous_button.clicked.connect(self.previous_page)
         self.miw_next_button.clicked.connect(self.next_page)
         self.miw_ok_button_2.clicked.connect(self.close_window)
+        logging.info('window_functions.py - MyManagerInfo ready')
 
     def set_important_text(self):
         logging.debug('window_functions.py - MyManagerInfo - set_important_text')
@@ -1619,6 +1683,7 @@ class MyOptionInfo(QtWidgets.QDialog, Ui_optionInfoWindow):
         self.max_important_text = len(self.important_text)
         self.current_important_text = 1
         self.set_important_text()
+        logging.info('window_functions.py - MyOptionInfo ready')
 
     def set_important_text(self):
         logging.debug('window_functions.py - MyOptionInfo - set_important_text')
@@ -1654,6 +1719,7 @@ class MyMainInfo(QtWidgets.QDialog, Ui_mainInfoWindow):
         self.translations_dict = translations_dict
         translate_elements(self, self.config_dict['OPTIONS'].get('language'), self.translations_dict)
         self.aiw_ok_button.clicked.connect(self.close_window)
+        logging.info('window_functions.py - MyMainInfo ready')
 
     def close_window(self):
         logging.debug('window_functions.py - MyMainInfo - close_window')
@@ -1663,7 +1729,7 @@ class MyMainInfo(QtWidgets.QDialog, Ui_mainInfoWindow):
 class MyCredentials(QtWidgets.QDialog, Ui_credentialsWindow):
     def __init__(self, host, username, password, config_dict, translations_dict):
         QtWidgets.QWidget.__init__(self)
-        logging.info('mainwindow.py - MyCredentials - __init__')
+        logging.debug('mainwindow.py - MyCredentials - __init__')
         self.setupUi(self)
         self.host = host
         self.username = username
@@ -1692,6 +1758,7 @@ class MyCredentials(QtWidgets.QDialog, Ui_credentialsWindow):
                 self.translations_dict['cw_label_4_username'][self.config_dict['OPTIONS'].get('language')])
         self.cw_submit_button.clicked.connect(self.set_username_password)
         self.cw_cancel_button.clicked.connect(self.cancel)
+        logging.info('mainwindow.py - MyCredentials ready')
 
     def activate_submit_button(self):
         if self.edit_1.text() and self.edit_2.text():

@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file 'mainwindow.ui'
+# Form implementation generated from reading ui file 'mainwindow2.ui'
 #
 # Created by: PyQt5 UI code generator 5.6
 #
@@ -11,7 +11,7 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
         MainWindow.setObjectName("MainWindow")
-        MainWindow.resize(1240, 782)
+        MainWindow.resize(1240, 775)
         font = QtGui.QFont()
         font.setFamily("fonts/SourceSansPro-Regular.ttf")
         font.setPointSize(10)
@@ -31,31 +31,15 @@ class Ui_MainWindow(object):
         self.verticalLayout.setObjectName("verticalLayout")
         spacerItem = QtWidgets.QSpacerItem(20, 10, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Fixed)
         self.verticalLayout.addItem(spacerItem)
+        self.frame_2 = QtWidgets.QFrame(self.centralwidget)
+        self.frame_2.setFrameShape(QtWidgets.QFrame.StyledPanel)
+        self.frame_2.setFrameShadow(QtWidgets.QFrame.Raised)
+        self.frame_2.setObjectName("frame_2")
+        self.verticalLayout.addWidget(self.frame_2)
         self.horizontalLayout = QtWidgets.QHBoxLayout()
         self.horizontalLayout.setObjectName("horizontalLayout")
-        spacerItem1 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Minimum)
+        spacerItem1 = QtWidgets.QSpacerItem(130, 20, QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Minimum)
         self.horizontalLayout.addItem(spacerItem1)
-        self.info_button_1 = QtWidgets.QToolButton(self.centralwidget)
-        self.info_button_1.setMinimumSize(QtCore.QSize(27, 27))
-        self.info_button_1.setMaximumSize(QtCore.QSize(27, 27))
-        self.info_button_1.setStyleSheet("QToolButton {\n"
-"    border: 1px solid transparent;\n"
-"    background-color: transparent;\n"
-"    width: 27px;\n"
-"    height: 27px;\n"
-"}\n"
-"\n"
-"QToolButton:flat {\n"
-"    border: none;\n"
-"}")
-        icon1 = QtGui.QIcon()
-        icon1.addPixmap(QtGui.QPixmap("icons/info_icon.svg"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
-        self.info_button_1.setIcon(icon1)
-        self.info_button_1.setIconSize(QtCore.QSize(23, 23))
-        self.info_button_1.setObjectName("info_button_1")
-        self.horizontalLayout.addWidget(self.info_button_1)
-        spacerItem2 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Minimum)
-        self.horizontalLayout.addItem(spacerItem2)
         self.main_profile_lb = QtWidgets.QLabel(self.centralwidget)
         self.main_profile_lb.setMinimumSize(QtCore.QSize(0, 27))
         self.main_profile_lb.setMaximumSize(QtCore.QSize(16777215, 27))
@@ -66,11 +50,12 @@ class Ui_MainWindow(object):
         self.main_profile_lb.setStyleSheet("QLabel {\n"
 "    color: rgb(45,45,45);\n"
 "}")
+        self.main_profile_lb.setFrameShape(QtWidgets.QFrame.NoFrame)
         self.main_profile_lb.setAlignment(QtCore.Qt.AlignLeading|QtCore.Qt.AlignLeft|QtCore.Qt.AlignVCenter)
         self.main_profile_lb.setObjectName("main_profile_lb")
         self.horizontalLayout.addWidget(self.main_profile_lb)
-        spacerItem3 = QtWidgets.QSpacerItem(20, 20, QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Minimum)
-        self.horizontalLayout.addItem(spacerItem3)
+        spacerItem2 = QtWidgets.QSpacerItem(20, 20, QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Minimum)
+        self.horizontalLayout.addItem(spacerItem2)
         self.main_profile_cb = QtWidgets.QComboBox(self.centralwidget)
         self.main_profile_cb.setMinimumSize(QtCore.QSize(300, 27))
         self.main_profile_cb.setMaximumSize(QtCore.QSize(300, 27))
@@ -130,8 +115,8 @@ class Ui_MainWindow(object):
         self.main_profile_cb.setObjectName("main_profile_cb")
         self.main_profile_cb.addItem("")
         self.horizontalLayout.addWidget(self.main_profile_cb)
-        spacerItem4 = QtWidgets.QSpacerItem(20, 20, QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Minimum)
-        self.horizontalLayout.addItem(spacerItem4)
+        spacerItem3 = QtWidgets.QSpacerItem(20, 20, QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Minimum)
+        self.horizontalLayout.addItem(spacerItem3)
         self.main_connect_bt = QtWidgets.QToolButton(self.centralwidget)
         self.main_connect_bt.setEnabled(False)
         self.main_connect_bt.setMinimumSize(QtCore.QSize(100, 27))
@@ -173,11 +158,266 @@ class Ui_MainWindow(object):
 "}")
         self.main_connect_bt.setObjectName("main_connect_bt")
         self.horizontalLayout.addWidget(self.main_connect_bt)
-        spacerItem5 = QtWidgets.QSpacerItem(20, 20, QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Minimum)
+        spacerItem4 = QtWidgets.QSpacerItem(20, 20, QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Minimum)
+        self.horizontalLayout.addItem(spacerItem4)
+        spacerItem5 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
         self.horizontalLayout.addItem(spacerItem5)
-        spacerItem6 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
+        self.info_button_1 = QtWidgets.QToolButton(self.centralwidget)
+        self.info_button_1.setMinimumSize(QtCore.QSize(27, 27))
+        self.info_button_1.setMaximumSize(QtCore.QSize(27, 27))
+        self.info_button_1.setStyleSheet("QToolButton {\n"
+"    border: 1px solid transparent;\n"
+"    background-color: transparent;\n"
+"    width: 27px;\n"
+"    height: 27px;\n"
+"}\n"
+"\n"
+"QToolButton:flat {\n"
+"    border: none;\n"
+"}")
+        icon1 = QtGui.QIcon()
+        icon1.addPixmap(QtGui.QPixmap("icons/info_icon.svg"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        self.info_button_1.setIcon(icon1)
+        self.info_button_1.setIconSize(QtCore.QSize(23, 23))
+        self.info_button_1.setObjectName("info_button_1")
+        self.horizontalLayout.addWidget(self.info_button_1)
+        spacerItem6 = QtWidgets.QSpacerItem(20, 20, QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Minimum)
         self.horizontalLayout.addItem(spacerItem6)
-        self.main_download_bt = QtWidgets.QToolButton(self.centralwidget)
+        self.verticalLayout.addLayout(self.horizontalLayout)
+        spacerItem7 = QtWidgets.QSpacerItem(20, 20, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Fixed)
+        self.verticalLayout.addItem(spacerItem7)
+        self.gridLayout.addLayout(self.verticalLayout, 0, 0, 1, 1)
+        self.main_splitter_3 = QtWidgets.QSplitter(self.centralwidget)
+        self.main_splitter_3.setStyleSheet("QSplitter::handle {\n"
+"    background: transparent;\n"
+"}\n"
+"\n"
+"QSplitter::handle:horizontal {\n"
+"    width: 5px;\n"
+"}\n"
+"\n"
+"QSplitter::handle:vertical {\n"
+"    height: 5px;\n"
+"}\n"
+"\n"
+"QSplitter::handle:pressed {\n"
+"    background: transparent;\n"
+"}")
+        self.main_splitter_3.setOrientation(QtCore.Qt.Horizontal)
+        self.main_splitter_3.setObjectName("main_splitter_3")
+        self.layoutWidget = QtWidgets.QWidget(self.main_splitter_3)
+        self.layoutWidget.setObjectName("layoutWidget")
+        self.horizontalLayout_7 = QtWidgets.QHBoxLayout(self.layoutWidget)
+        self.horizontalLayout_7.setContentsMargins(0, 0, 0, 0)
+        self.horizontalLayout_7.setObjectName("horizontalLayout_7")
+        spacerItem8 = QtWidgets.QSpacerItem(20, 20, QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Minimum)
+        self.horizontalLayout_7.addItem(spacerItem8)
+        self.action_quit_bt = QtWidgets.QToolButton(self.layoutWidget)
+        self.action_quit_bt.setMinimumSize(QtCore.QSize(37, 37))
+        self.action_quit_bt.setMaximumSize(QtCore.QSize(37, 37))
+        self.action_quit_bt.setStyleSheet("QToolButton {\n"
+"   background-color: transparent;\n"
+"   border: 0px solid black;\n"
+"}")
+        self.action_quit_bt.setText("")
+        icon2 = QtGui.QIcon()
+        icon2.addPixmap(QtGui.QPixmap("icons/exit_icon.svg"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        self.action_quit_bt.setIcon(icon2)
+        self.action_quit_bt.setIconSize(QtCore.QSize(35, 35))
+        self.action_quit_bt.setObjectName("action_quit_bt")
+        self.horizontalLayout_7.addWidget(self.action_quit_bt)
+        self.action_option_bt = QtWidgets.QToolButton(self.layoutWidget)
+        self.action_option_bt.setMinimumSize(QtCore.QSize(37, 37))
+        self.action_option_bt.setMaximumSize(QtCore.QSize(37, 37))
+        self.action_option_bt.setStyleSheet("QToolButton {\n"
+"   background-color: transparent;\n"
+"   border: 0px solid black;\n"
+"}")
+        self.action_option_bt.setText("")
+        icon3 = QtGui.QIcon()
+        icon3.addPixmap(QtGui.QPixmap("icons/option_icon.svg"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        self.action_option_bt.setIcon(icon3)
+        self.action_option_bt.setIconSize(QtCore.QSize(35, 35))
+        self.action_option_bt.setObjectName("action_option_bt")
+        self.horizontalLayout_7.addWidget(self.action_option_bt)
+        self.action_about_bt = QtWidgets.QToolButton(self.layoutWidget)
+        self.action_about_bt.setMinimumSize(QtCore.QSize(37, 37))
+        self.action_about_bt.setMaximumSize(QtCore.QSize(37, 37))
+        self.action_about_bt.setStyleSheet("QToolButton {\n"
+"   background-color: transparent;\n"
+"   border: 0px solid black;\n"
+"}")
+        self.action_about_bt.setText("")
+        icon4 = QtGui.QIcon()
+        icon4.addPixmap(QtGui.QPixmap("icons/about_popup_icon.svg"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        self.action_about_bt.setIcon(icon4)
+        self.action_about_bt.setIconSize(QtCore.QSize(35, 35))
+        self.action_about_bt.setObjectName("action_about_bt")
+        self.horizontalLayout_7.addWidget(self.action_about_bt)
+        self.action_update_bt = QtWidgets.QToolButton(self.layoutWidget)
+        self.action_update_bt.setEnabled(False)
+        self.action_update_bt.setMinimumSize(QtCore.QSize(37, 37))
+        self.action_update_bt.setMaximumSize(QtCore.QSize(37, 37))
+        self.action_update_bt.setStyleSheet("QToolButton {\n"
+"   background-color: transparent;\n"
+"   border: 0px solid black;\n"
+"}")
+        self.action_update_bt.setText("")
+        icon5 = QtGui.QIcon()
+        icon5.addPixmap(QtGui.QPixmap("icons/orionftp_update_off.svg"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        self.action_update_bt.setIcon(icon5)
+        self.action_update_bt.setIconSize(QtCore.QSize(35, 35))
+        self.action_update_bt.setObjectName("action_update_bt")
+        self.horizontalLayout_7.addWidget(self.action_update_bt)
+        spacerItem9 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
+        self.horizontalLayout_7.addItem(spacerItem9)
+        self.horizontalLayout_6 = QtWidgets.QHBoxLayout()
+        self.horizontalLayout_6.setSpacing(0)
+        self.horizontalLayout_6.setObjectName("horizontalLayout_6")
+        self.main_upload_bt = QtWidgets.QToolButton(self.layoutWidget)
+        self.main_upload_bt.setEnabled(False)
+        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Fixed)
+        sizePolicy.setHorizontalStretch(112)
+        sizePolicy.setVerticalStretch(27)
+        sizePolicy.setHeightForWidth(self.main_upload_bt.sizePolicy().hasHeightForWidth())
+        self.main_upload_bt.setSizePolicy(sizePolicy)
+        self.main_upload_bt.setMinimumSize(QtCore.QSize(110, 27))
+        self.main_upload_bt.setMaximumSize(QtCore.QSize(110, 27))
+        font = QtGui.QFont()
+        font.setFamily("fonts/SourceSansPro-Regular.ttf")
+        font.setPointSize(10)
+        font.setBold(False)
+        font.setWeight(50)
+        font.setKerning(True)
+        font.setStyleStrategy(QtGui.QFont.PreferAntialias)
+        self.main_upload_bt.setFont(font)
+        self.main_upload_bt.setStyleSheet("QToolButton {\n"
+"    border: 1px solid #acacac;\n"
+"    border-right-top-radius: 1px;\n"
+"    border-right-bottom-radius: 1px;\n"
+"    background-color: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1, \n"
+"                                stop: 0 #f0f0f0, stop: 1 #e5e5e5);\n"
+"    color: rgb(45,45,45);\n"
+"}\n"
+"\n"
+"QToolButton:disabled {\n"
+"    background-color:  rgb(200,200,200);\n"
+"    color: rgb(100,100,100);\n"
+"}\n"
+"\n"
+"QToolButton:hover {\n"
+"    border: 1px solid #7eb4ea;\n"
+"    background-color: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1, \n"
+"                                stop: 0 #ecf4fc, stop: 1 #dcecfc);\n"
+"}\n"
+"\n"
+"\n"
+"QToolButton:pressed {\n"
+"    border: 1px solid #579de5;\n"
+"    background-color: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1,\n"
+"                                      stop: 0 #daecfc, stop: 1 #c4e0fc);\n"
+"}")
+        self.main_upload_bt.setObjectName("main_upload_bt")
+        self.horizontalLayout_6.addWidget(self.main_upload_bt)
+        self.main_upload_bt_2 = QtWidgets.QToolButton(self.layoutWidget)
+        self.main_upload_bt_2.setEnabled(False)
+        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Fixed)
+        sizePolicy.setHorizontalStretch(112)
+        sizePolicy.setVerticalStretch(27)
+        sizePolicy.setHeightForWidth(self.main_upload_bt_2.sizePolicy().hasHeightForWidth())
+        self.main_upload_bt_2.setSizePolicy(sizePolicy)
+        self.main_upload_bt_2.setMinimumSize(QtCore.QSize(27, 27))
+        self.main_upload_bt_2.setMaximumSize(QtCore.QSize(27, 27))
+        font = QtGui.QFont()
+        font.setFamily("fonts/SourceSansPro-Regular.ttf")
+        font.setPointSize(10)
+        font.setBold(False)
+        font.setWeight(50)
+        font.setKerning(True)
+        font.setStyleStrategy(QtGui.QFont.PreferAntialias)
+        self.main_upload_bt_2.setFont(font)
+        self.main_upload_bt_2.setStyleSheet("QToolButton {\n"
+"    border-top: 0px solid #acacac;\n"
+"    border-bottom: 0px solid #acacac;\n"
+"    border-right: 0px solid #acacac;\n"
+"    border-right-top-radius: 1px;\n"
+"    border-right-bottom-radius: 1px;\n"
+"    background-color: transparent;\n"
+"    color: rgb(45,45,45);\n"
+"}\n"
+"\n"
+"QToolButton:disabled {\n"
+"}\n"
+"\n"
+"QToolButton:hover {\n"
+"\n"
+"}\n"
+"\n"
+"QToolButton:pressed {\n"
+"\n"
+"}")
+        self.main_upload_bt_2.setText("")
+        icon6 = QtGui.QIcon()
+        icon6.addPixmap(QtGui.QPixmap("icons/send_arrow_icon.svg"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        self.main_upload_bt_2.setIcon(icon6)
+        self.main_upload_bt_2.setObjectName("main_upload_bt_2")
+        self.horizontalLayout_6.addWidget(self.main_upload_bt_2)
+        self.horizontalLayout_7.addLayout(self.horizontalLayout_6)
+        spacerItem10 = QtWidgets.QSpacerItem(20, 20, QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Minimum)
+        self.horizontalLayout_7.addItem(spacerItem10)
+        self.layoutWidget1 = QtWidgets.QWidget(self.main_splitter_3)
+        self.layoutWidget1.setObjectName("layoutWidget1")
+        self.horizontalLayout_5 = QtWidgets.QHBoxLayout(self.layoutWidget1)
+        self.horizontalLayout_5.setContentsMargins(0, 0, 0, 0)
+        self.horizontalLayout_5.setObjectName("horizontalLayout_5")
+        spacerItem11 = QtWidgets.QSpacerItem(20, 20, QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Minimum)
+        self.horizontalLayout_5.addItem(spacerItem11)
+        self.horizontalLayout_4 = QtWidgets.QHBoxLayout()
+        self.horizontalLayout_4.setSpacing(0)
+        self.horizontalLayout_4.setObjectName("horizontalLayout_4")
+        self.main_download_bt_2 = QtWidgets.QToolButton(self.layoutWidget1)
+        self.main_download_bt_2.setEnabled(False)
+        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Fixed)
+        sizePolicy.setHorizontalStretch(112)
+        sizePolicy.setVerticalStretch(27)
+        sizePolicy.setHeightForWidth(self.main_download_bt_2.sizePolicy().hasHeightForWidth())
+        self.main_download_bt_2.setSizePolicy(sizePolicy)
+        self.main_download_bt_2.setMinimumSize(QtCore.QSize(27, 27))
+        self.main_download_bt_2.setMaximumSize(QtCore.QSize(27, 27))
+        font = QtGui.QFont()
+        font.setFamily("fonts/SourceSansPro-Regular.ttf")
+        font.setPointSize(10)
+        font.setBold(False)
+        font.setWeight(50)
+        font.setKerning(True)
+        font.setStyleStrategy(QtGui.QFont.PreferAntialias)
+        self.main_download_bt_2.setFont(font)
+        self.main_download_bt_2.setStyleSheet("QToolButton {\n"
+"    border-top: 0px solid #acacac;\n"
+"    border-bottom: 0px solid #acacac;\n"
+"    border-left: 0px solid #acacac;\n"
+"    border-left-top-radius: 1px;\n"
+"    border-left-bottom-radius: 1px;\n"
+"    background-color: transparent;\n"
+"    color: rgb(45,45,45);\n"
+"}\n"
+"\n"
+"QToolButton:disabled {\n"
+"}\n"
+"\n"
+"QToolButton:hover {\n"
+"}\n"
+"\n"
+"\n"
+"QToolButton:pressed {\n"
+"}")
+        self.main_download_bt_2.setText("")
+        icon7 = QtGui.QIcon()
+        icon7.addPixmap(QtGui.QPixmap("icons/receive_arrow_icon.svg"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        self.main_download_bt_2.setIcon(icon7)
+        self.main_download_bt_2.setObjectName("main_download_bt_2")
+        self.horizontalLayout_4.addWidget(self.main_download_bt_2)
+        self.main_download_bt = QtWidgets.QToolButton(self.layoutWidget1)
         self.main_download_bt.setEnabled(False)
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Fixed)
         sizePolicy.setHorizontalStretch(112)
@@ -196,7 +436,8 @@ class Ui_MainWindow(object):
         self.main_download_bt.setFont(font)
         self.main_download_bt.setStyleSheet("QToolButton {\n"
 "    border: 1px solid #acacac;\n"
-"    border-radius: 1px;\n"
+"    border-right-top-radius: 1px;\n"
+"    border-right-bottom-radius: 1px;\n"
 "    background-color: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1, \n"
 "                                stop: 0 #f0f0f0, stop: 1 #e5e5e5);\n"
 "    color: rgb(45,45,45);\n"
@@ -209,7 +450,6 @@ class Ui_MainWindow(object):
 "\n"
 "QToolButton:hover {\n"
 "    border: 1px solid #7eb4ea;\n"
-"    border-radius: 1px;\n"
 "    background-color: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1, \n"
 "                                stop: 0 #ecf4fc, stop: 1 #dcecfc);\n"
 "}\n"
@@ -217,20 +457,64 @@ class Ui_MainWindow(object):
 "\n"
 "QToolButton:pressed {\n"
 "    border: 1px solid #579de5;\n"
-"    border-radius: 1px;\n"
 "    background-color: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1,\n"
 "                                      stop: 0 #daecfc, stop: 1 #c4e0fc);\n"
 "}")
         self.main_download_bt.setObjectName("main_download_bt")
-        self.horizontalLayout.addWidget(self.main_download_bt)
-        spacerItem7 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Minimum)
-        self.horizontalLayout.addItem(spacerItem7)
-        self.verticalLayout.addLayout(self.horizontalLayout)
-        spacerItem8 = QtWidgets.QSpacerItem(20, 15, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Fixed)
-        self.verticalLayout.addItem(spacerItem8)
-        self.gridLayout.addLayout(self.verticalLayout, 0, 0, 1, 1)
-        self.splitter = QtWidgets.QSplitter(self.centralwidget)
-        self.splitter.setStyleSheet("QSplitter::handle {\n"
+        self.horizontalLayout_4.addWidget(self.main_download_bt)
+        self.horizontalLayout_5.addLayout(self.horizontalLayout_4)
+        spacerItem12 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
+        self.horizontalLayout_5.addItem(spacerItem12)
+        self.action_refresh_bt = QtWidgets.QToolButton(self.layoutWidget1)
+        self.action_refresh_bt.setEnabled(False)
+        self.action_refresh_bt.setMinimumSize(QtCore.QSize(37, 37))
+        self.action_refresh_bt.setMaximumSize(QtCore.QSize(37, 37))
+        self.action_refresh_bt.setStyleSheet("QToolButton {\n"
+"   background-color: transparent;\n"
+"   border: 0px solid black;\n"
+"}")
+        self.action_refresh_bt.setText("")
+        icon8 = QtGui.QIcon()
+        icon8.addPixmap(QtGui.QPixmap("icons/reload_icon.svg"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        self.action_refresh_bt.setIcon(icon8)
+        self.action_refresh_bt.setIconSize(QtCore.QSize(35, 35))
+        self.action_refresh_bt.setObjectName("action_refresh_bt")
+        self.horizontalLayout_5.addWidget(self.action_refresh_bt)
+        self.action_close_bt = QtWidgets.QToolButton(self.layoutWidget1)
+        self.action_close_bt.setEnabled(False)
+        self.action_close_bt.setMinimumSize(QtCore.QSize(37, 37))
+        self.action_close_bt.setMaximumSize(QtCore.QSize(37, 37))
+        self.action_close_bt.setStyleSheet("QToolButton {\n"
+"   background-color: transparent;\n"
+"   border: 0px solid black;\n"
+"}")
+        self.action_close_bt.setText("")
+        icon9 = QtGui.QIcon()
+        icon9.addPixmap(QtGui.QPixmap("icons/off_icon.svg"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        self.action_close_bt.setIcon(icon9)
+        self.action_close_bt.setIconSize(QtCore.QSize(35, 35))
+        self.action_close_bt.setObjectName("action_close_bt")
+        self.horizontalLayout_5.addWidget(self.action_close_bt)
+        self.action_manager_bt = QtWidgets.QToolButton(self.layoutWidget1)
+        self.action_manager_bt.setEnabled(True)
+        self.action_manager_bt.setMinimumSize(QtCore.QSize(37, 37))
+        self.action_manager_bt.setMaximumSize(QtCore.QSize(37, 37))
+        self.action_manager_bt.setStyleSheet("QToolButton {\n"
+"   background-color: transparent;\n"
+"   border: 0px solid black;\n"
+"}")
+        self.action_manager_bt.setText("")
+        icon10 = QtGui.QIcon()
+        icon10.addPixmap(QtGui.QPixmap("icons/manager_icon.svg"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        self.action_manager_bt.setIcon(icon10)
+        self.action_manager_bt.setIconSize(QtCore.QSize(35, 35))
+        self.action_manager_bt.setObjectName("action_manager_bt")
+        self.horizontalLayout_5.addWidget(self.action_manager_bt)
+        spacerItem13 = QtWidgets.QSpacerItem(20, 20, QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Minimum)
+        self.horizontalLayout_5.addItem(spacerItem13)
+        self.gridLayout.addWidget(self.main_splitter_3, 1, 0, 1, 1)
+        self.main_splitter_2 = QtWidgets.QSplitter(self.centralwidget)
+        self.main_splitter_2.setStyleSheet("QSplitter::handle {\n"
 "    background: rgb(220,220,220);\n"
 "}\n"
 "\n"
@@ -244,11 +528,12 @@ class Ui_MainWindow(object):
 "\n"
 "QSplitter::handle:pressed {\n"
 "    background: rgb(190,190,190);\n"
-"}")
-        self.splitter.setOrientation(QtCore.Qt.Vertical)
-        self.splitter.setObjectName("splitter")
-        self.frame = QtWidgets.QFrame(self.splitter)
-        self.frame.setStyleSheet("QFrame {\n"
+"}\n"
+"")
+        self.main_splitter_2.setOrientation(QtCore.Qt.Vertical)
+        self.main_splitter_2.setObjectName("main_splitter_2")
+        self.main_frame = QtWidgets.QFrame(self.main_splitter_2)
+        self.main_frame.setStyleSheet("QFrame {\n"
 "    background: rgb(220,220,220);\n"
 "    margin-bottom: 5px;\n"
 "}\n"
@@ -388,13 +673,14 @@ class Ui_MainWindow(object):
 "  right: -1px;\n"
 "  bottom: -1px;\n"
 "}")
-        self.frame.setFrameShape(QtWidgets.QFrame.StyledPanel)
-        self.frame.setFrameShadow(QtWidgets.QFrame.Raised)
-        self.frame.setObjectName("frame")
-        self.gridLayout_3 = QtWidgets.QGridLayout(self.frame)
+        self.main_frame.setFrameShape(QtWidgets.QFrame.StyledPanel)
+        self.main_frame.setFrameShadow(QtWidgets.QFrame.Raised)
+        self.main_frame.setObjectName("main_frame")
+        self.gridLayout_3 = QtWidgets.QGridLayout(self.main_frame)
+        self.gridLayout_3.setContentsMargins(7, 7, 7, 7)
         self.gridLayout_3.setObjectName("gridLayout_3")
-        self.main_splitter = QtWidgets.QSplitter(self.frame)
-        self.main_splitter.setStyleSheet("QSplitter::handle {\n"
+        self.main_splitter_1 = QtWidgets.QSplitter(self.main_frame)
+        self.main_splitter_1.setStyleSheet("QSplitter::handle {\n"
 "    background: rgb(220,220,220);\n"
 "}\n"
 "\n"
@@ -410,11 +696,11 @@ class Ui_MainWindow(object):
 "    background: rgb(190,190,190);\n"
 "}\n"
 "")
-        self.main_splitter.setOrientation(QtCore.Qt.Horizontal)
-        self.main_splitter.setObjectName("main_splitter")
-        self.layoutWidget = QtWidgets.QWidget(self.main_splitter)
-        self.layoutWidget.setObjectName("layoutWidget")
-        self.verticalLayout_2 = QtWidgets.QVBoxLayout(self.layoutWidget)
+        self.main_splitter_1.setOrientation(QtCore.Qt.Horizontal)
+        self.main_splitter_1.setObjectName("main_splitter_1")
+        self.layoutWidget2 = QtWidgets.QWidget(self.main_splitter_1)
+        self.layoutWidget2.setObjectName("layoutWidget2")
+        self.verticalLayout_2 = QtWidgets.QVBoxLayout(self.layoutWidget2)
         self.verticalLayout_2.setContentsMargins(0, 0, 0, 0)
         self.verticalLayout_2.setSpacing(0)
         self.verticalLayout_2.setObjectName("verticalLayout_2")
@@ -422,7 +708,7 @@ class Ui_MainWindow(object):
         self.verticalLayout_4.setObjectName("verticalLayout_4")
         self.horizontalLayout_2 = QtWidgets.QHBoxLayout()
         self.horizontalLayout_2.setObjectName("horizontalLayout_2")
-        self.main_local_lb = QtWidgets.QLabel(self.layoutWidget)
+        self.main_local_lb = QtWidgets.QLabel(self.layoutWidget2)
         self.main_local_lb.setMinimumSize(QtCore.QSize(0, 27))
         self.main_local_lb.setMaximumSize(QtCore.QSize(16777215, 27))
         font = QtGui.QFont()
@@ -431,11 +717,12 @@ class Ui_MainWindow(object):
         self.main_local_lb.setFont(font)
         self.main_local_lb.setStyleSheet("QLabel {\n"
 "    color: rgb(45,45,45);\n"
+"    padding-bottom: -2px;\n"
 "}")
-        self.main_local_lb.setAlignment(QtCore.Qt.AlignLeading|QtCore.Qt.AlignLeft|QtCore.Qt.AlignTop)
+        self.main_local_lb.setAlignment(QtCore.Qt.AlignLeading|QtCore.Qt.AlignLeft|QtCore.Qt.AlignVCenter)
         self.main_local_lb.setObjectName("main_local_lb")
         self.horizontalLayout_2.addWidget(self.main_local_lb)
-        self.main_local_ln = QtWidgets.QLineEdit(self.layoutWidget)
+        self.main_local_ln = QtWidgets.QLineEdit(self.layoutWidget2)
         self.main_local_ln.setEnabled(True)
         self.main_local_ln.setMinimumSize(QtCore.QSize(0, 27))
         self.main_local_ln.setMaximumSize(QtCore.QSize(16777215, 27))
@@ -519,10 +806,10 @@ class Ui_MainWindow(object):
         self.main_local_ln.setObjectName("main_local_ln")
         self.horizontalLayout_2.addWidget(self.main_local_ln)
         self.verticalLayout_4.addLayout(self.horizontalLayout_2)
-        spacerItem9 = QtWidgets.QSpacerItem(20, 5, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Fixed)
-        self.verticalLayout_4.addItem(spacerItem9)
+        spacerItem14 = QtWidgets.QSpacerItem(20, 7, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Fixed)
+        self.verticalLayout_4.addItem(spacerItem14)
         self.verticalLayout_2.addLayout(self.verticalLayout_4)
-        self.main_local_sp = QtWidgets.QSplitter(self.layoutWidget)
+        self.main_local_sp = QtWidgets.QSplitter(self.layoutWidget2)
         self.main_local_sp.setStyleSheet("QSplitter::handle {\n"
 "    background: rgb(220,220,220);\n"
 "}\n"
@@ -932,8 +1219,7 @@ class Ui_MainWindow(object):
 "    height: 30px;\n"
 "    font-family: \"fonts/SourceSansPro-Regular.ttf\";\n"
 "    font-size: 15px;\n"
-"}\n"
-"")
+"}")
         self.main_local_tr_2.setFrameShape(QtWidgets.QFrame.NoFrame)
         self.main_local_tr_2.setDragDropMode(QtWidgets.QAbstractItemView.NoDragDrop)
         self.main_local_tr_2.setSelectionMode(QtWidgets.QAbstractItemView.SingleSelection)
@@ -943,7 +1229,7 @@ class Ui_MainWindow(object):
         self.main_local_tr_2.header().setVisible(True)
         self.main_local_tr_2.header().setSortIndicatorShown(False)
         self.verticalLayout_2.addWidget(self.main_local_sp)
-        self.layoutWidget_2 = QtWidgets.QWidget(self.main_splitter)
+        self.layoutWidget_2 = QtWidgets.QWidget(self.main_splitter_1)
         self.layoutWidget_2.setObjectName("layoutWidget_2")
         self.verticalLayout_3 = QtWidgets.QVBoxLayout(self.layoutWidget_2)
         self.verticalLayout_3.setContentsMargins(0, 0, 0, 0)
@@ -962,8 +1248,9 @@ class Ui_MainWindow(object):
         self.main_remote_lb.setFont(font)
         self.main_remote_lb.setStyleSheet("QLabel {\n"
 "    color: rgb(45,45,45);\n"
+"    padding-bottom: -2px;\n"
 "}")
-        self.main_remote_lb.setAlignment(QtCore.Qt.AlignLeading|QtCore.Qt.AlignLeft|QtCore.Qt.AlignTop)
+        self.main_remote_lb.setAlignment(QtCore.Qt.AlignLeading|QtCore.Qt.AlignLeft|QtCore.Qt.AlignVCenter)
         self.main_remote_lb.setObjectName("main_remote_lb")
         self.horizontalLayout_3.addWidget(self.main_remote_lb)
         self.main_remote_ln = QtWidgets.QLineEdit(self.layoutWidget_2)
@@ -1050,8 +1337,8 @@ class Ui_MainWindow(object):
         self.main_remote_ln.setObjectName("main_remote_ln")
         self.horizontalLayout_3.addWidget(self.main_remote_ln)
         self.verticalLayout_5.addLayout(self.horizontalLayout_3)
-        spacerItem10 = QtWidgets.QSpacerItem(20, 5, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Fixed)
-        self.verticalLayout_5.addItem(spacerItem10)
+        spacerItem15 = QtWidgets.QSpacerItem(20, 7, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Fixed)
+        self.verticalLayout_5.addItem(spacerItem15)
         self.verticalLayout_3.addLayout(self.verticalLayout_5)
         self.main_remote_sp = QtWidgets.QSplitter(self.layoutWidget_2)
         self.main_remote_sp.setStyleSheet("QSplitter::handle {\n"
@@ -1473,8 +1760,8 @@ class Ui_MainWindow(object):
         self.main_remote_tr_2.header().setVisible(True)
         self.main_remote_tr_2.header().setSortIndicatorShown(False)
         self.verticalLayout_3.addWidget(self.main_remote_sp)
-        self.gridLayout_3.addWidget(self.main_splitter, 0, 0, 1, 1)
-        self.main_tabwidget = QtWidgets.QTabWidget(self.splitter)
+        self.gridLayout_3.addWidget(self.main_splitter_1, 0, 0, 1, 1)
+        self.main_tabwidget = QtWidgets.QTabWidget(self.main_splitter_2)
         font = QtGui.QFont()
         font.setFamily("fonts/SourceSansPro-Regular.ttf")
         font.setPointSize(10)
@@ -1491,7 +1778,7 @@ class Ui_MainWindow(object):
 "    top: -1px;\n"
 "    background-color: rgb(220,220,220);\n"
 "    color: rgb(45,45,45);\n"
-"    padding: 12px;\n"
+"    padding: 7px;\n"
 "}\n"
 "\n"
 "QTabWidget::tab-bar {\n"
@@ -1965,103 +2252,8 @@ class Ui_MainWindow(object):
         self.transfert_tree.header().setVisible(False)
         self.gridLayout_6.addWidget(self.transfert_tree, 0, 0, 1, 1)
         self.main_tabwidget.addTab(self.transfers_tab, "")
-        self.gridLayout.addWidget(self.splitter, 1, 0, 1, 1)
+        self.gridLayout.addWidget(self.main_splitter_2, 2, 0, 1, 1)
         MainWindow.setCentralWidget(self.centralwidget)
-        self.toolBar = QtWidgets.QToolBar(MainWindow)
-        self.toolBar.setMinimumSize(QtCore.QSize(0, 0))
-        self.toolBar.setMaximumSize(QtCore.QSize(16777215, 60))
-        font = QtGui.QFont()
-        font.setFamily("fonts/SourceSansPro-Regular.ttf")
-        font.setPointSize(10)
-        font.setKerning(True)
-        font.setStyleStrategy(QtGui.QFont.PreferAntialias)
-        self.toolBar.setFont(font)
-        self.toolBar.setStyleSheet("QToolBar {\n"
-"   padding: 10px;\n"
-"   background-color: rgb(240,240,240);\n"
-"   border-bottom: 1px solid rgb(220,220,220);\n"
-"}")
-        self.toolBar.setMovable(False)
-        self.toolBar.setIconSize(QtCore.QSize(35, 35))
-        self.toolBar.setFloatable(True)
-        self.toolBar.setObjectName("toolBar")
-        MainWindow.addToolBar(QtCore.Qt.TopToolBarArea, self.toolBar)
-        self.actionClose = QtWidgets.QAction(MainWindow)
-        self.actionClose.setEnabled(False)
-        icon2 = QtGui.QIcon()
-        icon2.addPixmap(QtGui.QPixmap("icons/off_icon.svg"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
-        self.actionClose.setIcon(icon2)
-        font = QtGui.QFont()
-        font.setFamily("fonts/SourceSansPro-Regular.ttf")
-        font.setPointSize(10)
-        font.setKerning(True)
-        font.setStyleStrategy(QtGui.QFont.PreferAntialias)
-        self.actionClose.setFont(font)
-        self.actionClose.setObjectName("actionClose")
-        self.actionOptions = QtWidgets.QAction(MainWindow)
-        icon3 = QtGui.QIcon()
-        icon3.addPixmap(QtGui.QPixmap("icons/option_icon.svg"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
-        self.actionOptions.setIcon(icon3)
-        self.actionOptions.setObjectName("actionOptions")
-        self.actionExit = QtWidgets.QAction(MainWindow)
-        icon4 = QtGui.QIcon()
-        icon4.addPixmap(QtGui.QPixmap("icons/exit_icon.svg"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
-        self.actionExit.setIcon(icon4)
-        font = QtGui.QFont()
-        font.setFamily("fonts/SourceSansPro-Regular.ttf")
-        font.setPointSize(10)
-        font.setKerning(True)
-        font.setStyleStrategy(QtGui.QFont.PreferAntialias)
-        self.actionExit.setFont(font)
-        self.actionExit.setObjectName("actionExit")
-        self.actionAbout = QtWidgets.QAction(MainWindow)
-        icon5 = QtGui.QIcon()
-        icon5.addPixmap(QtGui.QPixmap("icons/about_popup_icon.svg"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
-        self.actionAbout.setIcon(icon5)
-        font = QtGui.QFont()
-        font.setFamily("fonts/SourceSansPro-Regular.ttf")
-        font.setPointSize(10)
-        font.setKerning(True)
-        font.setStyleStrategy(QtGui.QFont.PreferAntialias)
-        self.actionAbout.setFont(font)
-        self.actionAbout.setObjectName("actionAbout")
-        self.actionSeparator = QtWidgets.QAction(MainWindow)
-        self.actionSeparator.setEnabled(False)
-        icon6 = QtGui.QIcon()
-        icon6.addPixmap(QtGui.QPixmap("icons/separator_icon.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
-        icon6.addPixmap(QtGui.QPixmap("icons/separator_icon.png"), QtGui.QIcon.Disabled, QtGui.QIcon.Off)
-        self.actionSeparator.setIcon(icon6)
-        self.actionSeparator.setObjectName("actionSeparator")
-        self.actionSeparator3 = QtWidgets.QAction(MainWindow)
-        self.actionSeparator3.setEnabled(False)
-        self.actionSeparator3.setIcon(icon6)
-        self.actionSeparator3.setObjectName("actionSeparator3")
-        self.actionManager = QtWidgets.QAction(MainWindow)
-        icon7 = QtGui.QIcon()
-        icon7.addPixmap(QtGui.QPixmap("icons/manager_icon.svg"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
-        self.actionManager.setIcon(icon7)
-        self.actionManager.setObjectName("actionManager")
-        self.actionRefresh = QtWidgets.QAction(MainWindow)
-        self.actionRefresh.setEnabled(False)
-        icon8 = QtGui.QIcon()
-        icon8.addPixmap(QtGui.QPixmap("icons/reload_icon.svg"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
-        self.actionRefresh.setIcon(icon8)
-        self.actionRefresh.setObjectName("actionRefresh")
-        self.actionUpdate = QtWidgets.QAction(MainWindow)
-        self.actionUpdate.setEnabled(False)
-        icon9 = QtGui.QIcon()
-        icon9.addPixmap(QtGui.QPixmap("icons/orionftp_update_off.svg"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
-        self.actionUpdate.setIcon(icon9)
-        self.actionUpdate.setObjectName("actionUpdate")
-        self.toolBar.addAction(self.actionExit)
-        self.toolBar.addAction(self.actionSeparator)
-        self.toolBar.addAction(self.actionManager)
-        self.toolBar.addAction(self.actionClose)
-        self.toolBar.addAction(self.actionRefresh)
-        self.toolBar.addAction(self.actionSeparator3)
-        self.toolBar.addAction(self.actionOptions)
-        self.toolBar.addAction(self.actionAbout)
-        self.toolBar.addAction(self.actionUpdate)
 
         self.retranslateUi(MainWindow)
         self.main_tabwidget.setCurrentIndex(0)
@@ -2073,7 +2265,8 @@ class Ui_MainWindow(object):
         self.main_profile_lb.setText(_translate("MainWindow", "FTP profile:"))
         self.main_profile_cb.setItemText(0, _translate("MainWindow", "No stored profile..."))
         self.main_connect_bt.setText(_translate("MainWindow", "Connect"))
-        self.main_download_bt.setText(_translate("MainWindow", "Download"))
+        self.main_upload_bt.setText(_translate("MainWindow", "Send"))
+        self.main_download_bt.setText(_translate("MainWindow", "Receive"))
         self.main_local_lb.setText(_translate("MainWindow", "Local:"))
         self.main_local_tr_2.setSortingEnabled(True)
         self.main_local_tr_2.headerItem().setText(0, _translate("MainWindow", "File"))
@@ -2091,20 +2284,4 @@ class Ui_MainWindow(object):
         self.transfert_tree.headerItem().setText(3, _translate("MainWindow", "Speed"))
         self.transfert_tree.headerItem().setText(4, _translate("MainWindow", "Progress"))
         self.main_tabwidget.setTabText(self.main_tabwidget.indexOf(self.transfers_tab), _translate("MainWindow", "Transfers"))
-        self.toolBar.setWindowTitle(_translate("MainWindow", "toolBar"))
-        self.actionClose.setText(_translate("MainWindow", "Close..."))
-        self.actionClose.setToolTip(_translate("MainWindow", "Close the opened connection"))
-        self.actionOptions.setText(_translate("MainWindow", "Options..."))
-        self.actionOptions.setToolTip(_translate("MainWindow", "Open the option window"))
-        self.actionExit.setText(_translate("MainWindow", "Exit..."))
-        self.actionAbout.setText(_translate("MainWindow", "About OrionFTP..."))
-        self.actionAbout.setToolTip(_translate("MainWindow", "About OrionFTP"))
-        self.actionSeparator.setText(_translate("MainWindow", "separator"))
-        self.actionSeparator3.setText(_translate("MainWindow", "separator3"))
-        self.actionManager.setText(_translate("MainWindow", "FTP Manager..."))
-        self.actionManager.setToolTip(_translate("MainWindow", "Open the FTP manager"))
-        self.actionRefresh.setText(_translate("MainWindow", "Refresh"))
-        self.actionRefresh.setToolTip(_translate("MainWindow", "Refresh the FTP view"))
-        self.actionUpdate.setText(_translate("MainWindow", "Update..."))
-        self.actionUpdate.setToolTip(_translate("MainWindow", "No update !"))
 

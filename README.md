@@ -1,7 +1,7 @@
 Version:
 -------
 
-OrionFTP 0.5.1.
+OrionFTP 0.6.0.
 
 
 Project Overview:

@@ -6,26 +6,31 @@ from functions.thread_functions import FindFilesAndPopulate, SetDefaultLocalPath
 
 
 def activate_ftp_icons(self):
-    self.actionRefresh.setEnabled(True)
-    self.actionClose.setEnabled(True)
+    logging.debug('gui_functions.py - activate_ftp_icons')
+    self.action_refresh_bt.setEnabled(True)
+    self.action_close_bt.setEnabled(True)
 
 
 def activate_ftp_connection(self):
+    logging.debug('gui_functions.py - activate_ftp_connection')
     self.main_profile_cb.setEnabled(True)
     self.main_connect_bt.setEnabled(True)
 
 
 def deactivate_ftp_connection(self):
+    logging.debug('gui_functions.py - deactivate_ftp_connection')
     self.main_profile_cb.setEnabled(False)
     self.main_connect_bt.setEnabled(False)
 
 
 def deactivate_ftp_icons(self):
-    self.actionRefresh.setEnabled(False)
-    self.actionClose.setEnabled(False)
+    logging.debug('gui_functions.py - deactivate_ftp_icons')
+    self.action_refresh_bt.setEnabled(False)
+    self.action_close_bt.setEnabled(False)
 
 
 def clean_remote_widgets(self):
+    logging.debug('gui_functions.py - clean_remote_widgets')
     self.main_remote_tr_1.model().clear()
     self.main_remote_tr_2.clear()
     self.main_remote_ln.setText('')
@@ -79,15 +84,15 @@ def set_one_two_remote(self):
 def display_file_folder_local_tree(self):
     logging.debug('gui_functions.py - display_file_folder_local_tree')
     if self.config_dict['INTERFACE'].getboolean('local_tree_one_widget'):
-        self.local_model.setFilter(QtCore.QDir.AllDirs | QtCore.QDir.Files | QtCore.QDir.NoDotAndDotDot)
+        self.local_model_up.setFilter(QtCore.QDir.AllDirs | QtCore.QDir.Files | QtCore.QDir.NoDotAndDotDot)
     else:
-        self.local_model.setFilter(QtCore.QDir.AllDirs | QtCore.QDir.NoDotAndDotDot)
+        self.local_model_up.setFilter(QtCore.QDir.AllDirs | QtCore.QDir.NoDotAndDotDot)
 
 
 def set_local_icon_provider(self):
     logging.debug('gui_functions.py - set_local_icon_provider')
     my_icon_provider = MyQFileIconProvider(self.config_dict['INTERFACE'].getboolean('display_icons_local_tree'))
-    self.local_model.setIconProvider(my_icon_provider)
+    self.local_model_up.setIconProvider(my_icon_provider)
     if not self.config_dict['INTERFACE'].getboolean('display_icons_local_tree'):
         self.main_local_tr_1.setIconSize(QtCore.QSize(0, 0))
     else:
@@ -103,6 +108,8 @@ def set_connection_local_tree(self):
             pass
         self.main_local_tr_1.clicked.connect(lambda index: set_local_files(self, index))
         self.main_local_tr_1.clicked.connect(lambda: activate_download_button(self))
+        self.main_local_tr_1.clicked.connect(lambda index: set_local_watcher(self, index))
+
     else:
         try:
             self.main_local_tr_1.disconnect()
@@ -113,7 +120,7 @@ def set_connection_local_tree(self):
 
 def set_remote_tree(self, update=False):
     logging.debug('gui_functions.py - set_remote_tree')
-    first_column = self.translations_dict['qtreeview'][self.config_dict['OPTIONS'].get('language')][0]
+    first_column = self.translations_dict['qtreeviewup'][self.config_dict['OPTIONS'].get('language')][0]
     self.main_remote_tr_1.clicked.connect(lambda: unset_selection_remote_trees(self))
     self.main_remote_tr_2.clicked.connect(lambda: unset_selection_remote_trees(self))
     self.main_remote_tr_1.clicked.connect(lambda: activate_download_button(self))
@@ -149,15 +156,15 @@ def set_remote_tree(self, update=False):
 
 def set_local_tree(self):
     logging.debug('gui_functions.py - set_local_tree')
-    first_column = self.translations_dict['qtreeview'][self.config_dict['OPTIONS'].get('language')][0]
+    first_column_up = self.translations_dict['qtreeviewup'][self.config_dict['OPTIONS'].get('language')][0]
     self.main_local_ln.setText('')
-    self.local_model = MyQFileSystemModel(first_column, '', '')
-    self.local_model.setRootPath('')
-    self.local_model.setReadOnly(True)
+    self.local_model_up = MyQFileSystemModel(first_column_up, '', '')
     display_file_folder_local_tree(self)
+    self.local_model_up.setRootPath('')
+    self.local_model_up.setReadOnly(True)
     set_local_icon_provider(self)
     set_connection_local_tree(self)
-    self.main_local_tr_1.setModel(self.local_model)
+    self.main_local_tr_1.setModel(self.local_model_up)
     self.main_local_tr_1.sortByColumn(0, QtCore.Qt.AscendingOrder)
     self.main_local_tr_1.header().setStretchLastSection(True)
     self.main_local_tr_1.hideColumn(1)
@@ -185,6 +192,7 @@ def set_remote_files_folders(self, index):
 
 
 def set_local_path(self, index):
+    logging.debug('gui_functions.py - set_local_path')
     if self.sender().model().isDir(index):
         self.local_path = self.sender().model().filePath(index)
     else:
@@ -192,6 +200,16 @@ def set_local_path(self, index):
     if self.local_path != self.old_local_path:
         self.old_local_path = self.local_path
     self.main_local_ln.setText(self.local_path)
+
+
+def set_local_watcher(self, index=None):
+    if index is None:
+        index = self.main_local_tr_1.selectedIndexes()[0]
+    if not self.main_local_tr_1.model().isDir(index):
+        index = self.main_local_tr_1.model().parent(index)
+    path = self.main_local_tr_1.model().filePath(index)
+    self.folder_watcher = QtCore.QFileSystemWatcher([path])
+    self.folder_watcher.directoryChanged.connect(lambda watch_path: set_local_files(self, watch_path))
 
 
 def set_local_files(self, index=None):
@@ -204,6 +222,9 @@ def set_local_files(self, index=None):
             if not self.main_local_tr_1.model().isDir(index):
                 index = self.main_local_tr_1.model().parent(index)
             self.local_path = self.main_local_tr_1.model().filePath(index)
+        elif isinstance(index, str):
+            update = True
+            self.local_path = index
         else:
             self.local_path = self.sender().model().filePath(index)
         if update:
@@ -297,14 +318,17 @@ def activate_connexion_button(self, index):
 
 
 def set_default_path_local_tree(self):
+    logging.debug('gui_functions.py - set_default_path_local_tree')
     if self.config_dict['OPTIONS'].get('local_home'):
         self.path_thread = SetDefaultLocalPath(self.config_dict['OPTIONS'].get('local_home'), self.main_local_tr_1)
         self.path_thread.finished.connect(lambda: set_local_files(self))
+        self.path_thread.finished.connect(lambda: set_local_watcher(self))
         self.path_thread.start()
         self.main_local_ln.setText(self.config_dict['OPTIONS'].get('local_home'))
 
 
 def unset_selection_remote_trees(self):
+    logging.debug('gui_functions.py - unset_selection_remote_trees')
     if self.sender().objectName() == 'main_remote_tr_1':
         self.main_remote_tr_2.selectionModel().clearSelection()
     elif self.sender().objectName() == 'main_remote_tr_2':
@@ -326,8 +350,10 @@ def activate_download_button(self):
         local_path = True
     if item_selected and no_download and local_path and protocol:
         self.main_download_bt.setEnabled(True)
+        self.main_download_bt_2.setEnabled(True)
     else:
         self.main_download_bt.setEnabled(False)
+        self.main_download_bt_2.setEnabled(False)
 
 
 def set_download_finished(self):
@@ -394,6 +420,5 @@ def connection_process_trigger(self, action):
             self.connexion_browser.removeRow(i)
 
 
-def test_splitter_position(self, left, right):
-    print(left, right)
-    self.splitter.moveSplitter(left + 5, right)
+def set_splitter_position(self, left, right):
+    self.main_splitter_3.moveSplitter(left + 5, right)

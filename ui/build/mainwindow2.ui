@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>1240</width>
-    <height>782</height>
+    <height>775</height>
    </rect>
   </property>
   <property name="font">
@@ -52,6 +52,16 @@
        </spacer>
       </item>
       <item>
+       <widget class="QFrame" name="frame_2">
+        <property name="frameShape">
+         <enum>QFrame::StyledPanel</enum>
+        </property>
+        <property name="frameShadow">
+         <enum>QFrame::Raised</enum>
+        </property>
+       </widget>
+      </item>
+      <item>
        <layout class="QHBoxLayout" name="horizontalLayout">
         <item>
          <spacer name="horizontalSpacer">
@@ -63,61 +73,7 @@
           </property>
           <property name="sizeHint" stdset="0">
            <size>
-            <width>40</width>
-            <height>20</height>
-           </size>
-          </property>
-         </spacer>
-        </item>
-        <item>
-         <widget class="QToolButton" name="info_button_1">
-          <property name="minimumSize">
-           <size>
-            <width>27</width>
-            <height>27</height>
-           </size>
-          </property>
-          <property name="maximumSize">
-           <size>
-            <width>27</width>
-            <height>27</height>
-           </size>
-          </property>
-          <property name="styleSheet">
-           <string notr="true">QToolButton {
-	border: 1px solid transparent;
-	background-color: transparent;
-	width: 27px;
-	height: 27px;
-}
-
-QToolButton:flat {
-	border: none;
-}</string>
-          </property>
-          <property name="icon">
-           <iconset>
-            <normaloff>icons/info_icon.svg</normaloff>icons/info_icon.svg</iconset>
-          </property>
-          <property name="iconSize">
-           <size>
-            <width>23</width>
-            <height>23</height>
-           </size>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <spacer name="horizontalSpacer_7">
-          <property name="orientation">
-           <enum>Qt::Horizontal</enum>
-          </property>
-          <property name="sizeType">
-           <enum>QSizePolicy::Fixed</enum>
-          </property>
-          <property name="sizeHint" stdset="0">
-           <size>
-            <width>40</width>
+            <width>130</width>
             <height>20</height>
            </size>
           </property>
@@ -147,6 +103,9 @@ QToolButton:flat {
            <string notr="true">QLabel {
 	color: rgb(45,45,45);
 }</string>
+          </property>
+          <property name="frameShape">
+           <enum>QFrame::NoFrame</enum>
           </property>
           <property name="text">
            <string>FTP profile:</string>
@@ -328,7 +287,7 @@ QToolButton:pressed {
          </widget>
         </item>
         <item>
-         <spacer name="horizontalSpacer_3">
+         <spacer name="horizontalSpacer_12">
           <property name="orientation">
            <enum>Qt::Horizontal</enum>
           </property>
@@ -357,74 +316,45 @@ QToolButton:pressed {
          </spacer>
         </item>
         <item>
-         <widget class="QToolButton" name="main_download_bt">
-          <property name="enabled">
-           <bool>false</bool>
-          </property>
-          <property name="sizePolicy">
-           <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-            <horstretch>112</horstretch>
-            <verstretch>27</verstretch>
-           </sizepolicy>
-          </property>
+         <widget class="QToolButton" name="info_button_1">
           <property name="minimumSize">
            <size>
-            <width>110</width>
+            <width>27</width>
             <height>27</height>
            </size>
           </property>
           <property name="maximumSize">
            <size>
-            <width>110</width>
+            <width>27</width>
             <height>27</height>
            </size>
           </property>
-          <property name="font">
-           <font>
-            <family>FreeSans</family>
-            <pointsize>10</pointsize>
-            <weight>50</weight>
-            <bold>false</bold>
-            <stylestrategy>PreferAntialias</stylestrategy>
-            <kerning>true</kerning>
-           </font>
-          </property>
           <property name="styleSheet">
            <string notr="true">QToolButton {
-    border: 1px solid #acacac;
-    border-radius: 1px;
-    background-color: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1, 
-								stop: 0 #f0f0f0, stop: 1 #e5e5e5);
-	color: rgb(45,45,45);
+	border: 1px solid transparent;
+	background-color: transparent;
+	width: 27px;
+	height: 27px;
 }
 
-QToolButton:disabled {
-	background-color:  rgb(200,200,200);
-    color: rgb(100,100,100);
-}
-
-QToolButton:hover {
-	border: 1px solid #7eb4ea;
-    border-radius: 1px;
-	background-color: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1, 
-								stop: 0 #ecf4fc, stop: 1 #dcecfc);
-}
-
-
-QToolButton:pressed {
-	border: 1px solid #579de5;
-    border-radius: 1px;
-    background-color: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1,
-                                      stop: 0 #daecfc, stop: 1 #c4e0fc);
+QToolButton:flat {
+	border: none;
 }</string>
           </property>
-          <property name="text">
-           <string>Download</string>
+          <property name="icon">
+           <iconset>
+            <normaloff>icons/info_icon.svg</normaloff>icons/info_icon.svg</iconset>
+          </property>
+          <property name="iconSize">
+           <size>
+            <width>23</width>
+            <height>23</height>
+           </size>
           </property>
          </widget>
         </item>
         <item>
-         <spacer name="horizontalSpacer_6">
+         <spacer name="horizontalSpacer_7">
           <property name="orientation">
            <enum>Qt::Horizontal</enum>
           </property>
@@ -433,7 +363,7 @@ QToolButton:pressed {
           </property>
           <property name="sizeHint" stdset="0">
            <size>
-            <width>40</width>
+            <width>20</width>
             <height>20</height>
            </size>
           </property>
@@ -452,7 +382,7 @@ QToolButton:pressed {
         <property name="sizeHint" stdset="0">
          <size>
           <width>20</width>
-          <height>15</height>
+          <height>20</height>
          </size>
         </property>
        </spacer>
@@ -460,7 +390,659 @@ QToolButton:pressed {
      </layout>
     </item>
     <item row="1" column="0">
-     <widget class="QSplitter" name="splitter">
+     <widget class="QSplitter" name="main_splitter_3">
+      <property name="styleSheet">
+       <string notr="true">QSplitter::handle {
+    background: transparent;
+}
+
+QSplitter::handle:horizontal {
+    width: 5px;
+}
+
+QSplitter::handle:vertical {
+    height: 5px;
+}
+
+QSplitter::handle:pressed {
+    background: transparent;
+}</string>
+      </property>
+      <property name="orientation">
+       <enum>Qt::Horizontal</enum>
+      </property>
+      <widget class="QWidget" name="layoutWidget">
+       <layout class="QHBoxLayout" name="horizontalLayout_7">
+        <item>
+         <spacer name="horizontalSpacer_3">
+          <property name="orientation">
+           <enum>Qt::Horizontal</enum>
+          </property>
+          <property name="sizeType">
+           <enum>QSizePolicy::Fixed</enum>
+          </property>
+          <property name="sizeHint" stdset="0">
+           <size>
+            <width>20</width>
+            <height>20</height>
+           </size>
+          </property>
+         </spacer>
+        </item>
+        <item>
+         <widget class="QToolButton" name="action_quit_bt">
+          <property name="minimumSize">
+           <size>
+            <width>37</width>
+            <height>37</height>
+           </size>
+          </property>
+          <property name="maximumSize">
+           <size>
+            <width>37</width>
+            <height>37</height>
+           </size>
+          </property>
+          <property name="styleSheet">
+           <string notr="true">QToolButton {
+   background-color: transparent;
+   border: 0px solid black;
+}</string>
+          </property>
+          <property name="text">
+           <string/>
+          </property>
+          <property name="icon">
+           <iconset>
+            <normaloff>icons/exit_icon.svg</normaloff>icons/exit_icon.svg</iconset>
+          </property>
+          <property name="iconSize">
+           <size>
+            <width>35</width>
+            <height>35</height>
+           </size>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QToolButton" name="action_option_bt">
+          <property name="minimumSize">
+           <size>
+            <width>37</width>
+            <height>37</height>
+           </size>
+          </property>
+          <property name="maximumSize">
+           <size>
+            <width>37</width>
+            <height>37</height>
+           </size>
+          </property>
+          <property name="styleSheet">
+           <string notr="true">QToolButton {
+   background-color: transparent;
+   border: 0px solid black;
+}</string>
+          </property>
+          <property name="text">
+           <string/>
+          </property>
+          <property name="icon">
+           <iconset>
+            <normaloff>icons/option_icon.svg</normaloff>icons/option_icon.svg</iconset>
+          </property>
+          <property name="iconSize">
+           <size>
+            <width>35</width>
+            <height>35</height>
+           </size>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QToolButton" name="action_about_bt">
+          <property name="minimumSize">
+           <size>
+            <width>37</width>
+            <height>37</height>
+           </size>
+          </property>
+          <property name="maximumSize">
+           <size>
+            <width>37</width>
+            <height>37</height>
+           </size>
+          </property>
+          <property name="styleSheet">
+           <string notr="true">QToolButton {
+   background-color: transparent;
+   border: 0px solid black;
+}</string>
+          </property>
+          <property name="text">
+           <string/>
+          </property>
+          <property name="icon">
+           <iconset>
+            <normaloff>icons/about_popup_icon.svg</normaloff>icons/about_popup_icon.svg</iconset>
+          </property>
+          <property name="iconSize">
+           <size>
+            <width>35</width>
+            <height>35</height>
+           </size>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QToolButton" name="action_update_bt">
+          <property name="enabled">
+           <bool>false</bool>
+          </property>
+          <property name="minimumSize">
+           <size>
+            <width>37</width>
+            <height>37</height>
+           </size>
+          </property>
+          <property name="maximumSize">
+           <size>
+            <width>37</width>
+            <height>37</height>
+           </size>
+          </property>
+          <property name="styleSheet">
+           <string notr="true">QToolButton {
+   background-color: transparent;
+   border: 0px solid black;
+}</string>
+          </property>
+          <property name="text">
+           <string/>
+          </property>
+          <property name="icon">
+           <iconset>
+            <normaloff>icons/orionftp_update_off.svg</normaloff>icons/orionftp_update_off.svg</iconset>
+          </property>
+          <property name="iconSize">
+           <size>
+            <width>35</width>
+            <height>35</height>
+           </size>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <spacer name="horizontalSpacer_11">
+          <property name="orientation">
+           <enum>Qt::Horizontal</enum>
+          </property>
+          <property name="sizeHint" stdset="0">
+           <size>
+            <width>40</width>
+            <height>20</height>
+           </size>
+          </property>
+         </spacer>
+        </item>
+        <item>
+         <layout class="QHBoxLayout" name="horizontalLayout_6">
+          <property name="spacing">
+           <number>0</number>
+          </property>
+          <item>
+           <widget class="QToolButton" name="main_upload_bt">
+            <property name="enabled">
+             <bool>false</bool>
+            </property>
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+              <horstretch>112</horstretch>
+              <verstretch>27</verstretch>
+             </sizepolicy>
+            </property>
+            <property name="minimumSize">
+             <size>
+              <width>110</width>
+              <height>27</height>
+             </size>
+            </property>
+            <property name="maximumSize">
+             <size>
+              <width>110</width>
+              <height>27</height>
+             </size>
+            </property>
+            <property name="font">
+             <font>
+              <family>FreeSans</family>
+              <pointsize>10</pointsize>
+              <weight>50</weight>
+              <bold>false</bold>
+              <stylestrategy>PreferAntialias</stylestrategy>
+              <kerning>true</kerning>
+             </font>
+            </property>
+            <property name="styleSheet">
+             <string notr="true">QToolButton {
+    border: 1px solid #acacac;
+    border-right-top-radius: 1px;
+    border-right-bottom-radius: 1px;
+    background-color: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1, 
+								stop: 0 #f0f0f0, stop: 1 #e5e5e5);
+	color: rgb(45,45,45);
+}
+
+QToolButton:disabled {
+	background-color:  rgb(200,200,200);
+    color: rgb(100,100,100);
+}
+
+QToolButton:hover {
+	border: 1px solid #7eb4ea;
+	background-color: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1, 
+								stop: 0 #ecf4fc, stop: 1 #dcecfc);
+}
+
+
+QToolButton:pressed {
+	border: 1px solid #579de5;
+    background-color: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1,
+                                      stop: 0 #daecfc, stop: 1 #c4e0fc);
+}</string>
+            </property>
+            <property name="text">
+             <string>Send</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QToolButton" name="main_upload_bt_2">
+            <property name="enabled">
+             <bool>false</bool>
+            </property>
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+              <horstretch>112</horstretch>
+              <verstretch>27</verstretch>
+             </sizepolicy>
+            </property>
+            <property name="minimumSize">
+             <size>
+              <width>27</width>
+              <height>27</height>
+             </size>
+            </property>
+            <property name="maximumSize">
+             <size>
+              <width>27</width>
+              <height>27</height>
+             </size>
+            </property>
+            <property name="font">
+             <font>
+              <family>FreeSans</family>
+              <pointsize>10</pointsize>
+              <weight>50</weight>
+              <bold>false</bold>
+              <stylestrategy>PreferAntialias</stylestrategy>
+              <kerning>true</kerning>
+             </font>
+            </property>
+            <property name="styleSheet">
+             <string notr="true">QToolButton {
+    border-top: 0px solid #acacac;
+    border-bottom: 0px solid #acacac;
+    border-right: 0px solid #acacac;
+    border-right-top-radius: 1px;
+    border-right-bottom-radius: 1px;
+    background-color: transparent;
+	color: rgb(45,45,45);
+}
+
+QToolButton:disabled {
+}
+
+QToolButton:hover {
+
+}
+
+QToolButton:pressed {
+
+}</string>
+            </property>
+            <property name="text">
+             <string/>
+            </property>
+            <property name="icon">
+             <iconset>
+              <normaloff>icons/send_arrow_icon.svg</normaloff>icons/send_arrow_icon.svg</iconset>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </item>
+        <item>
+         <spacer name="horizontalSpacer_10">
+          <property name="orientation">
+           <enum>Qt::Horizontal</enum>
+          </property>
+          <property name="sizeType">
+           <enum>QSizePolicy::Fixed</enum>
+          </property>
+          <property name="sizeHint" stdset="0">
+           <size>
+            <width>20</width>
+            <height>20</height>
+           </size>
+          </property>
+         </spacer>
+        </item>
+       </layout>
+      </widget>
+      <widget class="QWidget" name="layoutWidget">
+       <layout class="QHBoxLayout" name="horizontalLayout_5">
+        <item>
+         <spacer name="horizontalSpacer_9">
+          <property name="orientation">
+           <enum>Qt::Horizontal</enum>
+          </property>
+          <property name="sizeType">
+           <enum>QSizePolicy::Fixed</enum>
+          </property>
+          <property name="sizeHint" stdset="0">
+           <size>
+            <width>20</width>
+            <height>20</height>
+           </size>
+          </property>
+         </spacer>
+        </item>
+        <item>
+         <layout class="QHBoxLayout" name="horizontalLayout_4">
+          <property name="spacing">
+           <number>0</number>
+          </property>
+          <item>
+           <widget class="QToolButton" name="main_download_bt_2">
+            <property name="enabled">
+             <bool>false</bool>
+            </property>
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+              <horstretch>112</horstretch>
+              <verstretch>27</verstretch>
+             </sizepolicy>
+            </property>
+            <property name="minimumSize">
+             <size>
+              <width>27</width>
+              <height>27</height>
+             </size>
+            </property>
+            <property name="maximumSize">
+             <size>
+              <width>27</width>
+              <height>27</height>
+             </size>
+            </property>
+            <property name="font">
+             <font>
+              <family>FreeSans</family>
+              <pointsize>10</pointsize>
+              <weight>50</weight>
+              <bold>false</bold>
+              <stylestrategy>PreferAntialias</stylestrategy>
+              <kerning>true</kerning>
+             </font>
+            </property>
+            <property name="styleSheet">
+             <string notr="true">QToolButton {
+    border-top: 0px solid #acacac;
+    border-bottom: 0px solid #acacac;
+    border-left: 0px solid #acacac;
+    border-left-top-radius: 1px;
+    border-left-bottom-radius: 1px;
+    background-color: transparent;
+	color: rgb(45,45,45);
+}
+
+QToolButton:disabled {
+}
+
+QToolButton:hover {
+}
+
+
+QToolButton:pressed {
+}</string>
+            </property>
+            <property name="text">
+             <string/>
+            </property>
+            <property name="icon">
+             <iconset>
+              <normaloff>icons/receive_arrow_icon.svg</normaloff>icons/receive_arrow_icon.svg</iconset>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QToolButton" name="main_download_bt">
+            <property name="enabled">
+             <bool>false</bool>
+            </property>
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+              <horstretch>112</horstretch>
+              <verstretch>27</verstretch>
+             </sizepolicy>
+            </property>
+            <property name="minimumSize">
+             <size>
+              <width>110</width>
+              <height>27</height>
+             </size>
+            </property>
+            <property name="maximumSize">
+             <size>
+              <width>110</width>
+              <height>27</height>
+             </size>
+            </property>
+            <property name="font">
+             <font>
+              <family>FreeSans</family>
+              <pointsize>10</pointsize>
+              <weight>50</weight>
+              <bold>false</bold>
+              <stylestrategy>PreferAntialias</stylestrategy>
+              <kerning>true</kerning>
+             </font>
+            </property>
+            <property name="styleSheet">
+             <string notr="true">QToolButton {
+    border: 1px solid #acacac;
+    border-right-top-radius: 1px;
+    border-right-bottom-radius: 1px;
+    background-color: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1, 
+								stop: 0 #f0f0f0, stop: 1 #e5e5e5);
+	color: rgb(45,45,45);
+}
+
+QToolButton:disabled {
+	background-color:  rgb(200,200,200);
+    color: rgb(100,100,100);
+}
+
+QToolButton:hover {
+	border: 1px solid #7eb4ea;
+	background-color: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1, 
+								stop: 0 #ecf4fc, stop: 1 #dcecfc);
+}
+
+
+QToolButton:pressed {
+	border: 1px solid #579de5;
+    background-color: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1,
+                                      stop: 0 #daecfc, stop: 1 #c4e0fc);
+}</string>
+            </property>
+            <property name="text">
+             <string>Receive</string>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </item>
+        <item>
+         <spacer name="horizontalSpacer_8">
+          <property name="orientation">
+           <enum>Qt::Horizontal</enum>
+          </property>
+          <property name="sizeHint" stdset="0">
+           <size>
+            <width>40</width>
+            <height>20</height>
+           </size>
+          </property>
+         </spacer>
+        </item>
+        <item>
+         <widget class="QToolButton" name="action_refresh_bt">
+          <property name="enabled">
+           <bool>false</bool>
+          </property>
+          <property name="minimumSize">
+           <size>
+            <width>37</width>
+            <height>37</height>
+           </size>
+          </property>
+          <property name="maximumSize">
+           <size>
+            <width>37</width>
+            <height>37</height>
+           </size>
+          </property>
+          <property name="styleSheet">
+           <string notr="true">QToolButton {
+   background-color: transparent;
+   border: 0px solid black;
+}</string>
+          </property>
+          <property name="text">
+           <string/>
+          </property>
+          <property name="icon">
+           <iconset>
+            <normaloff>icons/reload_icon.svg</normaloff>icons/reload_icon.svg</iconset>
+          </property>
+          <property name="iconSize">
+           <size>
+            <width>35</width>
+            <height>35</height>
+           </size>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QToolButton" name="action_close_bt">
+          <property name="enabled">
+           <bool>false</bool>
+          </property>
+          <property name="minimumSize">
+           <size>
+            <width>37</width>
+            <height>37</height>
+           </size>
+          </property>
+          <property name="maximumSize">
+           <size>
+            <width>37</width>
+            <height>37</height>
+           </size>
+          </property>
+          <property name="styleSheet">
+           <string notr="true">QToolButton {
+   background-color: transparent;
+   border: 0px solid black;
+}</string>
+          </property>
+          <property name="text">
+           <string/>
+          </property>
+          <property name="icon">
+           <iconset>
+            <normaloff>icons/off_icon.svg</normaloff>icons/off_icon.svg</iconset>
+          </property>
+          <property name="iconSize">
+           <size>
+            <width>35</width>
+            <height>35</height>
+           </size>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QToolButton" name="action_manager_bt">
+          <property name="enabled">
+           <bool>true</bool>
+          </property>
+          <property name="minimumSize">
+           <size>
+            <width>37</width>
+            <height>37</height>
+           </size>
+          </property>
+          <property name="maximumSize">
+           <size>
+            <width>37</width>
+            <height>37</height>
+           </size>
+          </property>
+          <property name="styleSheet">
+           <string notr="true">QToolButton {
+   background-color: transparent;
+   border: 0px solid black;
+}</string>
+          </property>
+          <property name="text">
+           <string/>
+          </property>
+          <property name="icon">
+           <iconset>
+            <normaloff>icons/manager_icon.svg</normaloff>icons/manager_icon.svg</iconset>
+          </property>
+          <property name="iconSize">
+           <size>
+            <width>35</width>
+            <height>35</height>
+           </size>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <spacer name="horizontalSpacer_6">
+          <property name="orientation">
+           <enum>Qt::Horizontal</enum>
+          </property>
+          <property name="sizeType">
+           <enum>QSizePolicy::Fixed</enum>
+          </property>
+          <property name="sizeHint" stdset="0">
+           <size>
+            <width>20</width>
+            <height>20</height>
+           </size>
+          </property>
+         </spacer>
+        </item>
+       </layout>
+      </widget>
+     </widget>
+    </item>
+    <item row="2" column="0">
+     <widget class="QSplitter" name="main_splitter_2">
       <property name="styleSheet">
        <string notr="true">QSplitter::handle {
     background: rgb(220,220,220);
@@ -476,12 +1058,13 @@ QSplitter::handle:vertical {
 
 QSplitter::handle:pressed {
     background: rgb(190,190,190);
-}</string>
+}
+</string>
       </property>
       <property name="orientation">
        <enum>Qt::Vertical</enum>
       </property>
-      <widget class="QFrame" name="frame">
+      <widget class="QFrame" name="main_frame">
        <property name="styleSheet">
         <string notr="true">QFrame {
     background: rgb(220,220,220);
@@ -631,8 +1214,20 @@ QScrollBar::right-arrow:horizontal:pressed {
         <enum>QFrame::Raised</enum>
        </property>
        <layout class="QGridLayout" name="gridLayout_3">
+        <property name="leftMargin">
+         <number>7</number>
+        </property>
+        <property name="topMargin">
+         <number>7</number>
+        </property>
+        <property name="rightMargin">
+         <number>7</number>
+        </property>
+        <property name="bottomMargin">
+         <number>7</number>
+        </property>
         <item row="0" column="0">
-         <widget class="QSplitter" name="main_splitter">
+         <widget class="QSplitter" name="main_splitter_1">
           <property name="styleSheet">
            <string notr="true">QSplitter::handle {
     background: rgb(220,220,220);
@@ -686,13 +1281,14 @@ QSplitter::handle:pressed {
                   <property name="styleSheet">
                    <string notr="true">QLabel {
 	color: rgb(45,45,45);
+    padding-bottom: -2px;
 }</string>
                   </property>
                   <property name="text">
                    <string>Local:</string>
                   </property>
                   <property name="alignment">
-                   <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
+                   <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
                   </property>
                  </widget>
                 </item>
@@ -931,7 +1527,7 @@ QLineEdit:disabled {
                 <property name="sizeHint" stdset="0">
                  <size>
                   <width>20</width>
-                  <height>5</height>
+                  <height>7</height>
                  </size>
                 </property>
                </spacer>
@@ -1381,8 +1977,7 @@ QHeaderView::section {
     height: 30px;
     font-family: &quot;fonts/SourceSansPro-Regular.ttf&quot;;
 	font-size: 15px;
-}
-</string>
+}</string>
                </property>
                <property name="frameShape">
                 <enum>QFrame::NoFrame</enum>
@@ -1460,13 +2055,14 @@ QHeaderView::section {
                   <property name="styleSheet">
                    <string notr="true">QLabel {
 	color: rgb(45,45,45);
+    padding-bottom: -2px;
 }</string>
                   </property>
                   <property name="text">
                    <string>Remote:</string>
                   </property>
                   <property name="alignment">
-                   <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
+                   <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
                   </property>
                  </widget>
                 </item>
@@ -1705,7 +2301,7 @@ QLineEdit:disabled {
                 <property name="sizeHint" stdset="0">
                  <size>
                   <width>20</width>
-                  <height>5</height>
+                  <height>7</height>
                  </size>
                 </property>
                </spacer>
@@ -2225,7 +2821,7 @@ QHeaderView::section {
     top: -1px;
     background-color: rgb(220,220,220);
     color: rgb(45,45,45);
-    padding: 12px;
+    padding: 7px;
 }
 
 QTabWidget::tab-bar {
@@ -2782,205 +3378,6 @@ QHeaderView::section {
     </item>
    </layout>
   </widget>
-  <widget class="QToolBar" name="toolBar">
-   <property name="minimumSize">
-    <size>
-     <width>0</width>
-     <height>0</height>
-    </size>
-   </property>
-   <property name="maximumSize">
-    <size>
-     <width>16777215</width>
-     <height>60</height>
-    </size>
-   </property>
-   <property name="font">
-    <font>
-     <family>FreeSans</family>
-     <pointsize>10</pointsize>
-     <stylestrategy>PreferAntialias</stylestrategy>
-     <kerning>true</kerning>
-    </font>
-   </property>
-   <property name="windowTitle">
-    <string>toolBar</string>
-   </property>
-   <property name="styleSheet">
-    <string notr="true">QToolBar {
-   padding: 10px;
-   background-color: rgb(240,240,240);
-   border-bottom: 1px solid rgb(220,220,220);
-}</string>
-   </property>
-   <property name="movable">
-    <bool>false</bool>
-   </property>
-   <property name="iconSize">
-    <size>
-     <width>35</width>
-     <height>35</height>
-    </size>
-   </property>
-   <property name="floatable">
-    <bool>true</bool>
-   </property>
-   <attribute name="toolBarArea">
-    <enum>TopToolBarArea</enum>
-   </attribute>
-   <attribute name="toolBarBreak">
-    <bool>false</bool>
-   </attribute>
-   <addaction name="actionExit"/>
-   <addaction name="actionSeparator"/>
-   <addaction name="actionManager"/>
-   <addaction name="actionClose"/>
-   <addaction name="actionRefresh"/>
-   <addaction name="actionSeparator3"/>
-   <addaction name="actionOptions"/>
-   <addaction name="actionAbout"/>
-   <addaction name="actionUpdate"/>
-  </widget>
-  <action name="actionClose">
-   <property name="enabled">
-    <bool>false</bool>
-   </property>
-   <property name="icon">
-    <iconset>
-     <normaloff>icons/off_icon.svg</normaloff>icons/off_icon.svg</iconset>
-   </property>
-   <property name="text">
-    <string>Close...</string>
-   </property>
-   <property name="toolTip">
-    <string>Close the opened connection</string>
-   </property>
-   <property name="font">
-    <font>
-     <family>FreeSans</family>
-     <pointsize>10</pointsize>
-     <stylestrategy>PreferAntialias</stylestrategy>
-     <kerning>true</kerning>
-    </font>
-   </property>
-  </action>
-  <action name="actionOptions">
-   <property name="icon">
-    <iconset>
-     <normaloff>icons/option_icon.svg</normaloff>icons/option_icon.svg</iconset>
-   </property>
-   <property name="text">
-    <string>Options...</string>
-   </property>
-   <property name="toolTip">
-    <string>Open the option window</string>
-   </property>
-  </action>
-  <action name="actionExit">
-   <property name="icon">
-    <iconset>
-     <normaloff>icons/exit_icon.svg</normaloff>icons/exit_icon.svg</iconset>
-   </property>
-   <property name="text">
-    <string>Exit...</string>
-   </property>
-   <property name="font">
-    <font>
-     <family>FreeSans</family>
-     <pointsize>10</pointsize>
-     <stylestrategy>PreferAntialias</stylestrategy>
-     <kerning>true</kerning>
-    </font>
-   </property>
-  </action>
-  <action name="actionAbout">
-   <property name="icon">
-    <iconset>
-     <normaloff>icons/about_popup_icon.svg</normaloff>icons/about_popup_icon.svg</iconset>
-   </property>
-   <property name="text">
-    <string>About OrionFTP...</string>
-   </property>
-   <property name="toolTip">
-    <string>About OrionFTP</string>
-   </property>
-   <property name="font">
-    <font>
-     <family>FreeSans</family>
-     <pointsize>10</pointsize>
-     <stylestrategy>PreferAntialias</stylestrategy>
-     <kerning>true</kerning>
-    </font>
-   </property>
-  </action>
-  <action name="actionSeparator">
-   <property name="enabled">
-    <bool>false</bool>
-   </property>
-   <property name="icon">
-    <iconset>
-     <normaloff>icons/separator_icon.png</normaloff>
-     <disabledoff>icons/separator_icon.png</disabledoff>icons/separator_icon.png</iconset>
-   </property>
-   <property name="text">
-    <string>separator</string>
-   </property>
-  </action>
-  <action name="actionSeparator3">
-   <property name="enabled">
-    <bool>false</bool>
-   </property>
-   <property name="icon">
-    <iconset>
-     <normaloff>icons/separator_icon.png</normaloff>
-     <disabledoff>icons/separator_icon.png</disabledoff>icons/separator_icon.png</iconset>
-   </property>
-   <property name="text">
-    <string>separator3</string>
-   </property>
-  </action>
-  <action name="actionManager">
-   <property name="icon">
-    <iconset>
-     <normaloff>icons/manager_icon.svg</normaloff>icons/manager_icon.svg</iconset>
-   </property>
-   <property name="text">
-    <string>FTP Manager...</string>
-   </property>
-   <property name="toolTip">
-    <string>Open the FTP manager</string>
-   </property>
-  </action>
-  <action name="actionRefresh">
-   <property name="enabled">
-    <bool>false</bool>
-   </property>
-   <property name="icon">
-    <iconset>
-     <normaloff>icons/reload_icon.svg</normaloff>icons/reload_icon.svg</iconset>
-   </property>
-   <property name="text">
-    <string>Refresh</string>
-   </property>
-   <property name="toolTip">
-    <string>Refresh the FTP view</string>
-   </property>
-  </action>
-  <action name="actionUpdate">
-   <property name="enabled">
-    <bool>false</bool>
-   </property>
-   <property name="icon">
-    <iconset>
-     <normaloff>icons/orionftp_update_off.svg</normaloff>icons/orionftp_update_off.svg</iconset>
-   </property>
-   <property name="text">
-    <string>Update...</string>
-   </property>
-   <property name="toolTip">
-    <string>No update !</string>
-   </property>
-  </action>
  </widget>
  <resources/>
  <connections/>

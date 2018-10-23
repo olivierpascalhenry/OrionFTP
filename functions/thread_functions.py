@@ -6,6 +6,7 @@ import platform
 import urllib
 import time
 import ftplib
+import socket
 from functions.material_functions import tree_objects_init
 from functions.utilities import set_size
 from PyQt5 import QtCore
@@ -206,7 +207,6 @@ class DownloadFTPFile(QtCore.QThread):
                 self._update_status([2, message])
                 self.file_size = 0
                 self.f = open(self.local_file_path, 'wb')
-                self.update_down_widget.emit()
                 start = time.time()
 
                 def callback(data):
@@ -214,7 +214,10 @@ class DownloadFTPFile(QtCore.QThread):
                         self.f.close()
                     else:
                         self.file_size += len(data)
-                        download_speed = set_size(self.file_size / (time.time() - start)) + '/s'
+                        try:
+                            download_speed = set_size(self.file_size / (time.time() - start)) + '/s'
+                        except ZeroDivisionError:
+                            download_speed = '0 B/s'
                         self.download_update.emit([i, text_1, text_2, download_speed,
                                                    round(self.file_size * 100 / self.total_size)])
                         try:
@@ -227,7 +230,7 @@ class DownloadFTPFile(QtCore.QThread):
                     message = self.ftp.retrbinary('RETR ' + self.file_path, callback)
                     self._update_status([2, message])
                     self.f.close()
-                except (AttributeError, ftplib.error_reply) as e:
+                except (AttributeError, ftplib.error_reply, OSError) as e:
                     if self.cancel:
                         self._update_status([0, 'Download of file ' + self.file_path
                                              + ' has been canceled.'])
@@ -297,6 +300,7 @@ class DownloadFTPFile(QtCore.QThread):
         self.update_status.emit(status_list)
 
     def close_file(self):
+        logging.debug('thread_functions.py - DownloadFTPFile - close_file')
         try:
             self.f.close()
             self.f = None
@@ -328,15 +332,105 @@ class SetDefaultLocalPath(QtCore.QThread):
             folder_list = self.path.split('/')
         path = ''
         index = None
-        for i, folder in enumerate(folder_list):
-            if i == 0:
-                path += folder
-            else:
-                if platform.system() == 'Windows':
-                    path += '\\' + folder
-                elif platform.system() == 'Linux':
-                    path += '/' + folder
-            index = self.local_tree_up.model().index(path)
-            self.local_tree_up.expand(index)
-        self.local_tree_up.setCurrentIndex(index)
+        try:
+            for i, folder in enumerate(folder_list):
+                if i == 0:
+                    path += folder
+                else:
+                    if platform.system() == 'Windows':
+                        path += '\\' + folder
+                    elif platform.system() == 'Linux':
+                        path += '/' + folder
+                index = self.local_tree_up.model().index(path)
+                self.local_tree_up.expand(index)
+        except AttributeError:
+            logging.exception('thread_functions.py - SetDefaultLocalPath - run - error')
+            index = None
+        if index is not None:
+            self.local_tree_up.setCurrentIndex(index)
         self.finished.emit()
+
+    def stop(self):
+        logging.debug('thread_functions.py - SetDefaultLocalPath - stop')
+        self.terminate()
+
+
+class ConnectFTP(QtCore.QThread):
+    connection_start = QtCore.pyqtSignal()
+    connection_update = QtCore.pyqtSignal(list)
+    connected = QtCore.pyqtSignal(list)
+    connection_error = QtCore.pyqtSignal()
+
+    def __init__(self, host, port, transfer_mode, encryption, username, password, action):
+        QtCore.QThread.__init__(self)
+        logging.info('thread_functions.py - ConnectFTP - __init__')
+        self.host = host
+        self.port = port
+        self.transfer_mode = transfer_mode
+        self.encryption = encryption
+        self.username = username
+        self.password = password
+        self.action = action
+
+    def run(self):
+        logging.info('thread_functions.py - ConnectFTP - run')
+        self.connection_start.emit()
+        try:
+            self._update_status([0, 'Connecting to ' + self.host + ':' + self.port + '...'])
+            if self.encryption == 'plain':
+                ftp_protocol = ftplib.FTP(timeout=5)
+            else:
+                ftp_protocol = MyFTP_TLS(timeout=5)
+            if self.transfer_mode == 0:
+                ftp_protocol.set_pasv(True)
+            else:
+                ftp_protocol.set_pasv(False)
+            message = ftp_protocol.connect(self.host, int(self.port))
+            self._update_status([2, message])
+            if self.encryption != 'plain':
+                self._update_status([1, 'AUTH TLS'])
+                message = ftp_protocol.auth()
+                self._update_status([2, message])
+                self._update_status([1, 'PROT P'])
+                message = ftp_protocol.prot_p()
+                self._update_status([2, message])
+            self._update_status([1, 'USER ' + self.username + ' ; PASS **************'])
+            message = ftp_protocol.login(self.username, self.password)
+            self._update_status([2, message])
+            self._update_status([1, 'OPTS UTF8 ON'])
+            message = ftp_protocol.sendcmd("OPTS UTF8 ON")
+            self._update_status([2, message])
+            ftp_protocol.encoding = 'utf-8'
+            self.connected.emit([self.action, ftp_protocol])
+        except ftplib.error_perm as e:
+            logging.exception('thread_functions.py - ConnectFTP - connection - error')
+            if '550' in str(e):
+                self._update_status([3, 'SSL/TLS required on the control channel'])
+            elif '500' in str(e):
+                self._update_status([3, 'AUTH not understood'])
+            else:
+                self._update_status([3, 'Login incorrect'])
+            self.connection_error.emit()
+        except socket.timeout:
+            logging.exception('thread_functions.py - ConnectFTP - connection - error')
+            self._update_status([3, 'The connection was refused by ' + self.host])
+            self.connection_error.emit()
+        except ConnectionRefusedError:
+            logging.exception('thread_functions.py - ConnectFTP - connection - error')
+            self._update_status([3, 'Timed out, no response from ' + self.host])
+            self.connection_error.emit()
+
+    def _update_status(self, status_list):
+        self.connection_update.emit(status_list)
+
+    def stop(self):
+        logging.debug('thread_functions.py - ConnectFTP - stop')
+        self.terminate()
+
+
+class MyFTP_TLS(ftplib.FTP_TLS):
+    def ntransfercmd(self, cmd, rest=None):
+        conn, size = ftplib.FTP.ntransfercmd(self, cmd, rest)
+        if self._prot_p:
+            conn = self.context.wrap_socket(conn, server_hostname=self.host, session=self.sock.session)
+        return conn, size

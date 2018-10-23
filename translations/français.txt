@@ -2,7 +2,8 @@
 main_profile_lb=Profil FTP :
 main_profile_cb=Pas de profil sauvegardé...
 main_connect_bt=Connexion
-main_download_bt=Télécharger
+main_download_bt=Recevoir
+main_upload_bt=Envoyer
 main_local_lb=PC local :
 main_remote_lb=Serveur distant :
 main_tabwidget=Connexion FTP|Transferts
@@ -11,14 +12,14 @@ main_local_tr_2=Fichier|Taille|Type
 main_remote_tr_2=Fichier|Taille|Type
 
 ### toolbar tooltips ###
-actionClose=Fermer la connexion établie
-actionOptions=Ouvrir la fenêtre des options
-actionExit=Quitter
-actionAbout=A propos d'OrionFTP
-actionManager=Ouvrir le gestionnaire FTP
+action_close_bt=Fermer la connexion établie
+action_option_bt=Ouvrir la fenêtre des options
+action_quit_bt=Quitter
+action_about_bt=A propos d'OrionFTP
+action_manager_bt=Ouvrir le gestionnaire FTP
 actionHome=Retourner aux répertoire d'origine
-actionRefresh=Rafraichir la vue FTP
-actionUpdate=Pas de mise à jour !
+action_refresh_bt=Rafraichir la vue FTP
+action_update_bt=Pas de mise à jour !
 
 ### about window ###
 aboutlogWindow=A propos d'OrionFTP
@@ -37,7 +38,7 @@ mw_label_6=Chiffrement :
 mw_cancel_button=Annuler
 mw_ok_button=Ok
 mw_checkbox_1=afficher le mot de passe
-mw_combobox_2=Connexion FTP explicite sur TLS|Connexion FTP standard (non sécurisée)
+mw_combobox_2=Connexion FTP explicite sur TLS|Connexion FTP standard
 
 ### option window ###
 ow_section_list=Général|Interface|Connexion|Transfert
@@ -64,6 +65,7 @@ ow_label_9=Type de transfert par défaut :
 ow_combobox_4=Passif|Actif
 ow_combobox_5=Automatique|ASCII|Binaire
 ow_checkbox_8=Autoriser un changement du mode de transfert en cas d’échec ?
+ow_checkbox_9=Autoriser une reconnexion automatique si la connexion est fermée par l'hôte ?
 ow_label_11=Que faire si le fichier existe déjà en local ?
 ow_combobox_6=Demander que faire|Ecraser|Télécharger et renommer|Ignorer
 
@@ -135,7 +137,8 @@ aiw_label_21=Ici vous trouverez des informations à propos d'OrionFTP.
 aiw_label_22=Si un ! rouge est affiché, cela veut dire qu'une mise à jour pour OrionFTP est disponible. Dans ce cas, cliquez sur l'icône pour lancer la procédure de mise à jour.
 aiw_label_23=Fonctions :
 aiw_connect_button=Connexion
-aiw_download_button=Télécharger
+aiw_download_button=Recevoir
+aiw_upload_button=Envoyer
 
 ### credentials window ###
 cw_label_1=Hôte:
@@ -156,10 +159,16 @@ aw_label_2=Fichier:
 aw_radio_1=Télécharger et écraser le fichier local
 aw_radio_2=Télécharger et renommer le fichier à télécharger
 aw_radio_3=Ignorer et ne pas télécharger le fichier
+aw_checkbox_1=Appliquer à tous les conflits ?
+
+### wait window ###
+waitWindow=Veuillez patienter ...
+ww_label_1=Connexion en cours ...
 
 ### basic elements ###
 makeachoice=Choisissez une entrée...
-qtreeview=Dossier|Taille|Type
+qtreeviewup=Dossier|Taille|Type
+qtreeviewdown=Fichier|Taille|Type
 nonewupdate=Pas de mise à jour !
 newupdatefrozen=Une nouvelle mise à jour est disponible pour OrionFTP ! Cliquez ici pour l'installer automatiquement.
 newupdatesources=Une nouvelle mise à jour est disponible pour OrionFTP ! Cliquez ici pour la télécharger.
@@ -168,7 +177,8 @@ downloading=Téléchargement : %s
 downloadfailed=Téléchargement échoué
 nonewupdateoption=Il n'y a pas de nouvelle mise à jour pour OrionFTP sur GitHub.
 newupdateoption=Une nouvelle mise à jour est disponible sur GitHub pour OrionFTP. Veuillez quitter la fenêtre des options et cliquer sur le boutton de mise à jour pour lancer le processus de mise à jour.
-connectiontimeout=OrionFTP n'a pas pu se connecter à l'höte. Veuillez vérifier l'adresse et le port, ainsi que la connexion, avant d'essayer à nouveau. Si le problème persiste, veuillez contacter l'administrateur du serveur distant et/ou le dévelopeur du présent logiciel.
+connectiontimeout=OrionFTP n'a pas pu se connecter à l'hôte. Veuillez vérifier l'adresse et le port, ainsi que les paramètres de la connexion, avant d'essayer à nouveau. Si le problème persiste, veuillez contacter l'administrateur du serveur distant et/ou le dévelopeur du présent logiciel.
+connectionissue=OrionFTP vient de connaître une erreur dans la connexion à l'hôte.
 nofolderdownload=Il n'est pas possible de télécharger des dossiers à l'heure actuelle. C'est pourquoi le téléchargement a été annulé. Cette fonction sera disponible dans une prochaine version.
 downloadfailedtext=Un problème est apparu durant le téléchargement et a entrainé un echec. Veuillez sélectionner à nouveau les fichiers à télécharger et relancer le téléchargement. Si le problème persiste, veuillez contacter l'administrateur du serveur et/ou le dévelopeur du logiciel.
 transferstatus=Téléchargement :|Terminé :|En attente :|Annulé :|Ignoré :
