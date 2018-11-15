@@ -4,7 +4,6 @@ CHANGELOG
 
 To do list:
 -----------
-  - add SFTP protocol. (v0.7)
   - add folder download. (v0.8)
   
 To fix list:
@@ -12,9 +11,38 @@ To fix list:
 
 Limitations:
 ------------
+  - as there is no clear command to abort a (S)FTP transfer, the solution put in place here is to close the connection, and open it again. Therefore, when canceling a download, a delay can occure as OrionFTP is closing connection and opening it again.
   - for now, it is not possible to download a folder and its content.
 
 
+November 15 2018, Release version 0.7.0
+=======================================
+First version of the object handling the SFTP connection.
+Until version 1.0.0, the config file is expected to evolve and can be deleted without further notice to introduce new options.
+Until version 1.0.0, the ftp_profiles.xml file is expected to evolve and can be deleted without further notice to introduce new options. 
+
+  ADDED:
+    - a new class to handle SFTP connection has been added. It has been linked with the dedicated widgets in the GUI.
+	- if SFTP is selected in the manager, the encryption option is deactivated and saved as empty field in teh xml file.
+	- it is now possible to remove all items queued for downloading with a right click.
+
+  FIXED:
+    - the update package, when OrionFTP has been frozen by pyinstaller, was downloaded in the wrong directory.
+    - if the download window doesn't launch the download thread and if the cancel button is clicked, an error is raised. It has been fixed.
+    - same issue fixed but when closing the window.
+    - text wasn't well selected in the translate dictionary when changing interface options with an active (S)FTP connection. It has been fixed.
+    - when changing interface options with an active (S)FTP connection, remote trees weren't properly reseted. It has been fixed.
+	- fixed focus and tab order in the manager window.
+	- fixed focus and tab order in the option window.
+	- fixed an issue with a deleted object in the option window..
+	- if the connexion has been closed and items are presnet in the transfer tab, an AttributeError is raised when cleaning. It has been fixed.
+	- margin radius has been corrected in the about window.
+	- font has been fixed in the option window.
+    
+  MODIFIED:
+    - when checking manually for an update, the option window send now a signal if a new update has been found to activate the update button.
+
+  
 October 23 2018, Release version 0.6.0
 ======================================
 Until version 1.0.0, the config file is expected to evolve and can be deleted without further notice to introduce new options.

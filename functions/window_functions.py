@@ -124,6 +124,12 @@ class MyManager(QtWidgets.QDialog, Ui_managerWindow):
         self.mw_del_button.clicked.connect(self.del_profile_item)
         self.mw_profile_list.currentTextChanged.connect(self.display_profile_data)
         self.mw_profile_list.itemChanged.connect(self.change_profile_name)
+        self.setTabOrder(self.mw_combobox_1, self.mw_combobox_2)
+        self.setTabOrder(self.mw_combobox_2, self.mw_line_1)
+        self.setTabOrder(self.mw_line_1, self.mw_line_2)
+        self.setTabOrder(self.mw_line_2, self.mw_line_3)
+        self.setTabOrder(self.mw_line_3, self.mw_line_4)
+        self.setTabOrder(self.mw_line_4, self.mw_checkbox_1)
         logging.info('window_functions.py - MyManager ready')
 
     def change_profile_name(self, val):
@@ -145,6 +151,8 @@ class MyManager(QtWidgets.QDialog, Ui_managerWindow):
             if '1' in self.sender().objectName():
                 protocol = self.ftp_protocols_dict[str(self.sender().currentText())]
                 self.ftp_profiles[str(self.mw_profile_list.currentItem().text())]['protocol'] = protocol
+                if self.sender().currentText() == 'SSH File Transfer Protocol (SFTP)':
+                    self.ftp_profiles[str(self.mw_profile_list.currentItem().text())]['encryption'] = ''
             elif '2' in self.sender().objectName():
                 encryption = self.ftp_encryption_dict[self.sender().currentIndex()]
                 self.ftp_profiles[str(self.mw_profile_list.currentItem().text())]['encryption'] = encryption
@@ -204,6 +212,7 @@ class MyManager(QtWidgets.QDialog, Ui_managerWindow):
         self.current_name = str(val)
         try:
             self.mw_combobox_1.currentIndexChanged.disconnect(self.set_data_in_dict)
+            self.mw_combobox_1.currentIndexChanged.disconnect(self.activate_deactivate_mw_combobox_2)
             self.mw_combobox_2.currentIndexChanged.disconnect(self.set_data_in_dict)
             self.mw_line_1.textChanged.disconnect(self.set_data_in_dict)
             self.mw_line_2.textChanged.disconnect(self.set_data_in_dict)
@@ -217,6 +226,7 @@ class MyManager(QtWidgets.QDialog, Ui_managerWindow):
             try:
                 protocol = self.inv_ftp_protocols_dict[profile['protocol']]
                 self.mw_combobox_1.setCurrentIndex(self.mw_combobox_1.findText(protocol))
+                self.activate_deactivate_mw_combobox_2()
             except KeyError:
                 pass
             try:
@@ -244,6 +254,7 @@ class MyManager(QtWidgets.QDialog, Ui_managerWindow):
         except KeyError:
             pass
         self.mw_combobox_1.currentIndexChanged.connect(self.set_data_in_dict)
+        self.mw_combobox_1.currentIndexChanged.connect(self.activate_deactivate_mw_combobox_2)
         self.mw_combobox_2.currentIndexChanged.connect(self.set_data_in_dict)
         self.mw_line_1.textChanged.connect(self.set_data_in_dict)
         self.mw_line_2.textChanged.connect(self.set_data_in_dict)
@@ -311,9 +322,14 @@ class MyManager(QtWidgets.QDialog, Ui_managerWindow):
     def display_password(self, val):
         if val == 0:
             self.mw_line_4.setEchoMode(QtWidgets.QLineEdit.Password)
-
         elif val == 2:
             self.mw_line_4.setEchoMode(QtWidgets.QLineEdit.Normal)
+
+    def activate_deactivate_mw_combobox_2(self):
+        if self.mw_combobox_1.currentText() == 'File Transfer Protocol (FTP)':
+            self.mw_combobox_2.setEnabled(True)
+        else:
+            self.mw_combobox_2.setEnabled(False)
 
     def close_window(self):
         logging.debug('window_functions.py - MyManager - close_window')
@@ -339,6 +355,8 @@ class MyAbout(QtWidgets.QDialog, Ui_aboutlogWindow):
 
 
 class MyOptions(QtWidgets.QDialog, Ui_optionWindow):
+    available_update = QtCore.pyqtSignal(str)
+
     def __init__(self, ow_config_dict, translations_dict, ftp_profile_list):
         logging.debug('window_functions.py - MyOptions - __init__')
         QtWidgets.QWidget.__init__(self)
@@ -376,14 +394,14 @@ class MyOptions(QtWidgets.QDialog, Ui_optionWindow):
     def populate_general_options(self):
         logging.debug('window_functions.py - MyOptions - populate_general_options')
         font = QtGui.QFont()
-        font.setFamily("FreeSans")
+        font.setFamily("fonts/SourceSansPro-Regular.ttf")
         font.setPointSize(9)
         font.setBold(False)
         font.setWeight(50)
         font.setKerning(True)
         font.setStyleStrategy(QtGui.QFont.PreferAntialias)
         font2 = QtGui.QFont()
-        font2.setFamily("FreeSans")
+        font2.setFamily("fonts/SourceSansPro-Regular.ttf")
         font2.setPointSize(10)
         font2.setKerning(True)
         font2.setStyleStrategy(QtGui.QFont.PreferAntialias)
@@ -867,6 +885,11 @@ class MyOptions(QtWidgets.QDialog, Ui_optionWindow):
         self.ow_line_2.textChanged.connect(self.set_lineedit_options)
         self.ow_combobox_2.currentIndexChanged.connect(self.change_language)
         self.ow_check_button.clicked.connect(self.check_orionftp_update)
+        self.setTabOrder(self.ow_combobox_1, self.ow_line_1)
+        self.setTabOrder(self.ow_line_1, self.ow_combobox_2)
+        self.setTabOrder(self.ow_combobox_2, self.ow_line_2)
+        self.setTabOrder(self.ow_line_2, self.ow_combobox_3)
+        self.setTabOrder(self.ow_combobox_3, self.ow_checkbox_1)
 
     def populate_interface_options(self):
         logging.debug('window_functions.py - MyOptions - populate_interface_options')
@@ -1057,6 +1080,11 @@ class MyOptions(QtWidgets.QDialog, Ui_optionWindow):
         self.ow_checkbox_5.stateChanged.connect(self.set_checkbox_options)
         self.ow_checkbox_6.stateChanged.connect(self.set_checkbox_options)
         self.ow_checkbox_7.stateChanged.connect(self.set_checkbox_options)
+        self.setTabOrder(self.ow_checkbox_2, self.ow_checkbox_4)
+        self.setTabOrder(self.ow_checkbox_4, self.ow_checkbox_6)
+        self.setTabOrder(self.ow_checkbox_6, self.ow_checkbox_3)
+        self.setTabOrder(self.ow_checkbox_3, self.ow_checkbox_5)
+        self.setTabOrder(self.ow_checkbox_5, self.ow_checkbox_7)
 
     def populate_connection_options(self):
         logging.debug('window_functions.py - MyOptions - populate_connection_options')
@@ -1286,6 +1314,7 @@ class MyOptions(QtWidgets.QDialog, Ui_optionWindow):
         self.ow_checkbox_8.setEnabled(False)
         self.ow_checkbox_8.stateChanged.connect(self.set_checkbox_options)
         self.ow_checkbox_9.stateChanged.connect(self.set_checkbox_options)
+        self.setTabOrder(self.ow_combobox_4, self.ow_combobox_5)
 
     def populate_transfer_options(self):
         logging.debug('window_functions.py - MyOptions - populate_transfer_options')
@@ -1506,11 +1535,11 @@ class MyOptions(QtWidgets.QDialog, Ui_optionWindow):
             self.infoWindow.resize(450, 150)
             self.infoWindow.exec_()
         elif 'http' in val:
+            self.available_update.emit(val)
             self.infoWindow = MyInfo(self.translations_dict['newupdateoption'][self.ow_config_dict['OPTIONS']
                                      .get('language')])
             self.infoWindow.resize(450, 150)
             self.infoWindow.exec_()
-            self.link_latest_version = val
 
     def get_directory(self):
         logging.debug('window_functions.py - MyOptions - get_directory')
@@ -1576,11 +1605,12 @@ class MyUpdate(QtWidgets.QDialog, Ui_storeWindow):
         self.temp_folder = folder
         self.url = url
         if platform.system() == 'Windows':
-            self.update_file = self.temp_folder + self.url[self.url.rfind('/') + 1:]
+            self.update_file = self.temp_folder + '\\' + self.url[self.url.rfind('/') + 1:]
         elif platform.system() == 'Linux':
-            self.update_file = self.temp_folder + self.url[self.url.rfind('/') + 1:]
+            self.update_file = self.temp_folder + '/' + self.url[self.url.rfind('/') + 1:]
         self.sw_button.clicked.connect(self.cancel_download)
         self.cancel = False
+        self.thread = None
         self.download_update()
         logging.info('window_functions.py - MyUpdate ready')
 
@@ -1601,7 +1631,8 @@ class MyUpdate(QtWidgets.QDialog, Ui_storeWindow):
 
     def cancel_download(self):
         logging.debug('window_functions.py - MyUpdate - cancel_download')
-        self.thread.cancel_download()
+        if self.thread is not None:
+            self.thread.cancel_download()
         self.cancel = True
         time.sleep(0.25)
         self.close()
@@ -1614,7 +1645,8 @@ class MyUpdate(QtWidgets.QDialog, Ui_storeWindow):
 
     def closeEvent(self, event):
         logging.info('window_functions.py - MyUpdate - closeEvent')
-        self.thread.download_update.disconnect(self.update_progress_bar)
+        if self.thread is not None:
+            self.thread.download_update.disconnect(self.update_progress_bar)
         if self.cancel:
             try:
                 os.remove(self.update_file)

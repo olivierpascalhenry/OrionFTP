@@ -373,6 +373,7 @@ def transfer_tree_menu(self, position):
             downloading_text = self.translations_dict['transferstatus'][self.config_dict['OPTIONS'].get('language')][0]
             if queued_text in item_status:
                 menu.addAction(self.translations_dict['transfermenu'][self.config_dict['OPTIONS'].get('language')][2])
+                menu.addAction(self.translations_dict['transfermenu'][self.config_dict['OPTIONS'].get('language')][4])
             elif downloading_text in item_status:
                 menu.addAction(menu.addAction(self.translations_dict['transfermenu'][self.config_dict['OPTIONS']
                                               .get('language')][0]))
@@ -408,8 +409,13 @@ def transfer_process_trigger(self, action):
             self.protocol.cancel_all_download()
         elif action.text() == self.translations_dict['transfermenu'][self.config_dict['OPTIONS'].get('language')][2]:
             self.protocol.remove_from_list()
+        elif action.text() == self.translations_dict['transfermenu'][self.config_dict['OPTIONS'].get('language')][4]:
+            self.protocol.remove_all_from_list()
     if action.text() == self.translations_dict['transfermenu'][self.config_dict['OPTIONS'].get('language')][3]:
-        self.protocol.clear_transfers()
+        if self.protocol is not None:
+            self.protocol.clear_transfers()
+        else:
+            self.transfert_tree.clear()
 
 
 def connection_process_trigger(self, action):
@@ -421,4 +427,4 @@ def connection_process_trigger(self, action):
 
 
 def set_splitter_position(self, left, right):
-    self.main_splitter_3.moveSplitter(left + 5, right)
+    self.main_splitter_3.moveSplitter(left + 8, right)

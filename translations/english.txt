@@ -182,5 +182,5 @@ connectionissue=OrionFTP experienced an issue with the connection to the host.
 nofolderdownload=It is not possible to download folder(s) for now. Thus the download has been canceled. That possibility will be available in a next version.
 downloadfailedtext=An issue occurred during download, and thus download failed. Please select again requested files and relaunch the download. If the issue persists, contact the host administrator and/or the developer of the software.
 transferstatus=Downloading:|Finished:|Queued:|Canceled:|ignored:
-transfermenu=Cancel download|Cancel all downloads|Remove from list|Clear file list
+transfermenu=Cancel download|Cancel all downloads|Remove from list|Clear file list|Remove all from list
 connectionmenu=Clear messages

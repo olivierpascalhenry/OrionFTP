@@ -16,7 +16,7 @@ from functions.window_functions import MyManager, MyAbout, MyOptions, MyWarningU
 from functions.ftp_xml import create_profile_xml
 from functions.thread_functions import CheckOrionFTPOnline
 from functions.other_functions import set_ftp_profiles
-from functions.protocol_functions import FTPProtocol
+from functions.protocol_functions import FTPProtocol, SFTPProtocol
 from functions.gui_functions import prepare_tree_widgets, display_local_path, set_local_tree, set_remote_tree
 from functions.gui_functions import activate_connexion_button, set_profile_list, activate_ftp_icons
 from functions.gui_functions import deactivate_ftp_icons, clean_remote_widgets, deactivate_ftp_connection
@@ -108,9 +108,8 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
         config_dict_copy = configparser.ConfigParser()
         config_dict_copy.read_file(config_string)
         self.optionsWindow = MyOptions(config_dict_copy, self.translations_dict, ftp_profile_list)
+        self.optionsWindow.available_update.connect(self.parse_orionftp_update)
         self.optionsWindow.exec_()
-        if self.optionsWindow.link_latest_version is not None:
-            self.parse_orionftp_update(self.optionsWindow.link_latest_version)
         if self.optionsWindow.ow_config_dict is not None:
             logging.debug('mainwindow.py - open_options - saving config dict')
             self.config_dict = self.optionsWindow.ow_config_dict
@@ -166,7 +165,7 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
             self.updateWindow.exec_()
             temp_folder = None
             if self.updateWindow.update:
-                if getattr(sys, 'frozen', False):
+                if frozen:
                     temp_folder = tempfile.gettempdir()
                 else:
                     if platform.system() == 'Windows':
@@ -179,7 +178,7 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
                                                self.translations_dict)
                 self.downloadWindow.exec_()
                 logging.debug('mainwindow.py - download_and_install_update - download finished')
-                if getattr(sys, 'frozen', False):
+                if frozen:
                     filename = self.link_latest_version[self.link_latest_version.rfind('/') + 1:]
                     if platform.system() == 'Windows':
                         os.startfile(temp_folder + '\\' + filename)
@@ -213,7 +212,10 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
                                             self.config_dict,
                                             self.translations_dict)
             elif self.ftp_profiles[str(self.main_profile_cb.currentText())]['protocol'] == 'sftp':
-                pass
+                self.protocol = SFTPProtocol(self.ftp_profiles[str(self.main_profile_cb.currentText())],
+                                             widget_list,
+                                             self.config_dict,
+                                             self.translations_dict)
             self.protocol.update_local_file_list.connect(lambda: set_local_files(self))
             self.protocol.connection_success.connect(self.successful_connection)
             self.protocol.connection_failure.connect(self.unsuccessful_connection)

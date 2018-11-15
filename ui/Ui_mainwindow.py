@@ -2237,7 +2237,7 @@ class Ui_MainWindow(object):
 "    border-right: 1px solid lightgray;\n"
 "    padding-left: 10px;\n"
 "    padding-bottom: 3px;\n"
-"    height: 27px;\n"
+"    height: 25px;\n"
 "    font-family: \"fonts/SourceSansPro-Regular.ttf\";\n"
 "    font-size: 15px;\n"
 "    margin-bottom: 3px;\n"

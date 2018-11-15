@@ -3317,7 +3317,7 @@ QHeaderView::section {
     border-right: 1px solid lightgray;
     padding-left: 10px;
     padding-bottom: 3px;
-    height: 27px;
+    height: 25px;
     font-family: &quot;fonts/SourceSansPro-Regular.ttf&quot;;
 	font-size: 15px;
     margin-bottom: 3px;

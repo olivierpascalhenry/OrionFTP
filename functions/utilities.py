@@ -1,4 +1,5 @@
 import logging
+import os
 from PyQt5 import QtWidgets
     
     
@@ -80,6 +81,34 @@ def get_file_name(self, action):
     return str(out_file_name)
 
 
+def create_option_file(main_path, config_dict):
+    ini_file = open(os.path.join(main_path, 'orion_ftp.ini'), 'w')
+    config_dict.add_section('LOG')
+    config_dict.add_section('OPTIONS')
+    config_dict.add_section('INTERFACE')
+    config_dict.add_section('CONNECTION')
+    config_dict.add_section('TRANSFER')
+    config_dict.set('LOG', 'level', 'DEBUG')
+    config_dict.set('LOG', 'path', '')
+    config_dict.set('OPTIONS', 'check_update', 'False')
+    config_dict.set('OPTIONS', 'language', 'english')
+    config_dict.set('OPTIONS', 'default_profile', '')
+    config_dict.set('OPTIONS', 'local_home', '')
+    config_dict.set('INTERFACE', 'local_tree_one_widget', 'False')
+    config_dict.set('INTERFACE', 'remote_tree_one_widget', 'False')
+    config_dict.set('INTERFACE', 'display_icons_local_tree', 'True')
+    config_dict.set('INTERFACE', 'display_icons_remote_tree', 'True')
+    config_dict.set('INTERFACE', 'display_path_local_tree', 'True')
+    config_dict.set('INTERFACE', 'display_path_remote_tree', 'True')
+    config_dict.set('CONNECTION', 'default_transfer_mode', '0')
+    config_dict.set('CONNECTION', 'transfer_mode_fall_back', 'False')
+    config_dict.set('CONNECTION', 'default_transfer_type', '0')
+    config_dict.set('CONNECTION', 'timeout_connection', 'True')
+    config_dict.set('TRANSFER', 'file_exist_download', '0')
+    config_dict.write(ini_file)
+    ini_file.close()
+
+
 def copy_config_dict(config_dict):
     config_dict_copy = dict()
     config_dict_copy['level'] = config_dict['LOG'].get('level')
@@ -99,3 +128,42 @@ def copy_config_dict(config_dict):
     config_dict_copy['default_transfer_type'] = config_dict['CONNECTION'].get('default_transfer_type')
     config_dict_copy['file_exist_download'] = config_dict['TRANSFER'].get('file_exist_download')
     return config_dict_copy
+
+
+def read_translations():
+    translations = {}
+    file_list = os.listdir('translations/')
+    logging.info('OrionFTP - read_translations - files: ' + str(len(file_list)))
+    for file in file_list:
+        name = file[:-4]
+        f = open('translations/' + file, 'r', encoding='utf-8')
+        for line in f:
+            if line[:3] != '###':
+                index = line.find('=')
+                widget = line[:index]
+                text = line[index + 1:].replace('\n', '')
+                if '|' in text:
+                    text = text.split('|')
+                if text:
+                    try:
+                        existing_dict = translations[widget]
+                    except KeyError:
+                        existing_dict = {}
+                    existing_dict[name] = text
+                    translations[widget] = existing_dict
+        f.close()
+    return translations
+
+
+def create_logging_handlers(config_dict, filename):
+    log_filename = os.path.join(config_dict.get('LOG', 'path'), filename)
+    logging.getLogger('').handlers = []
+    logging.basicConfig(filename=log_filename,
+                        level=getattr(logging, config_dict.get('LOG', 'level')),
+                        filemode='w',
+                        format='%(asctime)s : %(levelname)s : %(message)s')
+    formatter = logging.Formatter('%(levelname)s : %(message)s')
+    console = logging.StreamHandler()
+    console.setLevel(logging.DEBUG)
+    console.setFormatter(formatter)
+    logging.getLogger('').addHandler(console)

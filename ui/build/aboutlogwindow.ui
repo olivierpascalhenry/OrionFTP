@@ -85,6 +85,7 @@ QScrollBar::add-line:vertical {
   height: 20px;
   subcontrol-position: bottom;
   subcontrol-origin: margin;
+  border-bottom-right-radius: 3px;
 }
 
 QScrollBar::add-line:vertical:hover {
@@ -100,6 +101,7 @@ QScrollBar::sub-line:vertical {
   height: 20px;
   subcontrol-position: top;
   subcontrol-origin: margin;
+  border-top-right-radius: 3px;
 }
 
 QScrollBar::sub-line:vertical:hover {
@@ -137,6 +139,7 @@ QScrollBar::add-line:horizontal {
   width: 20px;
   subcontrol-position: right;
   subcontrol-origin: margin;
+  border-bottom-right-radius: 3px;
 }
 
 QScrollBar::add-line:horizontal:hover {
@@ -152,6 +155,7 @@ QScrollBar::sub-line:horizontal {
   width: 20px;
   subcontrol-position: left;
   subcontrol-origin: margin;
+  border-bottom-left-radius: 3px;
 }
 
 QScrollBar::sub-line:horizontal:hover {
@@ -532,7 +536,7 @@ QScrollBar::sub-line:horizontal {
   width: 20px;
   subcontrol-position: left;
   subcontrol-origin: margin;
-border-bottom-left-radius: 3px;
+  border-bottom-left-radius: 3px;
 }
 
 QScrollBar::sub-line:horizontal:hover {

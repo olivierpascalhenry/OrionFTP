@@ -6,6 +6,7 @@ import platform
 import urllib
 import time
 import ftplib
+import paramiko
 import socket
 from functions.material_functions import tree_objects_init
 from functions.utilities import set_size
@@ -244,7 +245,7 @@ class DownloadFTPFile(QtCore.QThread):
                             self.f.close()
                             os.remove(self.local_file_path)
                         except PermissionError:
-                            logging.exception('thread_functions.py - DownloadProducts - run - PermissionError - The '
+                            logging.exception('thread_functions.py - DownloadFTPFile - run - PermissionError - The '
                                               + 'file couldn\'t be removed.')
                         return
 
@@ -257,7 +258,7 @@ class DownloadFTPFile(QtCore.QThread):
                         self.f = None
                         os.remove(self.local_file_path)
                     except PermissionError:
-                        logging.exception('thread_functions.py - DownloadProducts - run - PermissionError - The file '
+                        logging.exception('thread_functions.py - DownloadFTPFile - run - PermissionError - The file '
                                           + 'couldn\'t be removed.')
                     if self.cancel_all:
                         break
@@ -265,21 +266,21 @@ class DownloadFTPFile(QtCore.QThread):
                         continue
 
             if self.cancel_all:
-                logging.debug('thread_functions.py - DownloadProducts - run - all download canceled')
+                logging.debug('thread_functions.py - DownloadFTPFile - run - all download canceled')
                 self.all_download_canceled.emit()
                 self.downloading = False
             elif self.cancel:
-                logging.debug('thread_functions.py - DownloadProducts - run - download canceled')
+                logging.debug('thread_functions.py - DownloadFTPFile - run - download canceled')
                 self.download_canceled.emit(i)
                 self.downloading = False
             else:
-                logging.debug('thread_functions.py - DownloadProducts - run - download finished')
+                logging.debug('thread_functions.py - DownloadFTPFile - run - download finished')
                 text = self.translations_dict['transferstatus'][self.config_dict['OPTIONS'].get('language')][1]
                 self.download_done.emit([len(self.file_list) - 1, text, '', '', 100])
                 self.downloading = False
 
         except Exception:
-            logging.exception('thread_functions.py - DownloadProducts - run - connexion issue')
+            logging.exception('thread_functions.py - DownloadFTPFile - run - connexion issue')
             try:
                 self.f.close()
             except Exception:
@@ -306,7 +307,7 @@ class DownloadFTPFile(QtCore.QThread):
             self.f = None
             os.remove(self.local_file_path)
         except PermissionError:
-            logging.exception('thread_functions.py - DownloadProducts - run - PermissionError - The file '
+            logging.exception('thread_functions.py - DownloadFTPFile - run - PermissionError - The file '
                               + 'couldn\'t be removed.')
 
     def stop(self):
@@ -425,6 +426,180 @@ class ConnectFTP(QtCore.QThread):
 
     def stop(self):
         logging.debug('thread_functions.py - ConnectFTP - stop')
+        self.terminate()
+
+
+class ConnectSFTP(QtCore.QThread):
+    connection_start = QtCore.pyqtSignal()
+    connection_update = QtCore.pyqtSignal(list)
+    connected = QtCore.pyqtSignal(list)
+    connection_error = QtCore.pyqtSignal()
+
+    def __init__(self, host, port, username, password, action):
+        QtCore.QThread.__init__(self)
+        logging.info('thread_functions.py - ConnectSFTP - __init__')
+        self.host = host
+        self.port = port
+        self.username = username
+        self.password = password
+        self.action = action
+
+    def run(self):
+        logging.info('thread_functions.py - ConnectSFTP - run')
+        self.connection_start.emit()
+        try:
+            self._update_status([0, 'Connecting to ' + self.host + ':' + self.port + '...'])
+            self._update_status([1, 'Transport object init...'])
+            transport = paramiko.Transport((self.host, int(self.port)))
+            self._update_status([2, 'Transport object available'])
+            self._update_status([1, 'Authentication pending for ' + self.username + '...'])
+            transport.connect(username=self.username, password=self.password)
+            self._update_status([2, 'Connection established for ' + self.username])
+            self._update_status([2, 'Password ************* accepted for ' + self.username])
+            self._update_status([1, 'Opening sftp connection...'])
+            sftp_protocol = paramiko.sftp_client.SFTPClient.from_transport(transport)
+            self._update_status([2, 'sftp connection opened'])
+            self.connected.emit([self.action, sftp_protocol, transport])
+        except paramiko.ssh_exception.SSHException as e:
+            logging.exception('thread_functions.py - ConnectSFTP - connection - error')
+            message = str(e).replace('paramiko.ssh_exception.SSHException: ', '')
+            self._update_status([3, message])
+            self.connection_error.emit()
+
+    def _update_status(self, status_list):
+        self.connection_update.emit(status_list)
+
+    def stop(self):
+        logging.debug('thread_functions.py - ConnectSFTP - stop')
+        self.terminate()
+
+
+class DownloadSFTPFile(QtCore.QThread):
+    download_update = QtCore.pyqtSignal(list)
+    update_status = QtCore.pyqtSignal(list)
+    update_down_widget = QtCore.pyqtSignal()
+    download_done = QtCore.pyqtSignal(list)
+    download_failed = QtCore.pyqtSignal()
+    download_canceled = QtCore.pyqtSignal(int)
+    all_download_canceled = QtCore.pyqtSignal()
+
+    def __init__(self, ftp, file_list, folder, translations_dict, config_dict):
+        QtCore.QThread.__init__(self)
+        logging.info('thread_functions.py - DownloadSFTPFile - __init__')
+        self.translations_dict = translations_dict
+        self.config_dict = config_dict
+        self.ftp = ftp
+        self.file_list = file_list
+        self.folder = folder
+        self.cancel = False
+        self.cancel_all = False
+        self.connected = True
+        self.downloading = False
+        self.file_path = None
+        self.local_file_path = None
+
+    def run(self):
+        logging.debug('thread_functions.py - DownloadSFTPFile - run - download started')
+        text_1 = self.translations_dict['transferstatus'][self.config_dict['OPTIONS'].get('language')][0]
+        text_2 = ''
+        self.f = None
+        self.downloading = True
+        try:
+            for i, file in enumerate(self.file_list):
+                logging.debug('thread_functions.py - DownloadSFTPFile - run - file: ' + file['file'])
+                if i > 0:
+                    if self.cancel:
+                        text_2 = self.translations_dict['transferstatus'][self.config_dict['OPTIONS'].get('language')][
+                                3]
+                        self.cancel = False
+                    else:
+                        text_2 = self.translations_dict['transferstatus'][self.config_dict['OPTIONS'].get('language')][
+                                1]
+                self.file_path = file['path'] + file['file']
+                self.local_file_path = self.folder + '/' + file['local_name']
+                self._update_status([0, 'Downloading ' + self.file_path])
+                self.download_update.emit([i, text_1, text_2, '', 0])
+                self._update_status([1, 'querying file size...'])
+                self._update_status([2, str(self.ftp.stat(self.file_path).st_size)])
+                self.file_size = 0
+                self.f = open(self.local_file_path, 'wb')
+                start = time.time()
+
+                def callback(bytes_transfered, total_bytes):
+                    try:
+                        download_speed = set_size(bytes_transfered / (time.time() - start)) + '/s'
+                    except ZeroDivisionError:
+                        download_speed = '0 B/s'
+                    value = round(bytes_transfered * 100 / total_bytes)
+                    self.download_update.emit([i, text_1, text_2, download_speed, value])
+
+                try:
+                    self._update_status([1, 'get ' + self.file_path])
+                    self.ftp.getfo(self.file_path, self.f, callback)
+                    self.f.close()
+                    self._update_status([2, self.local_file_path + ' has been downloaded'])
+                except (paramiko.ssh_exception.SSHException, EOFError):
+                    self._close_file()
+                    if self.cancel:
+                        self._update_status([0, 'Download of file ' + self.file_path + ' has been canceled.'])
+                        self.connected = False
+                    elif self.cancel_all:
+                        self._update_status([0, 'All downloads have been canceled.'])
+                        self.connected = False
+
+                if self.cancel_all or self.cancel:
+                    while True:
+                        if self.connected:
+                            break
+                    if self.cancel_all:
+                        break
+                    if self.cancel:
+                        continue
+
+            if self.cancel_all:
+                logging.debug('thread_functions.py - DownloadSFTPFile - run - all download canceled')
+                self.all_download_canceled.emit()
+                self.downloading = False
+            elif self.cancel:
+                logging.debug('thread_functions.py - DownloadSFTPFile - run - download canceled')
+                self.download_canceled.emit(i)
+                self.downloading = False
+            else:
+                logging.debug('thread_functions.py - DownloadSFTPFile - run - download finished')
+                text = self.translations_dict['transferstatus'][self.config_dict['OPTIONS'].get('language')][1]
+                self.download_done.emit([len(self.file_list) - 1, text, '', '', 100])
+                self.downloading = False
+
+        except Exception:
+            logging.exception('thread_functions.py - DownloadSFTPFile - run - connexion issue')
+            self._close_file()
+            self.download_failed.emit()
+            self.downloading = False
+
+    def cancel_download(self):
+        logging.debug('thread_functions.py - DownloadSFTPFile - cancel_download')
+        self.cancel = True
+
+    def cancel_all_download(self):
+        logging.debug('thread_functions.py - DownloadSFTPFile - cancel_all_download')
+        self.cancel_all = True
+
+    def _update_status(self, status_list):
+        logging.debug('thread_functions.py - DownloadSFTPFile - _update_status')
+        self.update_status.emit(status_list)
+
+    def _close_file(self):
+        logging.debug('thread_functions.py - DownloadSFTPFile - _close_file')
+        try:
+            self.f.close()
+            self.f = None
+            os.remove(self.local_file_path)
+        except PermissionError:
+            logging.exception('thread_functions.py - DownloadSFTPFile - run - PermissionError - the file '
+                              + 'couldn\'t be removed.')
+
+    def stop(self):
+        logging.debug('thread_functions.py - DownloadSFTPFile - stop')
         self.terminate()
 
 
